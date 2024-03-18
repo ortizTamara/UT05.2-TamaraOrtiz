@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carta Vegetariana</title>
+  <link rel="icon" href="../../../Recursos/Icono-Pagina.png" type="image/x-icon" />
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="cartaInfantil.css" />
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-navbar">
+      <a class="navbar-brand" href="#" onclick="redirectToInicio()">
+        <img src="../../../Recursos/logo_retoque.png" alt="Logo" class="header__logo" style="height: 40px" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#inicio" onclick="redirectToInicio()">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenu" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Menú
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">Carta</a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="../Carta/carta.html#entrantes">Entrantes</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="../Carta/carta.html#platos-principales">Platos Principales</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="../Carta/carta.html#postres">Postres</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item" href="#" onclick="redirectToCartaPareja()">Menú pareja</a>
+              </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item" href="#" onclick="redirectToCartaInfantil()">Menú Infantil</a>
+              </div>
+              <a class="dropdown-item" href="#galeria" onclick="redirectToGaleria()">Galería</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#nosotros" onclick="redirectToNosotros()">Nosotros</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ubicacion" onclick="redirectToUbicacion()">Ubicación</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container-menu mt-5">
+    <section id="menu-pareja" class="menu-section">
+      <h3 class="menu-section-title">Menú Infantil</h3>
+
+      <!-- Entrante -->
+      <div class="menu-item">
+        <h4 class="item-name">Entrante: Crunchy Chick'n Nuggets</h4>
+        <p class="item-description">
+          Nuggets veganos con un toque crujiente, perfectos para empezar.
+        </p>
+      </div>
+
+      <!-- Plato Principal -->
+      <div class="menu-item">
+        <h4 class="item-name">Plato Principal: Mini Mad Burgers</h4>
+        <p class="item-description">
+          Mini hamburguesas veganas, servidas en panecillos suaves con tomate y lechuga.
+        </p>
+      </div>
+
+
+      <!-- Postre -->
+      <div class="menu-item">
+        <h4 class="item-name">Postre: Helado de Chocolate y Vainilla</h4>
+        <p class="item-description">
+          Suave helado de chocolate y vainilla con trocitos de galleta.
+        </p>
+      </div>
+
+      <!-- Precio Total -->
+      <div class="menu-item-total">
+        <h4 class="item-name">Total:</h4>
+        <p class="item-price">16€</p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer mt-5 py-3 bg-dark text-white">
+    <div class="container d-flex justify-content-between align-items-center">
+      <span>Contacto: ortiz.gomez.tamara@gmail.com | Teléfono: +34 111 222
+        333</span>
+      <div class="footer__section-redes">
+        <a href="#" target="_blank" class="redes-iconos"><img src="../../../Recursos/Facebook.png" alt="Facebook"
+            style="height: 24px" /></a>
+        <a href="#" target="_blank" class="redes-iconos"><img src="../../../Recursos/Twitter.png" alt="Twitter"
+            style="height: 24px" /></a>
+        <a href="#" target="_blank" class="redes-iconos"><img src="../../../Recursos/Instagram.png" alt="Instagram"
+            style="height: 24px" /></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.8/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="../../../JS/script.js"></script>
+
+</body>
+
+</html>

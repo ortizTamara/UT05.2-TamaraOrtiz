@@ -1,0 +1,189 @@
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* overflow-y: hidden; */
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("../../../Recursos/fondo4.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Arial", sans-serif;
+  animation: fadeInPage 1s ease-in-out;
+}
+
+.custom-navbar .navbar-nav {
+  margin-left: -7em;
+}
+
+.navbar-dark {
+  background-color: #252525 !important;
+}
+
+.navbar-nav .nav-item {
+  margin-left: 1.2em;
+  margin-right: 1.2em;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.navbar .dropdown-menu {
+  transform: translateX(-5em);
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  transform: translateX(0.01em);
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: #f8f9fa;
+}
+
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+#galeriaCarousel {
+  max-width: 25%;
+  overflow: hidden;
+}
+
+.carousel-item img {
+  transition: transform 0.5s ease;
+  transform: scale(0.8);
+  opacity: 0.5;
+}
+
+.carousel-item.active img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.footer {
+  background-color: #252525 !important;
+  color: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.footer h5 {
+  color: #fff;
+}
+
+.footer p,
+.footer a {
+  color: #ddd;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #bbb;
+}
+
+/* MOVILES - HASTA 576 */
+@media (max-width: 576px) {
+  html,
+  body {
+    background-size: 180% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .navbar .dropdown-menu {
+    display: block;
+    position: static;
+    width: 91%;
+  }
+  .custom-navbar .navbar-nav {
+    margin-left: 0;
+  }
+
+  .navbar-toggler {
+    display: block;
+  }
+
+  .navbar-nav .nav-item,
+  .navbar-nav .dropdown-menu {
+    margin-left: 2.5em;
+    margin-right: 0;
+  }
+
+  .navbar {
+    z-index: 1050;
+  }
+  .text-left,
+  .container-fluid {
+    padding: 0 15px;
+  }
+
+  #galeriaCarousel {
+    max-width: 100%;
+    margin: auto;
+  }
+
+  .footer__section-redes h3 {
+    font-size: 16px;
+  }
+
+  .footer__section-redes img {
+    height: 30px;
+  }
+}
+
+.carousel-item img {
+  transition: transform 0.5s ease;
+  transform: scale(0.8);
+  opacity: 0.5;
+}
+
+.carousel-item.active img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* TABLETS - 577 A 993 */
+@media (min-width: 577px) and (max-width: 992px) {
+  .navbar .dropdown-menu {
+    display: block;
+    position: static;
+    width: 91%;
+  }
+  .custom-navbar .navbar-nav {
+    margin-left: 0;
+  }
+
+  .navbar-toggler {
+    display: block;
+  }
+
+  .navbar {
+    z-index: 1050;
+  }
+  .navbar-nav .nav-item,
+  .navbar-nav .dropdown-menu {
+    margin-left: 2em;
+    margin-right: 0;
+  }
+
+  .text-left,
+  .container-fluid {
+    padding: 0 20px;
+  }
+  #galeriaCarousel {
+    max-width: 70%;
+  }
+}
