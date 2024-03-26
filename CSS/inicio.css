@@ -5,7 +5,7 @@ body {
   padding: 0;
   overflow-y: hidden;
   overflow-x: hidden;
-  background-image: url("Recursos/fondo2.jpg");
+  background-image: url("../Recursos/fondo2.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -60,6 +60,20 @@ body {
   background-color: #3e8e41;
 }
 
+categorias {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Elemento: contenedor de categorías */
+.categorias__contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
 .footer {
   background-color: #252525 !important;
   color: #fff;
@@ -90,72 +104,4 @@ body {
   color: #ddd;
   margin: 0 0.5em;
   font-size: 1em;
-}
-
-/* MOVILES - HASTA 576 */
-@media (max-width: 576px) {
-  html,
-  body {
-    background-size: 180% 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-
-  .navbar .dropdown-menu {
-    display: block;
-    position: static;
-    width: 91%;
-  }
-  .custom-navbar .navbar-nav {
-    margin-left: 0;
-  }
-
-  .navbar-toggler {
-    display: block;
-  }
-
-  .navbar-nav .nav-item,
-  .navbar-nav .dropdown-menu {
-    margin-left: 2.5em;
-    margin-right: 0;
-  }
-
-  .text-left,
-  .container-fluid {
-    padding: 0 15px;
-  }
-  .footer__section-redes h3 {
-    font-size: 16px;
-  }
-
-  .footer__section-redes img {
-    height: 30px;
-  }
-}
-
-/* TABLETS - 577 A 993 */
-@media (min-width: 577px) and (max-width: 992px) {
-  .navbar .dropdown-menu {
-    display: block;
-    position: static;
-    width: 91%;
-  }
-  .custom-navbar .navbar-nav {
-    margin-left: 0;
-  }
-
-  .navbar-toggler {
-    display: block;
-  }
-
-  .navbar-nav .nav-item,
-  .navbar-nav .dropdown-menu {
-    margin-left: 2em;
-    margin-right: 0;
-  }
-
-  .text-left,
-  .container-fluid {
-    padding: 0 20px;
-  }
 }
