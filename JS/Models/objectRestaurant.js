@@ -283,3 +283,4 @@ class Coordinate {
 }
 
 export { Dish, Category, Allergen, Menu, Restaurant, Coordinate };
+export default Coordinate;
