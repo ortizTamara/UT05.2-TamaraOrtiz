@@ -17,7 +17,7 @@ import {
   AllergenExistsException,
   AllergenIsNull,
   AllergenNotRegistred,
-} from "./exceptions";
+} from "../Utils/exceptions.js";
 
 class Dish {
   #name; //Nombre del plato obligatorio
@@ -282,9 +282,5 @@ class Coordinate {
   }
 }
 
-<<<<<<< HEAD:JS/objectRestaurant.js
 export { Dish, Category, Allergen, Restaurant, Menu, Coordinate };
-=======
-export { Dish, Category, Allergen, Menu, Restaurant, Coordinate };
 export default Coordinate;
->>>>>>> f2010e4bc896e48303e61cac7ca79a837a469237:JS/Models/objectRestaurant.js

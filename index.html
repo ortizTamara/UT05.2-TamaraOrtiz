@@ -8,10 +8,8 @@
   <link rel="icon" href="Recursos/Icono-Pagina.png" type="image/x-icon" />
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="./CSS/normalize.css" />
-  <link rel="stylesheet" href="./CSS/inicio.css" />
-
-
+  <link rel="stylesheet" href="./css/normalize.css" />
+  <link rel="stylesheet" href="./css/inicio.css" />
 </head>
 
 <body>
@@ -41,29 +39,47 @@
                 <a class="dropdown-item dropdown-toggle" href="#">Entrantes</a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Batata Fries</a></li>
-                  <li><a class="dropdown-item" href="#">The Mad Tequeños</a></li>
-                  <li><a class="dropdown-item" href="#">Crunchy Chick'n Nuggets</a></li>
-                  <li><a class="dropdown-item" href="#">Berlin Vegan Wurst</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">The Mad Tequeños</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Crunchy Chick'n Nuggets</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Berlin Vegan Wurst</a>
+                  </li>
                 </ul>
               </div>
               <!-- Platos Principales -->
               <div class="dropdown-submenu">
                 <a class="dropdown-item dropdown-toggle" href="#">Platos Principales</a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Original Mad Burger</a></li>
-                  <li><a class="dropdown-item" href="#">The Mad Club Sandwich</a></li>
-                  <li><a class="dropdown-item" href="#">Los originales del Mad</a></li>
-                  <li><a class="dropdown-item" href="#">Rock'n Chick'n</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Original Mad Burger</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">The Mad Club Sandwich</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Los originales del Mad</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Rock'n Chick'n</a>
+                  </li>
                 </ul>
               </div>
               <!-- Postres -->
               <div class="dropdown-submenu">
                 <a class="dropdown-item dropdown-toggle" href="#">Postres</a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Cookies & Cream</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Cookies & Cream</a>
+                  </li>
                   <li><a class="dropdown-item" href="#">Tiramisú</a></li>
-                  <li><a class="dropdown-item" href="#">American Brownie</a></li>
-                  <li><a class="dropdown-item" href="#">Postre 4</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">American Brownie</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Tarta de Zanahoria</a></li>
                 </ul>
               </div>
             </div>
@@ -85,21 +101,21 @@
               Alérgenos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownAlergenos">
-              <a class="dropdown-item" href="#">Alérgeno 1</a>
-              <a class="dropdown-item" href="#">Alérgeno 2</a>
-              <a class="dropdown-item" href="#">Alérgeno 3</a>
-              <a class="dropdown-item" href="#">Alérgeno 4</a>
+              <a class="dropdown-item" href="#">Gluten</a>
+              <a class="dropdown-item" href="#">Lactosa</a>
+              <a class="dropdown-item" href="#">Frutos secos</a>
+              <a class="dropdown-item" href="#">Soja</a>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="navbarDropdownRestaurantes" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRestaurantes" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
               Restaurantes
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownRestaurantes">
-              <a class="dropdown-item" href="#">Restaurante 1</a>
-              <a class="dropdown-item" href="#">Restaurante 2</a>
-              <a class="dropdown-item" href="#">Restaurante 3</a>
+              <a class="dropdown-item" href="#">Ciudad Real</a>
+              <a class="dropdown-item" href="#">Madrid</a>
+              <a class="dropdown-item" href="#">Valencia</a>
             </div>
           </li>
         </ul>
@@ -107,11 +123,11 @@
     </nav>
   </header>
 
-
+  <div class="content" id="content"></div>
   <main class="dishes" id="dishes"></main>
   <div class="categories"></div>
 
-  <footer class=" footer mt-5 py-3 bg-dark text-white">
+  <footer class="footer mt-5 py-3 bg-dark text-white">
     <div class="container d-flex justify-content-between align-items-center">
       <span data-translate="footer_contact">Contacto: ortiz.gomez.tamara@gmail.com | Teléfono: +34 111 222
         333</span>
@@ -131,11 +147,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.8/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <script src="JS/Views/navigationToggle.js"></script>
+  <script src="./JS/Views/navigationToggle.js"></script>
+  <!-- <script ty
+    pe="module" src="./JS/testeo.js"></script> -->
+  <script type="module" src="./JS/myRestaurant.js"></script>
 
-  <link rel="preload" href="Recursos/logo_retoque.png" as="image">
-  <link rel="preload" href="inicio.css" as="style">
-
+  <link rel="preload" href="./Recursos/logo_retoque.png" as="image" />
+  <link rel="preload" href="./css/inicio.css" as="style" />
 </body>
 
 </html>

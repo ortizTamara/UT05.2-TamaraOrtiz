@@ -1,6 +1,6 @@
-import { Coordinate } from "./objectRestaurant.js";
-const MODEL = Symbol("restaurantModel");
-const VIEW = Symbol("restaurantView");
+import Coordinate from "../Models/objectRestaurant";
+const MODEL = Symbol("RestaurantModel");
+const VIEW = Symbol("RestaurantView");
 const LOAD_MANAGER_OBJECTS = Symbol("Load Manager Objects");
 
 class RestaurantController {
@@ -12,87 +12,10 @@ class RestaurantController {
     this.onLoad();
     this.onInit();
 
-    // Enlazamos handlers con la vista
-    this[VIEW].bindInit(this.handleInit);
+    onLoad = () => {};
+
+    onInit = () => {};
   }
-
-  onLoad = () => {
-    this[LOAD_MANAGER_OBJECTS]();
-    this[VIEW].mouseenterCategories(this.handleDropCat);
-    this[VIEW].mouseleaveCategories();
-    this[VIEW].bindCategoryDrop(this.handleShowCategory);
-    this[VIEW].mouseenterRestaurants(this.handleDropRest);
-    this[VIEW].mouseleaveRestaurants();
-    this[VIEW].bindRestaurantDrop(this.handleShowCategory);
-    this[VIEW].bindMenu(this.handleMenu);
-    this[VIEW].bindCategoryNav(this.handleCategories);
-    this[VIEW].bindAllergen(this.handleAllergen);
-    this[VIEW].bindRestaurant(this.handleRestaurant);
-  };
-
-  onInit = () => {
-    this[VIEW].init();
-    this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
-    this[VIEW].bindSingleCategory(this.handleShowCategory);
-    this[VIEW].bindDishRandom(this.handleDishes);
-  };
-
-  onMenu = () => {
-    this[VIEW].ShowMenus(this[MODEL].getMenus());
-    this[VIEW].bindSingleMenu(this.handleShowMenu);
-  };
-
-  onCategory = () => {
-    this[VIEW].ShowCategories(this[MODEL].getCategories());
-    this[VIEW].bindSingleCategory(this.handleShowCategory);
-  };
-
-  onAllergen = () => {
-    this[VIEW].ShowAllergens(this[MODEL].getAllergens());
-    this[VIEW].bindSingleAllergen(this.handleShowAllergen);
-  };
-
-  onRestaurant = () => {
-    this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
-    this[VIEW].bindSingleRestaurant(this.handleShowRestaurant);
-  };
-
-  handleInit = () => {
-    this.onInit();
-  };
-
-  handleDropCat = () => {
-    this[VIEW].DropdownCategories(this[MODEL].getCategories());
-  };
-
-  handleDropRest = () => {
-    this[VIEW].DropdownRestaurants(this[MODEL].getRestaurants());
-  };
-
-  handleMenu = () => {
-    this.onMenu();
-  };
-
-  handleCategories = () => {
-    this.onCategory();
-  };
-
-  handleDishes = (title) => {
-    const dish = this[MODEL].createDish(title);
-    this[VIEW].showInfoDish(dish);
-  };
-
-  handleAllergen = () => {
-    this.onAllergen();
-  };
-
-  handleRestaurant = () => {
-    this.onRestaurant();
-  };
-
-  handleShowMenu = (title) => {
-    this[VIEW].showInfoMenu(this[MODEL].createMenu(title));
-  };
 
   handleShowCategory = (title) => {
     this.handleCategories;
@@ -467,4 +390,4 @@ class RestaurantController {
     this[MODEL].addRestaurant(restaurant3);
   }
 }
-export { RestaurantController };
+export default RestaurantController;

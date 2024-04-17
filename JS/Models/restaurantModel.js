@@ -29,7 +29,7 @@ import {
   DishAssignAllergenException,
   DishAssignMenuException,
   NotAFunctionException,
-} from "./exceptions.js";
+} from "../Utils/exceptions.js";
 
 import {
   Dish,
@@ -790,6 +790,26 @@ const RestaurantsManager = (function () {
       }
     }
 
+    createCategory(name, description) {
+      // Verificar si la categoría ya existe
+      const existingCategory = this.#categories.find(
+        (category) => category.name === name
+      );
+      if (existingCategory) {
+        // Devolvemos el menú existente para evitar duplicados
+        console.log(
+          `La categoria ${name} ya existe. Retornando la categoría existente...`
+        );
+        return existingCategory;
+      } else {
+        // Si no existe, crea un nuevo menú
+        const newCategory = new Category(name, description);
+        this.#categories.push(newCategory);
+        // console.log(`Categoria ${name} creado con éxito.`);
+        return newCategory;
+      }
+    }
+
     createAllergen(name, description) {
       // Verificar si el alergeno ya existe
       const existingAllergen = this.#allergens.find(
@@ -850,4 +870,37 @@ const RestaurantsManager = (function () {
   };
 })();
 
-export { RestaurantsManager };
+export { Dish, Category, Allergen, Restaurant, Menu, Coordinate };
+export {
+  BaseException,
+  InvalidAccessConstructorException,
+  EmptyValueException,
+  InvalidValueException,
+  AbstractClassException,
+  NameException,
+  LatitudeException,
+  LongitudeException,
+  ManagerException,
+  CategoryExistsException,
+  CategoryIsNull,
+  CategoryNotRegistred,
+  MenuExistsException,
+  MenuIsNull,
+  MenuNotRegistred,
+  AllergenExistsException,
+  AllergenIsNull,
+  AllergenNotRegistred,
+  DishExistsException,
+  DishIsNull,
+  DishNotRegistred,
+  RestaurantExistsException,
+  RestaurantIsNull,
+  RestaurantNotRegistred,
+  CategoryAssignDishException,
+  CategoryNullException,
+  DishNullException,
+  DishAssignAllergenException,
+  DishAssignMenuException,
+  NotAFunctionException,
+};
+export default RestaurantsManager;
