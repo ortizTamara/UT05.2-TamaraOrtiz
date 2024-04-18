@@ -1,3 +1,5 @@
+//UTILIZAR FACTORIAS
+
 import {
   BaseException,
   InvalidAccessConstructorException,
@@ -166,9 +168,7 @@ const RestaurantsManager = (function () {
 
     // Encuentra la posición del category en el array #categories por su nombre.
     #getCategoryPosition(category) {
-      return this.#categories.findIndex(
-        (x) => x.category.name === category.name
-      );
+      return this.#categories.findIndex((x) => x.name === category.name);
     }
 
     // Elimina una categoría. Los platos quedarán desasignados de la categoría.
@@ -286,7 +286,7 @@ const RestaurantsManager = (function () {
     }
 
     #getDishPosition(dish) {
-      return this.#dishes.findIndex((x) => x.dish.name === dish.name);
+      return this.#dishes.findIndex((x) => x.name === dish.name);
     }
 
     removeDish(...dishes) {
@@ -711,6 +711,7 @@ const RestaurantsManager = (function () {
         },
       };
     }
+
     getDishesWithAllergen(allergen, func = null) {
       // Comprobamos que alergeno no sea nulo
       if (!allergen || !(allergen instanceof Allergen)) {

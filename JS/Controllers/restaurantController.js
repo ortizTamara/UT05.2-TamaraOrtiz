@@ -1,54 +1,90 @@
-import Coordinate from "../Models/objectRestaurant";
+import Coordinate from "../Models/objectRestaurant.js";
 const MODEL = Symbol("RestaurantModel");
 const VIEW = Symbol("RestaurantView");
 const LOAD_MANAGER_OBJECTS = Symbol("Load Manager Objects");
 
 class RestaurantController {
-  constructor(modelRestaurant, viewRestaurant) {
-    this[MODEL] = modelRestaurant;
-    this[VIEW] = viewRestaurant;
+  constructor(model, view) {
+    this[MODEL] = model;
+    this[VIEW] = view;
 
     // Eventos iniciales del Controlador
     this.onLoad();
     this.onInit();
 
-    onLoad = () => {};
-
-    onInit = () => {};
+    // Enlazamos handlers con la vista
+    this[VIEW].bindInit(this.handleInit);
   }
 
-  handleShowCategory = (title) => {
-    this.handleCategories;
-    const cat = this[MODEL].createCategory(title);
-    this[VIEW].dishesInCategory(this[MODEL].getDishesInCategory(cat), cat.name);
-    this[VIEW].bindDishInCategory(this.handleDishes);
+  onLoad = () => {
+    this[LOAD_MANAGER_OBJECTS]();
   };
 
-  handleShowAllergen = (title) => {
-    const al = this[MODEL].createAllergen(title);
-    const dishes = this[MODEL].getDishesWithAllergen(al);
-    this[VIEW].showInfoAllergen(al, dishes);
+  onInit = () => {
+    this[VIEW].init();
+    this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
+    this[VIEW].bindDishRandom(this.handleDishes);
   };
 
-  handleShowRestaurant = (title) => {
-    const r = this[MODEL].createRestaurant(title);
-    this[VIEW].showInfoRestaurant(r);
+  onMenu = () => {};
+
+  onCategory = () => {};
+
+  onAllergen = () => {};
+
+  onRestaurant = () => {};
+
+  handleInit = () => {
+    this.onInit();
   };
+
+  handleDropCat = () => {};
+
+  handleDropRest = () => {};
+
+  handleMenu = () => {
+    this.onMenu();
+  };
+
+  handleCategories = () => {
+    this.onCategory();
+  };
+
+  handleDishes = (title) => {
+    const dish = this[MODEL].createDish(title);
+  };
+
+  handleAllergen = () => {
+    this.onAllergen();
+  };
+
+  handleRestaurant = () => {};
+
+  handleShowMenu = (title) => {};
+
+  handleShowCategory = (title) => {};
+
+  handleShowAllergen = (title) => {};
+
+  handleShowRestaurant = (title) => {};
 
   [LOAD_MANAGER_OBJECTS]() {
     // Creamos las categorías
-    const entrantes = this[MODEL].createCategory("Entrantes");
-    const principales = this[MODEL].createCategory("Platos Principales");
-    const postres = this[MODEL].createCategory("Postres");
-
-    // Le añadimos una descripción a cada categoría
-    category1.description = "Listado de platos para ir abriendo boca";
-    category2.description =
-      "Listado de platos principales, para disfrutar después de los entrantes";
-    category3.description = "Listado de postres caseros";
+    const category1 = this[MODEL].createCategory(
+      "Entrantes",
+      "Listado de platos para ir abriendo boca"
+    );
+    const category2 = this[MODEL].createCategory(
+      "Platos Principales",
+      "Listado de platos principales, para disfrutar después de los entrantes"
+    );
+    const category3 = this[MODEL].createCategory(
+      "Postres",
+      "Listado de postres caseros"
+    );
 
     // Añadimos las categorías
-    this[MODEL].addCategory(category1, category2, category3);
+    // this[MODEL].addCategory(category1, category2, category3);
 
     // Creamos los platos
     // PLATOS PRINCIPALES
@@ -253,27 +289,27 @@ class RestaurantController {
 
     // Asignamos los platos a sus categorías
     // Platos a entrantes
-    this[MODEL].assignCategoryToDish(entrantes, dish1);
-    this[MODEL].assignCategoryToDish(entrantes, dish2);
-    this[MODEL].assignCategoryToDish(entrantes, dish3);
-    this[MODEL].assignCategoryToDish(entrantes, dish4);
-    this[MODEL].assignCategoryToDish(entrantes, dish5);
+    this[MODEL].assignCategoryToDish(category1, dish1);
+    this[MODEL].assignCategoryToDish(category1, dish2);
+    this[MODEL].assignCategoryToDish(category1, dish3);
+    this[MODEL].assignCategoryToDish(category1, dish4);
+    this[MODEL].assignCategoryToDish(category1, dish5);
 
     // Platos a platosPrincipales
-    this[MODEL].assignCategoryToDish(principales, dish6);
-    this[MODEL].assignCategoryToDish(principales, dish7);
-    this[MODEL].assignCategoryToDish(principales, dish8);
-    this[MODEL].assignCategoryToDish(principales, dish9);
-    this[MODEL].assignCategoryToDish(principales, dish10);
-    this[MODEL].assignCategoryToDish(principales, dish11);
-    this[MODEL].assignCategoryToDish(principales, dish12);
-    this[MODEL].assignCategoryToDish(principales, dish13);
+    this[MODEL].assignCategoryToDish(category2, dish6);
+    this[MODEL].assignCategoryToDish(category2, dish7);
+    this[MODEL].assignCategoryToDish(category2, dish8);
+    this[MODEL].assignCategoryToDish(category2, dish9);
+    this[MODEL].assignCategoryToDish(category2, dish10);
+    this[MODEL].assignCategoryToDish(category2, dish11);
+    this[MODEL].assignCategoryToDish(category2, dish12);
+    this[MODEL].assignCategoryToDish(category2, dish13);
 
     // Platos a postres
-    this[MODEL].assignCategoryToDish(postres, dish14);
-    this[MODEL].assignCategoryToDish(postres, dish15);
-    this[MODEL].assignCategoryToDish(postres, dish16);
-    this[MODEL].assignCategoryToDish(postres, dish17);
+    this[MODEL].assignCategoryToDish(category3, dish14);
+    this[MODEL].assignCategoryToDish(category3, dish15);
+    this[MODEL].assignCategoryToDish(category3, dish16);
+    this[MODEL].assignCategoryToDish(category3, dish17);
 
     // Creamos los alergenos
     let allergen1 = this[MODEL].createAllergen(
@@ -370,19 +406,18 @@ class RestaurantController {
       "Restaurante Vegan Kitchen en la plaza mayor de Ciudad Real",
       ciudadReal
     );
-    console.log(restaurant1);
+
     let restaurant2 = this[MODEL].createRestaurant(
       "Madrid",
       "Restaurante Vegan Kitchen en la plaza España de Madrid",
       madrid
     );
-    console.log(restaurant2);
+
     let restaurant3 = this[MODEL].createRestaurant(
       "Valencia",
       "Restaurante Vegan Kitchen en la plaza de la Reina de Valencia",
       valencia
     );
-    console.log(restaurant3);
 
     // Añadimos los restaurantes
     this[MODEL].addRestaurant(restaurant1);
