@@ -2,6 +2,7 @@ class RestaurantView {
   constructor() {
     //Accedemos a los contenedores y elementos
     this.main = document.getElementById("dishes");
+    this.content = document.getElementById("content");
     this.categories = document.getElementById("categories");
     this.dropcat = document.getElementById("dropdown-categories");
     this.droprest = document.getElementById("dropdown-restaurant");
@@ -31,16 +32,18 @@ class RestaurantView {
         Math.floor(Math.random() * arrDishes.length),
         1
       );
+      // let dishName = elem[0].dish.name;
+      // console.log(elem[0].dish.name);
       this.main.insertAdjacentHTML(
         "afterbegin",
         ` 
       </figure>
         <div class="dish">
           <figure class="dish-image">
-            <a data-dish="${elem[0][1].dish.name}" "href="#single-product">
-              <img src="./Recursos/platos/${elem[0][1].dish.image}" alt="Imagen de un plato de ${elem[0][1].dish.name}" />
+            <a data-dish="${elem[0].dish.name}" "href="#single-product">
+              <img src="./Recursos/platos/${elem[0].dish.image}" alt="Imagen de un plato de ${elem[0].dish.name}" />
               <figcaption class="dish__name">
-                <h1>${elem[0][1].dish.name}</h1>
+                <h1>${elem[0].dish.name}</h1>
               </figcaption>
             </a> 
           </figure>

@@ -18,10 +18,14 @@ class RestaurantController {
 
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
+    let dishes = this[MODEL].getDishes();
+    console.log(`${dishes.length} dentro de onload`);
   };
 
   onInit = () => {
     this[VIEW].init();
+    let dishes = this[MODEL].getDishes();
+    console.log(`${dishes.length} dentro de onInit`);
     this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
     this[VIEW].bindDishRandom(this.handleDishes);
   };
@@ -74,14 +78,19 @@ class RestaurantController {
       "Entrantes",
       "Listado de platos para ir abriendo boca"
     );
+    console.log("Categoría 1 creada:", category1);
+
     const category2 = this[MODEL].createCategory(
       "Platos Principales",
       "Listado de platos principales, para disfrutar después de los entrantes"
     );
+    console.log("Categoría 2 creada:", category2);
+
     const category3 = this[MODEL].createCategory(
       "Postres",
       "Listado de postres caseros"
     );
+    console.log("Categoría 3 creada:", category3);
 
     // Añadimos las categorías
     // this[MODEL].addCategory(category1, category2, category3);
@@ -94,6 +103,7 @@ class RestaurantController {
       ["Batata", "Salsa especial"],
       "entrante01.webp"
     );
+    console.log("Plato creado:", dish1);
 
     let dish2 = this[MODEL].createDish(
       "The Mad Tequeños",
@@ -101,6 +111,7 @@ class RestaurantController {
       ["Queso", "Harina", "Salsa casera"],
       "entrante02.webp"
     );
+    console.log("Plato creado:", dish2);
 
     let dish3 = this[MODEL].createDish(
       "Crunchy Chick'n Nuggets",
@@ -316,6 +327,8 @@ class RestaurantController {
       "Gluten",
       "Contiene trazas de trigo."
     );
+    console.log("Alergeno creado:", allergen1);
+
     let allergen2 = this[MODEL].createAllergen("Lactosa", "Contiene lactosa.");
     let allergen3 = this[MODEL].createAllergen(
       "Frutos Secos",
@@ -325,74 +338,79 @@ class RestaurantController {
 
     // Asignamos los alergenos a sus platos
     //Alergeno GLUTEN
-    this[MODEL].assignAllergenToDish(allergen1, dish2);
-    this[MODEL].assignAllergenToDish(allergen1, dish3);
-    this[MODEL].assignAllergenToDish(allergen1, dish4);
-    this[MODEL].assignAllergenToDish(allergen1, dish5);
-    this[MODEL].assignAllergenToDish(allergen1, dish6);
-    this[MODEL].assignAllergenToDish(allergen1, dish7);
-    this[MODEL].assignAllergenToDish(allergen1, dish8);
-    this[MODEL].assignAllergenToDish(allergen1, dish9);
-    this[MODEL].assignAllergenToDish(allergen1, dish10);
-    this[MODEL].assignAllergenToDish(allergen1, dish11);
-    this[MODEL].assignAllergenToDish(allergen1, dish12);
-    this[MODEL].assignAllergenToDish(allergen1, dish13);
-    this[MODEL].assignAllergenToDish(allergen1, dish14);
-    this[MODEL].assignAllergenToDish(allergen1, dish16);
-    this[MODEL].assignAllergenToDish(allergen1, dish17);
+    // this[MODEL].assignAllergenToDish(allergen1, dish2);
+    // this[MODEL].assignAllergenToDish(allergen1, dish3);
+    // this[MODEL].assignAllergenToDish(allergen1, dish4);
+    // this[MODEL].assignAllergenToDish(allergen1, dish5);
+    // this[MODEL].assignAllergenToDish(allergen1, dish6);
+    // this[MODEL].assignAllergenToDish(allergen1, dish7);
+    // this[MODEL].assignAllergenToDish(allergen1, dish8);
+    // this[MODEL].assignAllergenToDish(allergen1, dish9);
+    // this[MODEL].assignAllergenToDish(allergen1, dish10);
+    // this[MODEL].assignAllergenToDish(allergen1, dish11);
+    // this[MODEL].assignAllergenToDish(allergen1, dish12);
+    // this[MODEL].assignAllergenToDish(allergen1, dish13);
+    // this[MODEL].assignAllergenToDish(allergen1, dish14);
+    // this[MODEL].assignAllergenToDish(allergen1, dish16);
+    // this[MODEL].assignAllergenToDish(allergen1, dish17);
 
-    //Alergeno LACTOSA
-    this[MODEL].assignAllergenToDish(allergen2, dish2);
-    this[MODEL].assignAllergenToDish(allergen2, dish6);
-    this[MODEL].assignAllergenToDish(allergen2, dish8);
-    this[MODEL].assignAllergenToDish(allergen2, dish9);
-    this[MODEL].assignAllergenToDish(allergen2, dish10);
-    this[MODEL].assignAllergenToDish(allergen2, dish11);
-    this[MODEL].assignAllergenToDish(allergen2, dish12);
-    this[MODEL].assignAllergenToDish(allergen2, dish13);
+    // //Alergeno LACTOSA
+    // this[MODEL].assignAllergenToDish(allergen2, dish2);
+    // this[MODEL].assignAllergenToDish(allergen2, dish6);
+    // this[MODEL].assignAllergenToDish(allergen2, dish8);
+    // this[MODEL].assignAllergenToDish(allergen2, dish9);
+    // this[MODEL].assignAllergenToDish(allergen2, dish10);
+    // this[MODEL].assignAllergenToDish(allergen2, dish11);
+    // this[MODEL].assignAllergenToDish(allergen2, dish12);
+    // this[MODEL].assignAllergenToDish(allergen2, dish13);
 
-    // Alergeno FRUTOS SECOS
-    this[MODEL].assignAllergenToDish(allergen4, dish16);
-    this[MODEL].assignAllergenToDish(allergen4, dish17);
+    // // Alergeno FRUTOS SECOS
+    // this[MODEL].assignAllergenToDish(allergen4, dish16);
+    // this[MODEL].assignAllergenToDish(allergen4, dish17);
 
-    // Alergeno SOJA
-    this[MODEL].assignAllergenToDish(allergen3, dish3);
-    this[MODEL].assignAllergenToDish(allergen3, dish4);
-    this[MODEL].assignAllergenToDish(allergen3, dish5);
-    this[MODEL].assignAllergenToDish(allergen3, dish6);
-    this[MODEL].assignAllergenToDish(allergen3, dish9);
-    this[MODEL].assignAllergenToDish(allergen3, dish10);
-    this[MODEL].assignAllergenToDish(allergen3, dish11);
+    // // Alergeno SOJA
+    // this[MODEL].assignAllergenToDish(allergen3, dish3);
+    // this[MODEL].assignAllergenToDish(allergen3, dish4);
+    // this[MODEL].assignAllergenToDish(allergen3, dish5);
+    // this[MODEL].assignAllergenToDish(allergen3, dish6);
+    // this[MODEL].assignAllergenToDish(allergen3, dish9);
+    // this[MODEL].assignAllergenToDish(allergen3, dish10);
+    // this[MODEL].assignAllergenToDish(allergen3, dish11);
 
     // Creamos los menús
-    let menu1 = this[MODEL].createMenu("Día");
-    menu1.description =
-      "Menú compuesto por un entrante, un plato principal y un postre";
+    let menu1 = this[MODEL].createMenu(
+      "Día",
+      "Menú compuesto por un entrante, un plato principal y un postre"
+    );
 
-    let menu2 = this[MODEL].createMenu("Parejas");
-    menu2.description =
-      "Menú compuesto por un entrante, dos platos principales y un postre";
+    console.log("Menú creado:", menu1);
 
-    let menu3 = this[MODEL].createMenu("Infantil");
-    menu3.description =
-      "Menú compuesto por un entrante, plato principal y un helado";
+    let menu2 = this[MODEL].createMenu(
+      "Parejas",
+      "Menú compuesto por un entrante, dos platos principales y un postre"
+    );
+
+    let menu3 = this[MODEL].createMenu(
+      "Infantil",
+      "Menú compuesto por un entrante, plato principal y un helado"
+    );
 
     // Asignamos los platos a sus menús
     // Menu Día sus platos
-    this[MODEL].assignDishToMenu(menu1, dish1);
-    this[MODEL].assignDishToMenu(menu1, dish6);
-    this[MODEL].assignDishToMenu(menu1, dish15);
+    // this[MODEL].assignDishToMenu(menu1, dish1);
+    // this[MODEL].assignDishToMenu(menu1, dish6);
+    // this[MODEL].assignDishToMenu(menu1, dish15);
 
-    // Menú pareja sus platos
-    this[MODEL].assignDishToMenu(menu2, dish1);
-    this[MODEL].assignDishToMenu(menu2, dish9);
-    this[MODEL].assignDishToMenu(menu2, dish10);
-    this[MODEL].assignDishToMenu(menu2, dish15);
+    // // Menú pareja sus platos
+    // this[MODEL].assignDishToMenu(menu2, dish1);
+    // this[MODEL].assignDishToMenu(menu2, dish9);
+    // this[MODEL].assignDishToMenu(menu2, dish10);
+    // this[MODEL].assignDishToMenu(menu2, dish15);
 
-    // Menú infantil sus platos
-    this[MODEL].assignDishToMenu(menu3, dish3);
-    this[MODEL].assignDishToMenu(menu3, dish11);
-    this[MODEL].assignDishToMenu(menu3, dish16);
+    // // Menú infantil sus platos
+    // this[MODEL].assignDishToMenu(menu3, dish3);
+    // this[MODEL].assignDishToMenu(menu3, dish11);
+    // this[MODEL].assignDishToMenu(menu3, dish16);
 
     // Creamos las coordenadas y los restaurantes
     // COORDENADAS
@@ -420,9 +438,9 @@ class RestaurantController {
     );
 
     // Añadimos los restaurantes
-    this[MODEL].addRestaurant(restaurant1);
-    this[MODEL].addRestaurant(restaurant2);
-    this[MODEL].addRestaurant(restaurant3);
+    // this[MODEL].addRestaurant(restaurant1);
+    // this[MODEL].addRestaurant(restaurant2);
+    // this[MODEL].addRestaurant(restaurant3);
   }
 }
 export default RestaurantController;

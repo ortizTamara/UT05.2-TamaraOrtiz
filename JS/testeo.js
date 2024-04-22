@@ -855,7 +855,7 @@ function testeoAssignAndDesign() {
   console.log("");
   console.log("TEST 1: Asignando plato a categoría");
   try {
-    // console.log(manager.getCategories());
+    console.log(manager.getCategories());
     manager.assignCategoryToDish(category1, dish1, dish2);
     console.log(
       "Asignación exitosa:",

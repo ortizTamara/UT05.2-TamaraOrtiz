@@ -168,7 +168,9 @@ const RestaurantsManager = (function () {
 
     // Encuentra la posición del category en el array #categories por su nombre.
     #getCategoryPosition(category) {
-      return this.#categories.findIndex((x) => x.name === category.name);
+      return this.#categories.findIndex(
+        (x) => x.category.name === category.name
+      );
     }
 
     // Elimina una categoría. Los platos quedarán desasignados de la categoría.
@@ -210,7 +212,7 @@ const RestaurantsManager = (function () {
 
     // Encuentra la posición del menú en el array #menus por su nombre.
     #getMenuPosition(menu) {
-      return this.#menus.findIndex((x) => x.menu.name === menu.name);
+      return this.#menus.findIndex((x) => x.name === menu.name);
     }
 
     // Elimina un menú
@@ -286,7 +288,7 @@ const RestaurantsManager = (function () {
     }
 
     #getDishPosition(dish) {
-      return this.#dishes.findIndex((x) => x.name === dish.name);
+      return this.#dishes.findIndex((x) => x.dish.name === dish.name);
     }
 
     removeDish(...dishes) {
@@ -767,7 +769,7 @@ const RestaurantsManager = (function () {
       } else {
         // Crear un nuevo plato si no existe
         const newDish = new Dish(name, description, ingredients, image);
-        this.#dishes.push(newDish);
+        this.#dishes.push({ dish: newDish, allergen: [] });
         // console.log("Plato creado con éxito:", name);
         return newDish;
       }
@@ -805,7 +807,7 @@ const RestaurantsManager = (function () {
       } else {
         // Si no existe, crea un nuevo menú
         const newCategory = new Category(name, description);
-        this.#categories.push(newCategory);
+        this.#categories.push({ category: newCategory, dishes: [] });
         // console.log(`Categoria ${name} creado con éxito.`);
         return newCategory;
       }
@@ -850,6 +852,10 @@ const RestaurantsManager = (function () {
         return newRestaurant;
       }
     }
+
+    getDishes() {
+      return this.#dishes;
+    }
   }
   function init() {
     const manager = new RestaurantsManager();
@@ -863,11 +869,6 @@ const RestaurantsManager = (function () {
       }
       return instantiated;
     },
-    Dish: Dish.name,
-    Category: Category.name,
-    Allergen: Allergen.name,
-    Menu: Menu.name,
-    Restaurant: Restaurant.name,
   };
 })();
 

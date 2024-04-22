@@ -1,236 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Página inicio - Tamara Ortiz Gómez</title>
-    <link rel="icon" href="Recursos/Icono-Pagina.png" type="image/x-icon" />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/normalize.css" />
-    <link rel="stylesheet" href="./css/inicio.css" />
-  </head>
 
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-navbar">
-        <a class="navbar-brand" href="#" onclick="redirectToInicio()">
-          <img
-            src="Recursos/logo_retoque.png"
-            alt="Logo"
-            class="header__logo"
-            style="height: 40px"
-          />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-center"
-          id="navbarNavDropdown"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a
-                class="nav-link"
-                href="#inicio"
-                data-es="Inicio"
-                data-translate="nav_home"
-                onclick="redirectToInicio()"
-                >Inicio</a
-              >
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownCategorias"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Categorías
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
-                <!-- Entrantes -->
-                <div class="dropdown-submenu">
-                  <a class="dropdown-item dropdown-toggle" href="#"
-                    >Entrantes</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Batata Fries</a></li>
-                    <li>
-                      <a class="dropdown-item" href="#">The Mad Tequeños</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        >Crunchy Chick'n Nuggets</a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Berlin Vegan Wurst</a>
-                    </li>
-                  </ul>
-                </div>
-                <!-- Platos Principales -->
-                <div class="dropdown-submenu">
-                  <a class="dropdown-item dropdown-toggle" href="#"
-                    >Platos Principales</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Original Mad Burger</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        >The Mad Club Sandwich</a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        >Los originales del Mad</a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Rock'n Chick'n</a>
-                    </li>
-                  </ul>
-                </div>
-                <!-- Postres -->
-                <div class="dropdown-submenu">
-                  <a class="dropdown-item dropdown-toggle" href="#">Postres</a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Cookies & Cream</a>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Tiramisú</a></li>
-                    <li>
-                      <a class="dropdown-item" href="#">American Brownie</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Tarta de Zanahoria</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownMenus"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Menús
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenus">
-                <a class="dropdown-item" href="#">Menú del Día</a>
-                <a class="dropdown-item" href="#">Menú para Parejas</a>
-                <a class="dropdown-item" href="#">Menú Infantil</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownAlergenos"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Alérgenos
-              </a>
-              <div
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdownAlergenos"
-              >
-                <a class="dropdown-item" href="#">Gluten</a>
-                <a class="dropdown-item" href="#">Lactosa</a>
-                <a class="dropdown-item" href="#">Frutos secos</a>
-                <a class="dropdown-item" href="#">Soja</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownRestaurantes"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Restaurantes
-              </a>
-              <div
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdownRestaurantes"
-              >
-                <a class="dropdown-item" href="#">Ciudad Real</a>
-                <a class="dropdown-item" href="#">Madrid</a>
-                <a class="dropdown-item" href="#">Valencia</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página inicio - Tamara Ortiz Gómez</title>
+  <link rel="icon" href="Recursos/Icono-Pagina.png" type="image/x-icon" />
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/normalize.css" />
+  <link rel="stylesheet" href="./css/inicio.css" />
+</head>
 
-    <div class="content" id="content"></div>
-    <main class="dishes" id="dishes"></main>
-    <div class="categories"></div>
-
-    <footer class="footer mt-5 py-3 bg-dark text-white">
-      <div class="container d-flex justify-content-between align-items-center">
-        <span data-translate="footer_contact"
-          >Contacto: ortiz.gomez.tamara@gmail.com | Teléfono: +34 111 222
-          333</span
-        >
-        <div class="footer__section-redes">
-          <a href="#" target="_blank" class="redes-iconos"
-            ><img
-              src="Recursos/Facebook.png"
-              alt="Facebook"
-              style="height: 24px"
-          /></a>
-          <a href="#" target="_blank" class="redes-iconos"
-            ><img src="Recursos/Twitter.png" alt="Twitter" style="height: 24px"
-          /></a>
-          <a href="#" target="_blank" class="redes-iconos"
-            ><img
-              src="Recursos/Instagram.png"
-              alt="Instagram"
-              style="height: 24px"
-          /></a>
-        </div>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-navbar">
+      <a class="navbar-brand" href="#" onclick="redirectToInicio()" id="logo">
+        <img src="Recursos/logo_retoque.png" alt="Logo" class="header__logo" style="height: 40px" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active" id="init">
+            <a class="nav-link" href="#inicio" data-es="Inicio" data-translate="nav_home"
+              onclick="redirectToInicio()">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategorias" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Categorías
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
+              <!-- Entrantes -->
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">Entrantes</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Batata Fries</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">The Mad Tequeños</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Crunchy Chick'n Nuggets</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Berlin Vegan Wurst</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- Platos Principales -->
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">Platos Principales</a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="#">Original Mad Burger</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">The Mad Club Sandwich</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Los originales del Mad</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Rock'n Chick'n</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- Postres -->
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">Postres</a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="#">Cookies & Cream</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Tiramisú</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">American Brownie</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Tarta de Zanahoria</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenus" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Menús
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenus">
+              <a class="dropdown-item" href="#">Menú del Día</a>
+              <a class="dropdown-item" href="#">Menú para Parejas</a>
+              <a class="dropdown-item" href="#">Menú Infantil</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAlergenos" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Alérgenos
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownAlergenos">
+              <a class="dropdown-item" href="#">Gluten</a>
+              <a class="dropdown-item" href="#">Lactosa</a>
+              <a class="dropdown-item" href="#">Frutos secos</a>
+              <a class="dropdown-item" href="#">Soja</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRestaurantes" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Restaurantes
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownRestaurantes">
+              <a class="dropdown-item" href="#">Ciudad Real</a>
+              <a class="dropdown-item" href="#">Madrid</a>
+              <a class="dropdown-item" href="#">Valencia</a>
+            </div>
+          </li>
+        </ul>
       </div>
-    </footer>
+    </nav>
+  </header>
 
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.8/dist/umd/popper.min.js"></script>  -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <div class="content" id="content"></div>
+  <main class="dishes" id="dishes"></main>
+  <div class="categories"></div>
 
-    <script src="./JS/Views/navigationToggle.js"></script>
-    <!-- <script type="module" src="./JS/testeo.js"></script> -->
-    <script type="module" src="./JS/myRestaurant.js"></script>
+  <footer class="footer mt-5 py-3 bg-dark text-white">
+    <div class="container d-flex justify-content-between align-items-center">
+      <span data-translate="footer_contact">Contacto: ortiz.gomez.tamara@gmail.com | Teléfono: +34 111 222
+        333</span>
+      <div class="footer__section-redes">
+        <a href="#" target="_blank" class="redes-iconos"><img src="Recursos/Facebook.png" alt="Facebook"
+            style="height: 24px" /></a>
+        <a href="#" target="_blank" class="redes-iconos"><img src="Recursos/Twitter.png" alt="Twitter"
+            style="height: 24px" /></a>
+        <a href="#" target="_blank" class="redes-iconos"><img src="Recursos/Instagram.png" alt="Instagram"
+            style="height: 24px" /></a>
+      </div>
+    </div>
+  </footer>
 
-    <link rel="preload" href="./Recursos/logo_retoque.png" as="image" />
-    <link rel="preload" href="./css/inicio.css" as="style" />
-  </body>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.8/dist/umd/popper.min.js"></script>  -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="./JS/Views/navigationToggle.js"></script>
+  <!-- <script type="module" src="./JS/testeo.js"></script> -->
+  <script type="module" src="./JS/myRestaurant.js"></script>
+
+  <link rel="preload" href="./Recursos/logo_retoque.png" as="image" />
+  <link rel="preload" href="./css/inicio.css" as="style" />
+</body>
+
 </html>
