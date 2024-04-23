@@ -770,7 +770,7 @@ const RestaurantsManager = (function () {
         // Crear un nuevo plato si no existe
         const newDish = new Dish(name, description, ingredients, image);
         this.#dishes.push({ dish: newDish, allergen: [] });
-        // console.log("Plato creado con éxito:", name);
+        console.log("Plato creado con éxito:", newDish);
         return newDish;
       }
     }

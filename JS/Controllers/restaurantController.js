@@ -18,14 +18,10 @@ class RestaurantController {
 
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
-    let dishes = this[MODEL].getDishes();
-    console.log(`${dishes.length} dentro de onload`);
   };
 
   onInit = () => {
     this[VIEW].init();
-    let dishes = this[MODEL].getDishes();
-    console.log(`${dishes.length} dentro de onInit`);
     this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
     this[VIEW].bindDishRandom(this.handleDishes);
   };
@@ -56,6 +52,7 @@ class RestaurantController {
 
   handleDishes = (title) => {
     const dish = this[MODEL].createDish(title);
+    this[VIEW].showInfoDish(dish);
   };
 
   handleAllergen = () => {

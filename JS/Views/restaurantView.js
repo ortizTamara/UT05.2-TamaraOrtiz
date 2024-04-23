@@ -17,15 +17,34 @@ class RestaurantView {
               <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
            </ul>
            </div>
-           <div id="content__title" class="content__title"><h1>cocina vegetariana/vegana</h1></div>
             `
     );
+
+    this.categories.replaceChildren();
+    const contentCategories = document.createElement("div");
+    contentCategories.id = "list-categories";
+
+    contentCategories.insertAdjacentHTML(
+      "afterbegin",
+      `
+        <div class="category">
+          <a data-category="Entrantes" href="#categorias"><h1>Entrantes</h1>
+        </div>
+        <div class="category">
+          <a data-category="Platos Principales" href="#categorias"><h1>Platos Principales</h1>
+        </div>
+        <div class="category">
+          <a data-category="Postres" href="#categorias"><h1>Postres</h1>
+        </div>
+        `
+    );
+    this.categories.append(contentCategories);
   }
 
   ShowRandomDishes(dishes) {
     this.main.replaceChildren(); //Limpiamos el contenido principal
     this.main.id = "dishes-random";
-    const arrDishes = Array.from(dishes); //Nos aseguramos que
+    const arrDishes = Array.from(dishes); //Nos aseguramos que haya platos
 
     for (let index = 0; index < 3; index++) {
       let elem = arrDishes.splice(
@@ -52,14 +71,51 @@ class RestaurantView {
     }
   }
 
+  showInfoDish(dish) {
+    console.log("Valor de dish:", dish);
+    const info = document.createElement("div");
+    info.id = "info-dish";
+    const h3 = document.createElement("h3");
+    h3.innerText = dish.name;
+    info.append(h3);
+    const p = document.createElement("p");
+    p.innerText =
+      "Nombre: " +
+      dish.name +
+      " Descripción: " +
+      dish.description +
+      " Ingredientes: ";
+    dish.ingredients.forEach((ing) => {
+      p.innerText += ing + " ";
+    });
+    p.innerText += "Categoría: ";
+
+    for (const c of dish.categories.keys()) {
+      p.innerText += c + " ";
+    }
+    p.innerText += "Alérgenos: ";
+    for (const a of dish.allergens.values()) {
+      p.innerText += a.name + " ";
+    }
+    info.append(p);
+    if (document.getElementById("info-dish")) {
+      document.getElementById("info-dish").replaceWith(info);
+    } else {
+      this.main.append(info);
+    }
+  }
+
   bindInit(handler) {
+    // INICIO
     document.getElementById("init").addEventListener("click", (event) => {
       handler();
     });
+    // LOGO
     document.getElementById("logo").addEventListener("click", (event) => {
       handler();
     });
 
+    // MIGA DE PAN INICIO
     document.getElementById("init-bread").addEventListener("click", (event) => {
       handler();
     });
