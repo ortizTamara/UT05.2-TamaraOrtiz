@@ -4,10 +4,10 @@ class RestaurantView {
     this.main = document.getElementById("dishes");
     this.content = document.getElementById("content");
     this.categories = document.getElementById("categories");
-    this.dropcat = document.getElementById("dropdown-categories");
-    this.droprest = document.getElementById("dropdown-restaurant");
-    this.navcategdrop = document.getElementById("nav-categories");
-    this.navrestaudrop = document.getElementById("nav-restaurant");
+    this.dropCat = document.getElementById("dropdownCategorias");
+    this.dropRest = document.getElementById("dropdownRestaurantes");
+    this.navCategDrop = document.getElementById("navbarDropdownCategorias");
+    this.navRestauDrop = document.getElementById("navbarDropdownRestaurantes");
   }
   init() {
     this.content.replaceChildren();
@@ -78,7 +78,7 @@ class RestaurantView {
     // Creación del encabezado con el nombre del plato
     const h3 = document.createElement("h3");
     h3.innerText = dish.name;
-    info.appendChild(h3);
+    info.append(h3);
 
     // Creación del párrafo con los detalles del plato
     const p = document.createElement("p");
@@ -101,14 +101,37 @@ class RestaurantView {
     //   p.innerText += `${allergen.name} `; // Asumiendo que los alérgenos tienen una propiedad 'name'
     // });
 
-    info.appendChild(p);
+    info.append(p);
 
-    const existingInfo = document.getElementById("info-dish");
-    if (existingInfo) {
-      existingInfo.replaceWith(info);
+    if (document.getElementById("info-dish")) {
+      document.getElementById("info-dish").replaceWith(info);
     } else {
-      this.main.appendChild(info);
+      this.main.append(info);
     }
+  }
+
+  DropdownCategories(categories) {
+    this.dropCat.replaceChildren();
+    this.dropCat.style.zIndex = 10;
+    for (const category of categories) {
+      this.dropCat.insertAdjacentHTML(
+        "beforeEnd",
+        `<div class="dropcat-item" ><a href="#" data-category="${category[0]}"> 
+          <p>${category[0]}<p>
+          </a>
+        </div>`
+      );
+    }
+  }
+
+  HideDropCat() {
+    this.dropCat.replaceChildren();
+  }
+
+  bindCategoryMouseenter(handler) {
+    this.navCategDrop.addEventListener("mouseenter", (event) => {
+      handler();
+    });
   }
 
   bindInit(handler) {
@@ -125,6 +148,14 @@ class RestaurantView {
     document.getElementById("init-bread").addEventListener("click", (event) => {
       handler();
     });
+  }
+
+  bindCategoryNav(handler) {
+    document
+      .getElementById("navbarDropdownCategorias")
+      .addEventListener("click", (event) => {
+        handler();
+      });
   }
 
   bindDishRandom(handler) {

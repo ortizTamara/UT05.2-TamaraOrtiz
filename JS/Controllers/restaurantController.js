@@ -18,6 +18,7 @@ class RestaurantController {
 
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
+    this[VIEW].bindCategoryMouseenter(this.handleDropCat);
   };
 
   onInit = () => {
@@ -38,7 +39,9 @@ class RestaurantController {
     this.onInit();
   };
 
-  handleDropCat = () => {};
+  handleDropCat = () => {
+    this[VIEW].DropdownCategories(this[MODEL].getCategories());
+  };
 
   handleDropRest = () => {};
 
@@ -291,7 +294,7 @@ class RestaurantController {
 
     let dish17 = this[MODEL].createDish(
       "Tarta de Zanahoria",
-      "Tarta de zanahoria frescas, espeicas aromáticas y coronado con un glaseado cremoso.",
+      "Tarta de zanahoria frescas, especias aromáticas y coronado con un glaseado cremoso.",
       ["Harina", "Zanahoria", "Nuez moscada", "Nueces", "Huevo"],
       "postre04.webp"
     );
