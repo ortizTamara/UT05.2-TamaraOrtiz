@@ -90,7 +90,7 @@ class RestaurantController {
     console.log("Categoría 3 creada:", category3);
 
     // Añadimos las categorías
-    // this[MODEL].addCategory(category1, category2, category3);
+    this[MODEL].addCategory(category1, category2, category3);
 
     // Creamos los platos
     // PLATOS PRINCIPALES
@@ -100,6 +100,7 @@ class RestaurantController {
       ["Batata", "Salsa especial"],
       "entrante01.webp"
     );
+
     console.log("Plato creado:", dish1);
 
     let dish2 = this[MODEL].createDish(
@@ -293,6 +294,26 @@ class RestaurantController {
       "Tarta de zanahoria frescas, espeicas aromáticas y coronado con un glaseado cremoso.",
       ["Harina", "Zanahoria", "Nuez moscada", "Nueces", "Huevo"],
       "postre04.webp"
+    );
+
+    this[MODEL].addDish(
+      dish1,
+      dish2,
+      dish3,
+      dish4,
+      dish5,
+      dish6,
+      dish7,
+      dish8,
+      dish9,
+      dish10,
+      dish11,
+      dish12,
+      dish13,
+      dish14,
+      dish15,
+      dish16,
+      dish17
     );
 
     // Asignamos los platos a sus categorías

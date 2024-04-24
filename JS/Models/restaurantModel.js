@@ -759,17 +759,19 @@ const RestaurantsManager = (function () {
 
     createDish(name, description, ingredients, image) {
       // Verificamos si el plato ya existe
-      const existingDish = this.#dishes.find((dish) => dish.name === name);
+      const existingDish = this.#dishes.find(
+        (storedDish) => storedDish.dish.name === name
+      );
       if (existingDish) {
         // Devolvemos el plato existente para evitar duplicados
         console.log(
           `El plato ${name} ya existe. Retornando el plato existente...`
         );
-        return existingDish;
+        return existingDish.dish;
       } else {
         // Crear un nuevo plato si no existe
         const newDish = new Dish(name, description, ingredients, image);
-        this.#dishes.push({ dish: newDish, allergen: [] });
+        //this.#dishes.push({ dish: newDish, allergen: [] });
         console.log("Plato creado con éxito:", newDish);
         return newDish;
       }
@@ -783,11 +785,11 @@ const RestaurantsManager = (function () {
         console.log(
           `El menú ${name} ya existe. Retornando el plato existente...`
         );
-        return existingMenu;
+        return existingMenu.menu;
       } else {
         // Si no existe, crea un nuevo menú
         const newMenu = new Menu(name, description);
-        this.#menus.push(newMenu);
+        // this.#menus.push(newMenu);
         // console.log(`Menú ${name} creado con éxito.`);
         return newMenu;
       }
@@ -796,18 +798,18 @@ const RestaurantsManager = (function () {
     createCategory(name, description) {
       // Verificar si la categoría ya existe
       const existingCategory = this.#categories.find(
-        (category) => category.name === name
+        (storedCategory) => storedCategory.category.name === name
       );
       if (existingCategory) {
         // Devolvemos el menú existente para evitar duplicados
         console.log(
           `La categoria ${name} ya existe. Retornando la categoría existente...`
         );
-        return existingCategory;
+        return existingCategory.category;
       } else {
         // Si no existe, crea un nuevo menú
         const newCategory = new Category(name, description);
-        this.#categories.push({ category: newCategory, dishes: [] });
+        // this.#categories.push({ category: newCategory, dishes: [] });
         // console.log(`Categoria ${name} creado con éxito.`);
         return newCategory;
       }
@@ -823,11 +825,11 @@ const RestaurantsManager = (function () {
         console.log(
           `El alérgeno ${name} ya existe. Retornando el plato existente...`
         );
-        return existingAllergen;
+        return existingAllergen.allergen;
       } else {
         // Si no existe, crea un nuevo alergeno
         const newAllergen = new Allergen(name, description);
-        this.#allergens.push(newAllergen);
+        // this.#allergens.push(newAllergen);
         // console.log(`Alérgeno ${name} creado con éxito.`);
         return newAllergen;
       }
@@ -844,10 +846,10 @@ const RestaurantsManager = (function () {
         console.log(
           `El restaurante ${name} ya existe.  Retornando el plato existente...`
         );
-        return existingRestaurant;
+        return existingRestaurant.restaurant;
       } else {
         const newRestaurant = new Restaurant(name, description, location);
-        this.#restaurants.push(newRestaurant);
+        // this.#restaurants.push(newRestaurant);
         // console.log(`Restaurante ${name} creado con éxito.`);
         return newRestaurant;
       }

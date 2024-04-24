@@ -72,7 +72,6 @@ class RestaurantView {
   }
 
   showInfoDish(dish) {
-    console.log("Valor de dish:", dish);
     const info = document.createElement("div");
     info.id = "info-dish";
     const h3 = document.createElement("h3");
