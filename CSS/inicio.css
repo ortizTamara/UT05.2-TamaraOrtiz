@@ -130,12 +130,22 @@ main {
   margin-top: 0.625em;
 }
 
-.dish__info {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
+#info-dish {
+  background-color: #252525;
+  color: white;
+  border-radius: 0.625em;
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 3em;
 }
+
+#info-dish h3 {
+  font-weight: bold;
+  margin: 0;
+}
+
+/* #info-dish p {
+} */
 
 .footer {
   background-color: #252525 !important;

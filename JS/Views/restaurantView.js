@@ -74,33 +74,40 @@ class RestaurantView {
   showInfoDish(dish) {
     const info = document.createElement("div");
     info.id = "info-dish";
+
+    // Creación del encabezado con el nombre del plato
     const h3 = document.createElement("h3");
     h3.innerText = dish.name;
-    info.append(h3);
-    const p = document.createElement("p");
-    p.innerText =
-      "Nombre: " +
-      dish.name +
-      " Descripción: " +
-      dish.description +
-      " Ingredientes: ";
-    dish.ingredients.forEach((ing) => {
-      p.innerText += ing + " ";
-    });
-    p.innerText += "Categoría: ";
+    info.appendChild(h3);
 
-    for (const c of dish.categories.keys()) {
-      p.innerText += c + " ";
-    }
-    p.innerText += "Alérgenos: ";
-    for (const a of dish.allergens.values()) {
-      p.innerText += a.name + " ";
-    }
-    info.append(p);
-    if (document.getElementById("info-dish")) {
-      document.getElementById("info-dish").replaceWith(info);
+    // Creación del párrafo con los detalles del plato
+    const p = document.createElement("p");
+    p.innerText = `Nombre: ${dish.name} Descripción: ${dish.description} Ingredientes: `;
+
+    // Adición de los ingredientes
+    dish.ingredients.forEach((ingredient) => {
+      p.innerText += `${ingredient} `;
+    });
+
+    // Adición de las categorías
+    // p.innerText += "Categoría: ";
+    // dish.categories.forEach((category) => {
+    //   p.innerText += `${category} `;
+    // });
+
+    // // Adición de los alérgenos
+    // p.innerText += "Alérgenos: ";
+    // dish.allergens.forEach((allergen) => {
+    //   p.innerText += `${allergen.name} `; // Asumiendo que los alérgenos tienen una propiedad 'name'
+    // });
+
+    info.appendChild(p);
+
+    const existingInfo = document.getElementById("info-dish");
+    if (existingInfo) {
+      existingInfo.replaceWith(info);
     } else {
-      this.main.append(info);
+      this.main.appendChild(info);
     }
   }
 
