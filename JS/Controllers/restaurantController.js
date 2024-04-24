@@ -29,7 +29,9 @@ class RestaurantController {
 
   onMenu = () => {};
 
-  onCategory = () => {};
+  onCategory = () => {
+    this[VIEW].ShowCategories(this[MODEL].getCategories());
+  };
 
   onAllergen = () => {};
 
@@ -55,7 +57,7 @@ class RestaurantController {
 
   handleDishes = (title) => {
     const dish = this[MODEL].createDish(title);
-    this[VIEW].showInfoDish(dish);
+    this[VIEW].showInfoDish(this.getDish(dish), this.getCategoryForDish(dish));
   };
 
   handleAllergen = () => {
@@ -350,46 +352,48 @@ class RestaurantController {
     );
     let allergen4 = this[MODEL].createAllergen("Soja", "Contiene soja.");
 
+    this[MODEL].addAllergen(allergen1, allergen2, allergen3);
+
     // Asignamos los alergenos a sus platos
     //Alergeno GLUTEN
-    // this[MODEL].assignAllergenToDish(allergen1, dish2);
-    // this[MODEL].assignAllergenToDish(allergen1, dish3);
-    // this[MODEL].assignAllergenToDish(allergen1, dish4);
-    // this[MODEL].assignAllergenToDish(allergen1, dish5);
-    // this[MODEL].assignAllergenToDish(allergen1, dish6);
-    // this[MODEL].assignAllergenToDish(allergen1, dish7);
-    // this[MODEL].assignAllergenToDish(allergen1, dish8);
-    // this[MODEL].assignAllergenToDish(allergen1, dish9);
-    // this[MODEL].assignAllergenToDish(allergen1, dish10);
-    // this[MODEL].assignAllergenToDish(allergen1, dish11);
-    // this[MODEL].assignAllergenToDish(allergen1, dish12);
-    // this[MODEL].assignAllergenToDish(allergen1, dish13);
-    // this[MODEL].assignAllergenToDish(allergen1, dish14);
-    // this[MODEL].assignAllergenToDish(allergen1, dish16);
-    // this[MODEL].assignAllergenToDish(allergen1, dish17);
+    this[MODEL].assignAllergenToDish(dish2, allergen1);
+    this[MODEL].assignAllergenToDish(dish3, allergen1);
+    this[MODEL].assignAllergenToDish(dish4, allergen1);
+    this[MODEL].assignAllergenToDish(dish5, allergen1);
+    this[MODEL].assignAllergenToDish(dish6, allergen1);
+    this[MODEL].assignAllergenToDish(dish7, allergen1);
+    this[MODEL].assignAllergenToDish(dish8, allergen1);
+    this[MODEL].assignAllergenToDish(dish9, allergen1);
+    this[MODEL].assignAllergenToDish(dish10, allergen1);
+    this[MODEL].assignAllergenToDish(dish11, allergen1);
+    this[MODEL].assignAllergenToDish(dish12, allergen1);
+    this[MODEL].assignAllergenToDish(dish13, allergen1);
+    this[MODEL].assignAllergenToDish(dish14, allergen1);
+    this[MODEL].assignAllergenToDish(dish16, allergen1);
+    this[MODEL].assignAllergenToDish(dish17, allergen1);
 
-    // //Alergeno LACTOSA
-    // this[MODEL].assignAllergenToDish(allergen2, dish2);
-    // this[MODEL].assignAllergenToDish(allergen2, dish6);
-    // this[MODEL].assignAllergenToDish(allergen2, dish8);
-    // this[MODEL].assignAllergenToDish(allergen2, dish9);
-    // this[MODEL].assignAllergenToDish(allergen2, dish10);
-    // this[MODEL].assignAllergenToDish(allergen2, dish11);
-    // this[MODEL].assignAllergenToDish(allergen2, dish12);
-    // this[MODEL].assignAllergenToDish(allergen2, dish13);
+    //Alergeno LACTOSA
+    this[MODEL].assignAllergenToDish(dish2, allergen2);
+    this[MODEL].assignAllergenToDish(dish6, allergen2);
+    this[MODEL].assignAllergenToDish(dish8, allergen2);
+    this[MODEL].assignAllergenToDish(dish9, allergen2);
+    this[MODEL].assignAllergenToDish(dish10, allergen2);
+    this[MODEL].assignAllergenToDish(dish11, allergen2);
+    this[MODEL].assignAllergenToDish(dish12, allergen2);
+    this[MODEL].assignAllergenToDish(dish13, allergen2);
 
-    // // Alergeno FRUTOS SECOS
-    // this[MODEL].assignAllergenToDish(allergen4, dish16);
-    // this[MODEL].assignAllergenToDish(allergen4, dish17);
+    // Alergeno FRUTOS SECOS
+    this[MODEL].assignAllergenToDish(dish16, allergen4);
+    this[MODEL].assignAllergenToDish(dish17, allergen4);
 
-    // // Alergeno SOJA
-    // this[MODEL].assignAllergenToDish(allergen3, dish3);
-    // this[MODEL].assignAllergenToDish(allergen3, dish4);
-    // this[MODEL].assignAllergenToDish(allergen3, dish5);
-    // this[MODEL].assignAllergenToDish(allergen3, dish6);
-    // this[MODEL].assignAllergenToDish(allergen3, dish9);
-    // this[MODEL].assignAllergenToDish(allergen3, dish10);
-    // this[MODEL].assignAllergenToDish(allergen3, dish11);
+    // Alergeno SOJA
+    this[MODEL].assignAllergenToDish(dish3, allergen3);
+    this[MODEL].assignAllergenToDish(dish4, allergen3);
+    this[MODEL].assignAllergenToDish(dish5, allergen3);
+    this[MODEL].assignAllergenToDish(dish6, allergen3);
+    this[MODEL].assignAllergenToDish(dish9, allergen3);
+    this[MODEL].assignAllergenToDish(dish10, allergen3);
+    this[MODEL].assignAllergenToDish(dish13, allergen3);
 
     // Creamos los menús
     let menu1 = this[MODEL].createMenu(
@@ -406,6 +410,8 @@ class RestaurantController {
       "Infantil",
       "Menú compuesto por un entrante, plato principal y un helado"
     );
+
+    this[MODEL].addMenu(menu1, menu2, menu3);
 
     // Asignamos los platos a sus menús
     // Menu Día sus platos
@@ -457,6 +463,10 @@ class RestaurantController {
 
   getDish(dish) {
     return this[MODEL].getDish(dish);
+  }
+
+  getCategoryForDish(dish) {
+    return this[MODEL].getCategoryForDish(dish);
   }
 }
 export default RestaurantController;

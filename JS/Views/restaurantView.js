@@ -73,37 +73,43 @@ class RestaurantView {
     }
   }
 
-  showInfoDish(dish) {
+  showInfoDish(dishElement, categoryElement) {
     const info = document.createElement("div");
     info.id = "info-dish";
 
     // Creación del encabezado con el nombre del plato
     const h3 = document.createElement("h3");
-    h3.innerText = dish.name;
+    h3.innerText = dishElement.dish.name;
     info.append(h3);
 
     // Creación del párrafo con los detalles del plato
-    const p = document.createElement("p");
-    p.innerText = `Nombre: ${dish.name} Descripción: ${dish.description} Ingredientes: `;
+    const pNombre = document.createElement("p");
+    pNombre.innerText = `Nombre: ${dishElement.dish.name} `;
+
+    const pDescription = document.createElement("p");
+    pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
+
+    const pIngredient = document.createElement("p");
+    pIngredient.innerText = `Ingredientes `;
 
     // Adición de los ingredientes
-    dish.ingredients.forEach((ingredient) => {
-      p.innerText += `${ingredient} `;
+    dishElement.dish.ingredients.forEach((ingredient) => {
+      pIngredient.innerText += `${ingredient} `;
     });
 
     // Adición de las categorías
-    // p.innerText += "Categoría: ";
-    // dish.categories.forEach((category) => {
-    //   p.innerText += `${category} `;
-    // });
+    const pCategory = document.createElement("p");
+    pCategory.innerText += "Categoría: ";
+    pCategory.innerText += `${categoryElement.category.name} `;
 
     // Adición de los alérgenos
-    p.innerText += "Alérgenos: ";
-    getDish(dish).allergens.forEach((allergen) => {
-      p.innerText += `${allergen.name} `;
+    const pAllergen = document.createElement("p");
+    pAllergen.innerText += "Alérgenos: ";
+    dishElement.allergens.forEach((allergen) => {
+      pAllergen.innerText += `${allergen.name} `;
     });
 
-    info.append(p);
+    info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
 
     if (document.getElementById("info-dish")) {
       document.getElementById("info-dish").replaceWith(info);
@@ -124,6 +130,19 @@ class RestaurantView {
         </div>`
       );
     }
+  }
+
+  showCategories(categ) {
+    this.content.replaceChildren();
+    this.content.insertAdjacentHTML(
+      "afterbegin",
+      `<ul class="breadcrumbs" id="breadcrumbs"> 
+              <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
+              <li class="breadcrumbs-item"><a id="init-bread" href="#"> Categorías </a></li>
+           </ul>
+           </div>
+            `
+    );
   }
 
   HideDropCat() {

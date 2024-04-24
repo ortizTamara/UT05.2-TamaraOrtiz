@@ -7,6 +7,7 @@ body {
   /* overflow-x: hidden; */
   background-image: url("../Recursos/fondo2.jpg");
   background-size: cover;
+  background-attachment: fixed;
   background-position: center center;
   background-repeat: no-repeat;
   font-family: "Arial", sans-serif;
@@ -59,6 +60,16 @@ main {
   padding: 1.25em;
 }
 
+.breadcrumbs li {
+  list-style-type: none;
+  padding: 0;
+  margin: 1.5em;
+}
+
+#init-bread {
+  color: white;
+}
+
 #categories {
   width: 100%;
   display: flex;
@@ -74,7 +85,9 @@ main {
   display: inline-block;
   margin-right: 5em;
 }
-
+.dropcat-item a {
+  color: black;
+}
 .category a {
   color: white;
 }
@@ -115,12 +128,16 @@ main {
   padding: 1em;
   margin-top: 1em;
   margin-bottom: 3em;
-  grid-column: 1 / -1;
+  grid-column: 2 / -2;
 }
 
 #info-dish h3 {
   font-weight: bold;
   margin: 0;
+}
+
+#info-dish p {
+  margin-top: 1em;
 }
 
 .footer {

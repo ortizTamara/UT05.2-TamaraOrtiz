@@ -508,6 +508,16 @@ const RestaurantsManager = (function () {
       return this.#dishes[this.#getDishPosition(dish)];
     }
 
+    getCategoryForDish(dish) {
+      for (const category of this.#categories) {
+        const foundDish = category.dishes.find((item) => item === dish);
+        if (foundDish) {
+          return category;
+        }
+      }
+      return null;
+    }
+
     deassignAllergenToDish(dish, ...allergens) {
       // Verificamos si el plato es nula para no seguir avanzando
       if (!(dish instanceof Dish)) {
