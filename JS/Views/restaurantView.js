@@ -1,3 +1,5 @@
+// import RestaurantController from "../Controllers/restaurantController";
+
 class RestaurantView {
   constructor() {
     //Accedemos a los contenedores y elementos
@@ -95,11 +97,11 @@ class RestaurantView {
     //   p.innerText += `${category} `;
     // });
 
-    // // Adición de los alérgenos
-    // p.innerText += "Alérgenos: ";
-    // dish.allergens.forEach((allergen) => {
-    //   p.innerText += `${allergen.name} `; // Asumiendo que los alérgenos tienen una propiedad 'name'
-    // });
+    // Adición de los alérgenos
+    p.innerText += "Alérgenos: ";
+    getDish(dish).allergens.forEach((allergen) => {
+      p.innerText += `${allergen.name} `;
+    });
 
     info.append(p);
 
@@ -116,8 +118,8 @@ class RestaurantView {
     for (const category of categories) {
       this.dropCat.insertAdjacentHTML(
         "beforeEnd",
-        `<div class="dropcat-item" ><a href="#" data-category="${category[0]}"> 
-          <p>${category[0]}<p>
+        `<div class="dropcat-item" ><a href="#" data-category="${category.category.name}"> 
+          <p>${category.category.name}<p>
           </a>
         </div>`
       );

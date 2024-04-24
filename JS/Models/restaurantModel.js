@@ -280,7 +280,7 @@ const RestaurantsManager = (function () {
           });
           this.#dishes.sort(this.#sortDishFunc);
         } else {
-          console.log("Plato ya existe:", dish);
+          console.log("Plato ya añadido:", dish);
           throw new DishExistsException(dish);
         }
       }
@@ -500,8 +500,12 @@ const RestaurantsManager = (function () {
       return allergens.findIndex((x) => x.name === allergen.name);
     }
 
-    getDish() {
+    getDishes() {
       return this.#dishes;
+    }
+
+    getDish(dish) {
+      return this.#dishes[this.#getDishPosition(dish)];
     }
 
     deassignAllergenToDish(dish, ...allergens) {
@@ -772,7 +776,7 @@ const RestaurantsManager = (function () {
         // Crear un nuevo plato si no existe
         const newDish = new Dish(name, description, ingredients, image);
         //this.#dishes.push({ dish: newDish, allergen: [] });
-        console.log("Plato creado con éxito:", newDish);
+        // console.log("Plato creado con éxito:", newDish);
         return newDish;
       }
     }

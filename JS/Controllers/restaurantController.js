@@ -78,19 +78,16 @@ class RestaurantController {
       "Entrantes",
       "Listado de platos para ir abriendo boca"
     );
-    console.log("Categoría 1 creada:", category1);
 
     const category2 = this[MODEL].createCategory(
       "Platos Principales",
       "Listado de platos principales, para disfrutar después de los entrantes"
     );
-    console.log("Categoría 2 creada:", category2);
 
     const category3 = this[MODEL].createCategory(
       "Postres",
       "Listado de postres caseros"
     );
-    console.log("Categoría 3 creada:", category3);
 
     // Añadimos las categorías
     this[MODEL].addCategory(category1, category2, category3);
@@ -104,15 +101,12 @@ class RestaurantController {
       "entrante01.webp"
     );
 
-    console.log("Plato creado:", dish1);
-
     let dish2 = this[MODEL].createDish(
       "The Mad Tequeños",
       "Deliciosos palitos rellenos de queso y acompañados de una salsa casera.",
       ["Queso", "Harina", "Salsa casera"],
       "entrante02.webp"
     );
-    console.log("Plato creado:", dish2);
 
     let dish3 = this[MODEL].createDish(
       "Crunchy Chick'n Nuggets",
@@ -348,7 +342,6 @@ class RestaurantController {
       "Gluten",
       "Contiene trazas de trigo."
     );
-    console.log("Alergeno creado:", allergen1);
 
     let allergen2 = this[MODEL].createAllergen("Lactosa", "Contiene lactosa.");
     let allergen3 = this[MODEL].createAllergen(
@@ -403,8 +396,6 @@ class RestaurantController {
       "Día",
       "Menú compuesto por un entrante, un plato principal y un postre"
     );
-
-    console.log("Menú creado:", menu1);
 
     let menu2 = this[MODEL].createMenu(
       "Parejas",
@@ -462,6 +453,10 @@ class RestaurantController {
     // this[MODEL].addRestaurant(restaurant1);
     // this[MODEL].addRestaurant(restaurant2);
     // this[MODEL].addRestaurant(restaurant3);
+  }
+
+  getDish(dish) {
+    return this[MODEL].getDish(dish);
   }
 }
 export default RestaurantController;
