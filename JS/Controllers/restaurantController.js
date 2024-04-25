@@ -18,19 +18,32 @@ class RestaurantController {
 
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
-    this[VIEW].bindCategoryMouseenter(this.handleDropCat);
+    // CATEGORÍAS
+    this[VIEW].mouseenterCategories(this.handleDropCat);
+    this[VIEW].bindCategoryDrop(this.handleShowCategory);
+    this[VIEW].bindNavCategoryClick(this.handleCategories);
+
+    // MENU
+
+    // ALERGENOS
+
+    //RESTAURANTES
   };
 
   onInit = () => {
     this[VIEW].init();
+    // PLATOS
     this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
     this[VIEW].bindDishRandom(this.handleDishes);
+    // CATEGORIAS
+    this[VIEW].bindSingleCategory(this.handleShowCategory);
   };
 
   onMenu = () => {};
 
   onCategory = () => {
     this[VIEW].ShowCategories(this[MODEL].getCategories());
+    this[VIEW].bindSingleCategory(this.handleShowCategory);
   };
 
   onAllergen = () => {};
@@ -68,7 +81,15 @@ class RestaurantController {
 
   handleShowMenu = (title) => {};
 
-  handleShowCategory = (title) => {};
+  handleShowCategory = (title) => {
+    this.handleCategories;
+    const cat = this[MODEL].createCategory(title);
+    this[VIEW].showCategoryDishes(
+      this[MODEL].getDishesInCategory(cat),
+      cat.name
+    );
+    this[VIEW].bindDishInCategory(this.handleDishes);
+  };
 
   handleShowAllergen = (title) => {};
 

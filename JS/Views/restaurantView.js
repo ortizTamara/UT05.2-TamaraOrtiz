@@ -1,5 +1,3 @@
-// import RestaurantController from "../Controllers/restaurantController";
-
 class RestaurantView {
   constructor() {
     //Accedemos a los contenedores y elementos
@@ -12,6 +10,7 @@ class RestaurantView {
     this.navRestauDrop = document.getElementById("navbarDropdownRestaurantes");
   }
   init() {
+    // MIGAS DE PAN
     this.content.replaceChildren();
     this.content.insertAdjacentHTML(
       "afterbegin",
@@ -22,6 +21,7 @@ class RestaurantView {
             `
     );
 
+    // INICIO -> CARGA CENTRAL CON CATEGORIAS
     this.categories.replaceChildren();
     const contentCategories = document.createElement("div");
     contentCategories.id = "list-categories";
@@ -43,6 +43,7 @@ class RestaurantView {
     this.categories.append(contentCategories);
   }
 
+  // PLATOS RANDOM
   ShowRandomDishes(dishes) {
     this.main.replaceChildren(); //Limpiamos el contenido principal
     this.main.id = "dishes-random";
@@ -73,16 +74,15 @@ class RestaurantView {
     }
   }
 
+  // INFO DE LOS PLATOS
   showInfoDish(dishElement, categoryElement) {
     const info = document.createElement("div");
     info.id = "info-dish";
 
-    // Creación del encabezado con el nombre del plato
     const h3 = document.createElement("h3");
     h3.innerText = dishElement.dish.name;
     info.append(h3);
 
-    // Creación del párrafo con los detalles del plato
     const pNombre = document.createElement("p");
     pNombre.innerText = `Nombre: ${dishElement.dish.name} `;
 
@@ -90,19 +90,16 @@ class RestaurantView {
     pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
 
     const pIngredient = document.createElement("p");
-    pIngredient.innerText = `Ingredientes `;
+    pIngredient.innerText = `Ingredientes: `;
 
-    // Adición de los ingredientes
     dishElement.dish.ingredients.forEach((ingredient) => {
       pIngredient.innerText += `${ingredient} `;
     });
 
-    // Adición de las categorías
     const pCategory = document.createElement("p");
     pCategory.innerText += "Categoría: ";
     pCategory.innerText += `${categoryElement.category.name} `;
 
-    // Adición de los alérgenos
     const pAllergen = document.createElement("p");
     pAllergen.innerText += "Alérgenos: ";
     dishElement.allergens.forEach((allergen) => {
@@ -118,6 +115,7 @@ class RestaurantView {
     }
   }
 
+  // MUESTRA EN CATEGORÍA UN DESPEGABLE CON LOS NOMBRES DE CATEGORÍA
   DropdownCategories(categories) {
     this.dropCat.replaceChildren();
     this.dropCat.style.zIndex = 10;
@@ -132,6 +130,7 @@ class RestaurantView {
     }
   }
 
+  //MUESTRA LAS CATEGORÍAS EN LA INTERFAZ E INCLUYE MIGAS DE PAN
   showCategories(categ) {
     this.content.replaceChildren();
     this.content.insertAdjacentHTML(
@@ -143,16 +142,132 @@ class RestaurantView {
            </div>
             `
     );
+
+    this.main.replaceChildren();
+    this.categories.replaceChildren();
+
+    const contentCategories = document.createElement("div");
+    contentCategories.id = "list-categories";
+    for (const cat of categ) {
+      contentCategories.insertAdjacentHTML(
+        "afterbegin",
+        `
+        <div class="category">
+          <a data-category="${cat[0]}" href="#categorias"><h1>${cat[0]}</h1>
+        </div>
+        `
+      );
+    }
+    this.categories.append(contentCategories);
   }
 
+  // ACTUALIZAMOS MIGAS DE PAN Y TITULO DEPENDIENDO DE QUE CATEGORÍA ESTAMOS ADEMÁS DE MOSTRAR LOS PLATOS DE DICHA CATEGORÍA
+  showCategoryDishes(dishes, cat) {
+    const bread = document.getElementById("breadcrumb");
+
+    const li = document.createElement("li");
+    li.id = "category-bread";
+    li.innerText = cat;
+
+    const elem = document.getElementById("category-bread");
+    // elem ? elem.replaceWith(li) : bread.append(li);
+
+    const title = document.getElementById("content__title");
+    const newtitle = document.createElement("div");
+    newtitle.id = "cat-title";
+    newtitle.classList.add("title-cat");
+    const h1 = document.createElement("h2");
+    h1.innerText = cat;
+    newtitle.append(h1);
+    newtitle.style.textAlign = "center";
+
+    // document.getElementById("cate-title");
+    // ? title.lastChild.replaceWith(newtitle)
+    // : title.append(newtitle);
+
+    this.main.replaceChildren();
+    this.main.id = "dishes-category";
+
+    for (const dish of dishes) {
+      const contentDishes = document.createElement("div");
+      contentDishes.classList = "cat-dish";
+      contentDishes.insertAdjacentHTML(
+        "beforeend",
+        `<figure class="dish-image">
+          <a data-dish="${dish.name}" href="#categorias" >
+            <img src="./img/${dish.image}" />
+            <figcaption class="dish__name">
+              <h1>${dish.name}<h1>
+            </figcaption>
+          </a> 
+        </figure>`
+      );
+      this.main.append(contentDishes);
+    }
+  }
+
+  // AL HACER CLIC EN UN PLATO, SE EJECUTA LA FUNCIÓN PARA MOSTRAR SU INFO
+  bindDishRandom(handler) {
+    const dishes = document.getElementById("dishes-random");
+    const links = dishes.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.dish);
+      });
+    }
+  }
+
+  // AL HACER CLIC EN LA CATEGORÍA, SE EJECUTA LA FUNCIÓN ASOCIADA
+  bindNavCategoryClick(handler) {
+    document
+      .getElementById("navbarDropdownCategorias")
+      .addEventListener("click", (event) => {
+        handler();
+      });
+  }
+
+  // VINCULAMOS
+  bindDishInCategory(handler) {
+    const dishes = document.getElementById("dishes-category");
+    const links = dishes.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.dish);
+      });
+    }
+  }
+
+  //
+  bindSingleCategory(handler) {
+    const cats = document.getElementById("list-categories");
+    const links = cats.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.category);
+      });
+    }
+  }
+
+  //
   HideDropCat() {
     this.dropCat.replaceChildren();
   }
 
-  bindCategoryMouseenter(handler) {
+  // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN
+  mouseenterCategories(handler) {
     this.navCategDrop.addEventListener("mouseenter", (event) => {
       handler();
     });
+  }
+
+  // AL HACER CLIC EN UNA DE LAS CATEGORÍAS DEL DESPEGABLE, SE MUESTRA INFORMACIÓN
+  bindCategoryDrop(handler) {
+    const links = this.dropCat.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.category);
+      });
+    }
   }
 
   bindInit(handler) {
@@ -169,24 +284,6 @@ class RestaurantView {
     document.getElementById("init-bread").addEventListener("click", (event) => {
       handler();
     });
-  }
-
-  bindCategoryNav(handler) {
-    document
-      .getElementById("navbarDropdownCategorias")
-      .addEventListener("click", (event) => {
-        handler();
-      });
-  }
-
-  bindDishRandom(handler) {
-    const dishes = document.getElementById("dishes-random");
-    const links = dishes.querySelectorAll("a");
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.dish);
-      });
-    }
   }
 }
 
