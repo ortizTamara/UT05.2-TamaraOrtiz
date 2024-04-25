@@ -122,7 +122,7 @@ class RestaurantView {
     for (const category of categories) {
       this.dropCat.insertAdjacentHTML(
         "beforeEnd",
-        `<div class="dropcat-item" ><a href="#" data-category="${category.category.name}"> 
+        `<div class="dropcat-item" ><a href="#categorias" data-category="${category.category.name}"> 
           <p>${category.category.name}<p>
           </a>
         </div>`
@@ -131,7 +131,7 @@ class RestaurantView {
   }
 
   //MUESTRA LAS CATEGORÍAS EN LA INTERFAZ E INCLUYE MIGAS DE PAN
-  showCategories(categ) {
+  showCategories() {
     this.content.replaceChildren();
     this.content.insertAdjacentHTML(
       "afterbegin",
@@ -144,33 +144,38 @@ class RestaurantView {
     );
 
     this.main.replaceChildren();
-    this.categories.replaceChildren();
 
+    this.categories.replaceChildren();
     const contentCategories = document.createElement("div");
     contentCategories.id = "list-categories";
-    for (const cat of categ) {
-      contentCategories.insertAdjacentHTML(
-        "afterbegin",
-        `
+
+    contentCategories.insertAdjacentHTML(
+      "afterbegin",
+      `
         <div class="category">
-          <a data-category="${cat[0]}" href="#categorias"><h1>${cat[0]}</h1>
+          <a data-category="Entrantes" href="#categorias"><h1>Entrantes</h1>
+        </div>
+        <div class="category">
+          <a data-category="Platos Principales" href="#categorias"><h1>Platos Principales</h1>
+        </div>
+        <div class="category">
+          <a data-category="Postres" href="#categorias"><h1>Postres</h1>
         </div>
         `
-      );
-    }
+    );
     this.categories.append(contentCategories);
   }
 
   // ACTUALIZAMOS MIGAS DE PAN Y TITULO DEPENDIENDO DE QUE CATEGORÍA ESTAMOS ADEMÁS DE MOSTRAR LOS PLATOS DE DICHA CATEGORÍA
   showCategoryDishes(dishes, cat) {
-    const bread = document.getElementById("breadcrumb");
+    const bread = document.getElementById("breadcrumbs");
 
     const li = document.createElement("li");
     li.id = "category-bread";
     li.innerText = cat;
 
     const elem = document.getElementById("category-bread");
-    // elem ? elem.replaceWith(li) : bread.append(li);
+    elem ? elem.replaceWith(li) : bread.append(li);
 
     const title = document.getElementById("content__title");
     const newtitle = document.createElement("div");
@@ -195,7 +200,7 @@ class RestaurantView {
         "beforeend",
         `<figure class="dish-image">
           <a data-dish="${dish.name}" href="#categorias" >
-            <img src="./img/${dish.image}" />
+            <img src="./Recursos/platos/${dish.image}" />
             <figcaption class="dish__name">
               <h1>${dish.name}<h1>
             </figcaption>
@@ -226,7 +231,7 @@ class RestaurantView {
       });
   }
 
-  // VINCULAMOS
+  // AL HACER CLIC EN UN PLATO DENTRO DE UNA CATEGORÍA SE EJECUTA LA FUNCIÓN ESPECIFICA
   bindDishInCategory(handler) {
     const dishes = document.getElementById("dishes-category");
     const links = dishes.querySelectorAll("a");
@@ -237,8 +242,8 @@ class RestaurantView {
     }
   }
 
-  //
-  bindSingleCategory(handler) {
+  // AL HACER CLIC EN UNA CATEGORÍA SE EJECUTA LA FUNCIÓN ESPECIFICA
+  bindCategoryClicks(handler) {
     const cats = document.getElementById("list-categories");
     const links = cats.querySelectorAll("a");
     for (const link of links) {
@@ -246,11 +251,6 @@ class RestaurantView {
         handler(event.currentTarget.dataset.category);
       });
     }
-  }
-
-  //
-  HideDropCat() {
-    this.dropCat.replaceChildren();
   }
 
   // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN

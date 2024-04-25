@@ -21,7 +21,7 @@ class RestaurantController {
     // CATEGORÍAS
     this[VIEW].mouseenterCategories(this.handleDropCat);
     this[VIEW].bindCategoryDrop(this.handleShowCategory);
-    this[VIEW].bindNavCategoryClick(this.handleCategories);
+    this[VIEW].bindNavCategoryClick(this.handleCategories); //Retocarlo
 
     // MENU
 
@@ -36,14 +36,14 @@ class RestaurantController {
     this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
     this[VIEW].bindDishRandom(this.handleDishes);
     // CATEGORIAS
-    this[VIEW].bindSingleCategory(this.handleShowCategory);
+    this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
 
   onMenu = () => {};
 
   onCategory = () => {
-    this[VIEW].ShowCategories(this[MODEL].getCategories());
-    this[VIEW].bindSingleCategory(this.handleShowCategory);
+    this[VIEW].showCategories(this[MODEL].getCategories());
+    this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
 
   onAllergen = () => {};
