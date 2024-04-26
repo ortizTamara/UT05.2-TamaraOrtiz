@@ -94,10 +94,12 @@ ul.breadcrumbs li + li:before {
 
 .category {
   flex-grow: 1;
-  min-width: 10em;
+  min-width: 15em;
   text-align: center;
   display: inline-block;
-  margin-right: 5em;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 .dropcat-item a {
   color: black;

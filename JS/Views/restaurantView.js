@@ -75,7 +75,7 @@ class RestaurantView {
   }
 
   // INFO DE LOS PLATOS
-  showInfoDish(dishElement, categoryElement) {
+  showInfoDish(dishElement, categories) {
     const info = document.createElement("div");
     info.id = "info-dish";
 
@@ -96,9 +96,9 @@ class RestaurantView {
       pIngredient.innerText += `${ingredient} `;
     });
 
-    const pCategory = document.createElement("p");
-    pCategory.innerText += "Categoría: ";
-    pCategory.innerText += `${categoryElement.category.name} `;
+    // const pCategory = document.createElement("p");
+    // pCategory.innerText += "Categoría: ";
+    // pCategory.innerText += `${categories.category.name} `;
 
     const pAllergen = document.createElement("p");
     pAllergen.innerText += "Alérgenos: ";
@@ -106,7 +106,8 @@ class RestaurantView {
       pAllergen.innerText += `${allergen.name} `;
     });
 
-    info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
+    info.append(pNombre, pDescription, pIngredient, pAllergen);
+    // info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
 
     if (document.getElementById("info-dish")) {
       document.getElementById("info-dish").replaceWith(info);
@@ -126,6 +127,21 @@ class RestaurantView {
           <p>${category.category.name}<p>
           </a>
         </div>`
+      );
+    }
+  }
+
+  // MUESTRA EN CATEGORÍA UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
+  DropdownRestaurant(restaurant) {
+    this.dropRest.replaceChildren();
+    // this.dropRest.style.zIndex = 10;
+    for (const restau of restaurant) {
+      this.dropCat.insertAdjacentHTML(
+        "beforeEnd",
+        `<div class="dropcat-item" ><a href="#restaurante" data-category="${restaurant.restaurant.name}"> 
+            <p>${restaurant.restaurant.name}<p>
+            </a>
+          </div>`
       );
     }
   }
@@ -206,6 +222,7 @@ class RestaurantView {
             </figcaption>
           </a> 
         </figure>`
+        // DEBAJO DE ESTO PONER EL NOMBRE DE LA CATEGORÍA EN EL QUE ESTAMOS
       );
       this.main.append(contentDishes);
     }
@@ -270,6 +287,13 @@ class RestaurantView {
     }
   }
 
+  // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN
+  mouseenterRestaurant(handler) {
+    this.navRestauDrop.addEventListener("mouseenter", (event) => {
+      handler();
+    });
+  }
+
   bindInit(handler) {
     // INICIO
     document.getElementById("init").addEventListener("click", (event) => {
@@ -281,7 +305,7 @@ class RestaurantView {
     });
 
     // MIGA DE PAN INICIO
-    document.getElementById("init-bread").addEventListener("click", (event) => {
+    document.getElementById("content").addEventListener("click", (event) => {
       handler();
     });
   }

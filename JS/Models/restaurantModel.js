@@ -500,22 +500,14 @@ const RestaurantsManager = (function () {
       return allergens.findIndex((x) => x.name === allergen.name);
     }
 
-    getDishes() {
-      return this.#dishes;
-    }
-
-    getDish(dish) {
-      return this.#dishes[this.#getDishPosition(dish)];
-    }
-
-    getCategoryForDish(dish) {
+    // un plato puede estar en más categorías
+    *getCategoryForDish(dish) {
       for (const category of this.#categories) {
         const foundDish = category.dishes.find((item) => item === dish);
         if (foundDish) {
-          return category;
+          yield category.category;
         }
       }
-      return null;
     }
 
     deassignAllergenToDish(dish, ...allergens) {
@@ -610,10 +602,6 @@ const RestaurantsManager = (function () {
         storedMenu.dishes.push(storedDish.dish);
       }
       return this;
-    }
-
-    getMenu() {
-      return this.#menus;
     }
 
     #getDishPositionInMenu(dishes, dish) {
@@ -871,6 +859,18 @@ const RestaurantsManager = (function () {
 
     getDishes() {
       return this.#dishes;
+    }
+
+    getDish(dish) {
+      return this.#dishes[this.#getDishPosition(dish)];
+    }
+
+    getRestaurants() {
+      return this.#restaurants;
+    }
+
+    getMenus() {
+      return this.#menus;
     }
   }
   function init() {

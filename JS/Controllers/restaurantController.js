@@ -48,7 +48,9 @@ class RestaurantController {
 
   onAllergen = () => {};
 
-  onRestaurant = () => {};
+  onRestaurant = () => {
+    //
+  };
 
   handleInit = () => {
     this.onInit();
@@ -77,7 +79,9 @@ class RestaurantController {
     this.onAllergen();
   };
 
-  handleRestaurant = () => {};
+  handleRestaurant = () => {
+    this[VIEW].DropdownRestaurant(this[MODEL].getRestaurants());
+  };
 
   handleShowMenu = (title) => {};
 
@@ -477,9 +481,9 @@ class RestaurantController {
     );
 
     // Añadimos los restaurantes
-    // this[MODEL].addRestaurant(restaurant1);
-    // this[MODEL].addRestaurant(restaurant2);
-    // this[MODEL].addRestaurant(restaurant3);
+    this[MODEL].addRestaurant(restaurant1);
+    this[MODEL].addRestaurant(restaurant2);
+    this[MODEL].addRestaurant(restaurant3);
   }
 
   getDish(dish) {
