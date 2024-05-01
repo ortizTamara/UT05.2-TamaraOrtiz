@@ -442,10 +442,6 @@ const RestaurantsManager = (function () {
       return this;
     }
 
-    getCategories() {
-      return this.#categories;
-    }
-
     assignAllergenToDish(dish, ...allergens) {
       let dishPosition = this.#getDishPosition(dish);
 
@@ -716,6 +712,10 @@ const RestaurantsManager = (function () {
       };
     }
 
+    // getDishesInMenu(menu){
+
+    // }
+
     getDishesWithAllergen(allergen, func = null) {
       // Comprobamos que alergeno no sea nulo
       if (!allergen || !(allergen instanceof Allergen)) {
@@ -863,6 +863,14 @@ const RestaurantsManager = (function () {
 
     getDish(dish) {
       return this.#dishes[this.#getDishPosition(dish)];
+    }
+
+    getCategories() {
+      return this.#categories;
+    }
+
+    getAllergen() {
+      return this.#allergens;
     }
 
     getRestaurants() {

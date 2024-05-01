@@ -27,8 +27,12 @@ class RestaurantController {
     this[VIEW].bindNavCategoryClick(this.handleCategories);
 
     // MENU
+    this[VIEW].mouseenterMenus(this.handleDropMen);
+    this[VIEW].bindNavMenuClick(this.handleMenu);
 
     // ALERGENOS
+    this[VIEW].mouseenterAllergens(this.handleDropAller);
+    this[VIEW].bindNavAllergenClick(this.handleAllergen);
 
     //RESTAURANTES
     this[VIEW].mouseenterRestaurant(this.handleDropRest);
@@ -68,10 +72,14 @@ class RestaurantController {
   //   this[VIEW].DropdownCategories(this[MODEL].getCategories());
   // };
 
+  // handleDropMen = () => {};
+
   // handleDropRest = () => {};
 
-  handleMenu = () => {
-    // this.onMenu();
+  //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
+  handleDishes = (title) => {
+    const dish = this[MODEL].createDish(title);
+    this[VIEW].showInfoDish(this.getDish(dish), this.getCategoryForDish(dish));
   };
 
   // MÉTODO PARA MANEJAR LA CATEGORÍA SELECCIONADA
@@ -80,15 +88,17 @@ class RestaurantController {
     this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
 
-  //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
-  handleDishes = (title) => {
-    const dish = this[MODEL].createDish(title);
-    this[VIEW].showInfoDish(this.getDish(dish), this.getCategoryForDish(dish));
+  handleMenu = () => {
+    // this.onMenu();
+    this[VIEW].ShowMenus(this[MODEL].getMenus());
+    this[VIEW].bindMenuClicks(this.handleShowMenu);
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN ALÉRGENO
   handleAllergen = () => {
     // this.onAllergen();
+    this[VIEW].ShowAllergen(this[MODEL].getAllergen());
+    this[VIEW].bindAllergenClicks(this.handleShowAllergen);
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR EL MENÚ DESPLEGABLE DE RESTAURANTES
@@ -97,9 +107,6 @@ class RestaurantController {
     // this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
     this[VIEW].bindRestaurantClicks(this.handleShowRestaurant); // es necesario??
   };
-
-  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN MENÚ Y MOSTRAR EL MENÚ CORRESPONDIENTE
-  handleShowMenu = (title) => {};
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UNA CATEGORÍA Y MOSTRAR LOS PLATOS DE ESA CATEGORÍA
   handleShowCategory = (title) => {
@@ -120,6 +127,12 @@ class RestaurantController {
   //   //Agrego en el content el nombre de la categoría donde me encuentro
   //   //Dentro del main recorro y muestro todos los platos de esa categoria
   // };
+
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN MENÚ Y MOSTRAR EL MENÚ CORRESPONDIENTE
+  handleShowMenu = (title) => {
+    this.handleMenu;
+    this[VIEW].showInfoMenu(this[MODEL].createMenu(title));
+  };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN ALÉRGENO Y MOSTRAR LOS PLATOS CON ESE ALÉRGENO
   handleShowAllergen = (title) => {};

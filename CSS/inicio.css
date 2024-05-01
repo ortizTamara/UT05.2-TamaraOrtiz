@@ -89,6 +89,11 @@ ul.breadcrumbs li + li:before {
   content: "/\00a0";
 }
 
+.content__title {
+  color: white;
+  text-align: center;
+}
+
 #categories {
   width: 100%;
   display: flex;
@@ -97,7 +102,9 @@ ul.breadcrumbs li + li:before {
   margin: 3em 0;
 }
 
-.category {
+.category,
+.menu,
+.allergen {
   flex-grow: 1;
   min-width: 15em;
   text-align: center;
@@ -110,7 +117,9 @@ ul.breadcrumbs li + li:before {
   color: black;
 }
 
-.category a {
+.category a,
+.menu a,
+.allergen a {
   color: white;
 }
 

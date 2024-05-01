@@ -5,6 +5,8 @@ class RestaurantView {
     this.content = document.getElementById("content");
     this.categories = document.getElementById("categories");
     this.dropCat = document.getElementById("navbarDropdownCategorias");
+    this.dropMen = document.getElementById("navbarDropdownMenus");
+    this.dropAller = document.getElementById("navbarDropdownAlergenos");
     this.dropRest = document.getElementById("dropdownRestaurantes");
   }
 
@@ -126,6 +128,8 @@ class RestaurantView {
                 <li class="breadcrumbs-item"><a id="init-bread" href="#"> Categorías </a></li>
              </ul>
              </div>
+             <div id="content__title" class="content__title"><h1>CATEGORÍAS</h1></div>
+
               `
     );
 
@@ -196,6 +200,130 @@ class RestaurantView {
       );
       this.main.append(contentDishes);
     }
+  }
+
+  // MUESTRA LOS MENUS
+  ShowMenus() {
+    this.categories.replaceChildren();
+    this.content.replaceChildren();
+    this.content.insertAdjacentHTML(
+      "afterbegin",
+      `<ul id="breadcrumbs" class="breadcrumbs"> 
+          <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
+          <li class="breadcrumbs-item"><a id="init-bread" href="#"> Menú </a></li>
+       </ul>
+       </div>
+       <div id="content__title" class="content__title"><h1>MENÚ</h1></div>
+        `
+    );
+
+    this.main.replaceChildren();
+
+    this.categories.replaceChildren();
+    const contentCategories = document.createElement("div");
+    contentCategories.id = "list-menu";
+
+    contentCategories.insertAdjacentHTML(
+      "afterbegin",
+      `
+          <div class="menu">
+            <a data-menu="Entrantes" href="#menus"><h1>Día</h1>
+          </div>
+          <div class="menu">
+            <a data-menu="Platos Principales" href="#menus"><h1>Parejas</h1>
+          </div>
+          <div class="menu">
+            <a data-menu="Postres" href="#menus"><h1>Infantil</h1>
+          </div>
+          `
+    );
+    this.categories.append(contentCategories);
+  }
+
+  // MUESTRA LOS PLATOS DE UN MENÚ ESPECÍFICO
+  showMenuDishes(dishes, men) {
+    const bread = document.getElementById("breadcrumbs");
+
+    const li = document.createElement("li");
+    li.id = "menu-bread";
+    li.innerText = men;
+
+    const elem = document.getElementById("menu-bread");
+    elem ? elem.replaceWith(li) : bread.append(li);
+
+    const title = document.getElementById("content__title");
+    const newtitle = document.createElement("div");
+    newtitle.id = "cat-title";
+    newtitle.classList.add("title-men");
+    const h1 = document.createElement("h2");
+    h1.innerText = men;
+    newtitle.append(h1);
+    newtitle.style.textAlign = "center";
+
+    // document.getElementById("cate-title");
+    // ? title.lastChild.replaceWith(newtitle)
+    // : title.append(newtitle);
+
+    this.main.replaceChildren();
+    this.main.id = "dishes-menu";
+
+    for (const dish of dishes) {
+      const contentDishes = document.createElement("div");
+      contentDishes.classList = "men-dish";
+      contentDishes.insertAdjacentHTML(
+        "beforeend",
+        `<figure class="dish-image">
+          <a data-dish="${dish.name}" href="#menus" >
+            <img src="./Recursos/platos/${dish.image}" />
+            <figcaption class="dish__name">
+              <h1>${dish.name}<h1>
+            </figcaption>
+          </a> 
+        </figure>`
+      );
+      this.main.append(contentDishes);
+    }
+  }
+
+  // MUESTRA LOS ALERGENOS
+  ShowAllergen() {
+    this.categories.replaceChildren();
+    this.content.replaceChildren();
+    this.content.insertAdjacentHTML(
+      "afterbegin",
+      `<ul id="breadcrumbs" class="breadcrumbs"> 
+            <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
+            <li class="breadcrumbs-item"><a id="init-bread" href="#"> Alérgenos </a></li>
+         </ul>
+         </div>
+         <div id="content__title" class="content__title"><h1>ALERGENOS</h1></div>
+          `
+    );
+
+    this.main.replaceChildren();
+
+    this.categories.replaceChildren();
+    const contentCategories = document.createElement("div");
+    contentCategories.id = "list-allergen";
+
+    contentCategories.insertAdjacentHTML(
+      "afterbegin",
+      `
+            <div class="allergen">
+              <a data-allergen="Entrantes" href="#allergens"><h1>Gluten</h1>
+            </div>
+            <div class="allergen">
+              <a data-allergen="Platos Principales" href="#allergens"><h1>Lactosa</h1>
+            </div>
+            <div class="allergen">
+              <a data-allergen="Postres" href="#allergens"><h1>Frutos Secos</h1>
+            </div>
+            <div class="allergen">
+            <a data-allergen="Postres" href="#allergens"><h1>Soja</h1>
+          </div>
+            `
+    );
+    this.categories.append(contentCategories);
   }
 
   // MUESTRA LOS RESTAURANTES
@@ -283,6 +411,28 @@ class RestaurantView {
     }
   }
 
+  // AL HACER CLIC EN UN MENU SE EJECUTA LA FUNCIÓN ESPECIFICA
+  bindMenuClicks(handler) {
+    const menu = document.getElementById("list-menus");
+    const links = menu.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.menu);
+      });
+    }
+  }
+
+  // AL HACER CLIC EN UN MENU SE EJECUTA LA FUNCIÓN ESPECIFICA
+  bindAllergenClicks(handler) {
+    const allergen = document.getElementById("list-allergens");
+    const links = allergen.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.allergen);
+      });
+    }
+  }
+
   // MANEJA CLICS EN MENÚ DESPLEGABLE DE CATEGORÍAS
   // bindCategoryDrop(handler) {
   //   const links = this.dropCat.querySelectorAll("a");
@@ -303,19 +453,37 @@ class RestaurantView {
   //   }
   // }
 
-  // MANEJA CLICS EN MENÚ DESPEGABLE DE RESTAURANTES
-  bindNavRestaurantClick(handler) {
+  // MANEJA CLICS EN MENÚ  DE CATEGORÍA
+  bindNavCategoryClick(handler) {
     document
-      .getElementById("navbarDropdownRestaurantes")
+      .getElementById("navbarDropdownCategorias")
       .addEventListener("click", (event) => {
         handler();
       });
   }
 
-  // MANEJA CLICS EN MENÚ DESPEGABLE DE CATEGORÍAS
-  bindNavCategoryClick(handler) {
+  // MANEJA CLICS EN MENÚ DE MENU
+  bindNavMenuClick(handler) {
     document
-      .getElementById("navbarDropdownCategorias")
+      .getElementById("navbarDropdownMenus")
+      .addEventListener("click", (event) => {
+        handler();
+      });
+  }
+
+  // MANEJA CLICS EN MENÚ DE ALERGENO
+  bindNavAllergenClick(handler) {
+    document
+      .getElementById("navbarDropdownAlergenos")
+      .addEventListener("click", (event) => {
+        handler();
+      });
+  }
+
+  // MANEJA CLICS EN MENÚ DESPEGABLE DE RESTAURANTES
+  bindNavRestaurantClick(handler) {
+    document
+      .getElementById("navbarDropdownRestaurantes")
       .addEventListener("click", (event) => {
         handler();
       });
@@ -364,6 +532,20 @@ class RestaurantView {
   // MANEJA EL EVENTO MOUSEENTER EN LAS CATEGORÍAS
   mouseenterCategories(handler) {
     this.dropCat.addEventListener("mouseenter", (event) => {
+      handler();
+    });
+  }
+
+  // MANEJA EL EVENTO MOUSEENTER EN LOS MENUS
+  mouseenterMenus(handler) {
+    this.dropMen.addEventListener("mouseenter", (event) => {
+      handler();
+    });
+  }
+
+  // MANEJA EL EVENTO MOUSEENTER EN LOS ALERGENOS
+  mouseenterAllergens(handler) {
+    this.dropAller.addEventListener("mouseenter", (event) => {
       handler();
     });
   }
