@@ -106,7 +106,7 @@ class RestaurantController {
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR EL MENÚ DESPLEGABLE DE RESTAURANTES
   handleRestaurant = () => {
     this[VIEW].DropdownRestaurant(this[MODEL].getRestaurants());
-    this[VIEW].bindRestaurantClicks(this.handleShowRestaurant); // es necesario??
+    this[VIEW].bindRestaurantClicks(this.handleShowRestaurant);
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UNA CATEGORÍA Y MOSTRAR LOS PLATOS DE ESA CATEGORÍA
