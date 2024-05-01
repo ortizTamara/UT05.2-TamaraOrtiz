@@ -7,6 +7,8 @@ class RestaurantView {
     this.dropCat = document.getElementById("navbarDropdownCategorias");
     this.dropRest = document.getElementById("dropdownRestaurantes");
   }
+
+  // INICIALIZA LA INTERFAZ
   init() {
     // MIGAS DE PAN
     this.content.replaceChildren();
@@ -41,7 +43,7 @@ class RestaurantView {
     this.categories.append(contentCategories);
   }
 
-  // PLATOS RANDOM
+  // MUESTRA LOS PLATOS ALEATORIOS
   ShowRandomDishes(dishes) {
     this.main.replaceChildren(); //Limpiamos el contenido principal
     this.main.id = "dishes-random";
@@ -72,7 +74,7 @@ class RestaurantView {
     }
   }
 
-  // INFO DE LOS PLATOS
+  // MUESTRA INFORMACIÓN DETALLADA DE LOS PLATOS
   showInfoDish(dishElement, categories) {
     const info = document.createElement("div");
     info.id = "info-dish";
@@ -89,14 +91,15 @@ class RestaurantView {
 
     const pIngredient = document.createElement("p");
     pIngredient.innerText = `Ingredientes: `;
-
     dishElement.dish.ingredients.forEach((ingredient) => {
       pIngredient.innerText += `${ingredient} `;
     });
 
-    // const pCategory = document.createElement("p");
-    // pCategory.innerText += "Categoría: ";
-    // pCategory.innerText += `${categories.category.name} `;
+    const pCategory = document.createElement("p");
+    pCategory.innerText += "Categoría: ";
+    for (const category of categories) {
+      pCategory.innerText += `${category.name} `;
+    }
 
     const pAllergen = document.createElement("p");
     pAllergen.innerText += "Alérgenos: ";
@@ -104,8 +107,7 @@ class RestaurantView {
       pAllergen.innerText += `${allergen.name} `;
     });
 
-    info.append(pNombre, pDescription, pIngredient, pAllergen);
-    // info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
+    info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
 
     if (document.getElementById("info-dish")) {
       document.getElementById("info-dish").replaceWith(info);
@@ -114,31 +116,17 @@ class RestaurantView {
     }
   }
 
-  // MUESTRA EN RESTAURANTE UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
-  DropdownRestaurant(restaurants) {
-    this.dropRest.replaceChildren();
-    this.dropRest.style.zIndex = 10;
-    for (const restaurant of restaurants) {
-      this.dropRest.insertAdjacentHTML(
-        "beforeEnd",
-        `<div class="droprestaurant-item" ><a href="#restaurante" data-restaurant="${restaurant.restaurant.name}"> 
-            <p>${restaurant.restaurant.name}<p>
-            </a>
-          </div>`
-      );
-    }
-  }
-  //MUESTRA LAS CATEGORÍAS EN LA INTERFAZ E INCLUYE MIGAS DE PAN
+  // MUESTRA LAS CATEGORÍAS EN LA INTERFAZ E INCLUYE MIGAS DE PAN
   showCategories() {
     this.content.replaceChildren();
     this.content.insertAdjacentHTML(
       "afterbegin",
       `<ul class="breadcrumbs" id="breadcrumbs"> 
-              <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
-              <li class="breadcrumbs-item"><a id="init-bread" href="#"> Categorías </a></li>
-           </ul>
-           </div>
-            `
+                <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
+                <li class="breadcrumbs-item"><a id="init-bread" href="#"> Categorías </a></li>
+             </ul>
+             </div>
+              `
     );
 
     this.main.replaceChildren();
@@ -150,21 +138,21 @@ class RestaurantView {
     contentCategories.insertAdjacentHTML(
       "afterbegin",
       `
-        <div class="category">
-          <a data-category="Entrantes" href="#categorias"><h1>Entrantes</h1>
-        </div>
-        <div class="category">
-          <a data-category="Platos Principales" href="#categorias"><h1>Platos Principales</h1>
-        </div>
-        <div class="category">
-          <a data-category="Postres" href="#categorias"><h1>Postres</h1>
-        </div>
-        `
+          <div class="category">
+            <a data-category="Entrantes" href="#categorias"><h1>Entrantes</h1>
+          </div>
+          <div class="category">
+            <a data-category="Platos Principales" href="#categorias"><h1>Platos Principales</h1>
+          </div>
+          <div class="category">
+            <a data-category="Postres" href="#categorias"><h1>Postres</h1>
+          </div>
+          `
     );
     this.categories.append(contentCategories);
   }
 
-  // ACTUALIZAMOS MIGAS DE PAN Y TITULO DEPENDIENDO DE QUE CATEGORÍA ESTAMOS ADEMÁS DE MOSTRAR LOS PLATOS DE DICHA CATEGORÍA
+  // MUESTRA LOS PLATOS DE UNA CATEGORÍA ESPECÍFICA
   showCategoryDishes(dishes, cat) {
     const bread = document.getElementById("breadcrumbs");
 
@@ -210,7 +198,7 @@ class RestaurantView {
     }
   }
 
-  // MUESTRA LOS RESTAURANTES Y LA MIGA DE PAN
+  // MUESTRA LOS RESTAURANTES
   ShowRestaurants() {
     this.categories.replaceChildren();
     this.content.replaceChildren();
@@ -247,7 +235,22 @@ class RestaurantView {
     this.main.append(contentRest);
   }
 
-  // AL HACER CLIC EN UN PLATO, SE EJECUTA LA FUNCIÓN PARA MOSTRAR SU INFO
+  // MUESTRA EN RESTAURANTE UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
+  DropdownRestaurant(restaurants) {
+    this.dropRest.replaceChildren();
+    this.dropRest.style.zIndex = 10;
+    for (const restaurant of restaurants) {
+      this.dropRest.insertAdjacentHTML(
+        "beforeEnd",
+        `<div class="droprestaurant-item" ><a href="#restaurante" data-restaurant="${restaurant.restaurant.name}"> 
+            <p>${restaurant.restaurant.name}<p>
+            </a>
+          </div>`
+      );
+    }
+  }
+
+  // MANEJA CLICS EN PLATOS ALEATORIOS
   bindDishRandom(handler) {
     const dishes = document.getElementById("dishes-random");
     const links = dishes.querySelectorAll("a");
@@ -258,27 +261,7 @@ class RestaurantView {
     }
   }
 
-  // AL HACER CLIC EN LA CATEGORÍA, SE EJECUTA LA FUNCIÓN ASOCIADA
-  bindNavCategoryClick(handler) {
-    document
-      .getElementById("navbarDropdownCategorias")
-      .addEventListener("click", (event) => {
-        handler();
-      });
-  }
-
-  // AL HACER CLIC EN UN PLATO DENTRO DE UNA CATEGORÍA SE EJECUTA LA FUNCIÓN ESPECIFICA
-  bindDishInCategory(handler) {
-    const dishes = document.getElementById("dishes-category");
-    const links = dishes.querySelectorAll("a");
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.dish);
-      });
-    }
-  }
-
-  // AL HACER CLIC EN UNA CATEGORÍA SE EJECUTA LA FUNCIÓN ESPECIFICA
+  // MANEJA CLICS EN CATEGORÍAS
   bindCategoryClicks(handler) {
     const cats = document.getElementById("list-categories");
     const links = cats.querySelectorAll("a");
@@ -289,6 +272,56 @@ class RestaurantView {
     }
   }
 
+  // MANEJA CLICS EN PLATOS DE CATEGORÍAS
+  bindDishInCategory(handler) {
+    const dishes = document.getElementById("dishes-category");
+    const links = dishes.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.dish);
+      });
+    }
+  }
+
+  // MANEJA CLICS EN MENÚ DESPLEGABLE DE CATEGORÍAS
+  // bindCategoryDrop(handler) {
+  //   const links = this.dropCat.querySelectorAll("a");
+  //   for (const link of links) {
+  //     link.addEventListener("click", (event) => {
+  //       handler(event.currentTarget.dataset.category);
+  //     });
+  //   }
+  // }
+
+  // MANEJA CLICS EN MENÚ DESPLEGABLE DE RESTAURANTES
+  // bindDropRestaurantClicks(handler) {
+  //   const links = this.dropRest.querySelectorAll("a");
+  //   for (const link of links) {
+  //     link.addEventListener("click", (event) => {
+  //       handler(event.currentTarget.dataset.restaurant);
+  //     });
+  //   }
+  // }
+
+  // MANEJA CLICS EN MENÚ DESPEGABLE DE RESTAURANTES
+  bindNavRestaurantClick(handler) {
+    document
+      .getElementById("navbarDropdownRestaurantes")
+      .addEventListener("click", (event) => {
+        handler();
+      });
+  }
+
+  // MANEJA CLICS EN MENÚ DESPEGABLE DE CATEGORÍAS
+  bindNavCategoryClick(handler) {
+    document
+      .getElementById("navbarDropdownCategorias")
+      .addEventListener("click", (event) => {
+        handler();
+      });
+  }
+
+  // MANEJA CLICS EN RESTAURANTES INDIVIDUALES
   bindSingleRestaurant(handler) {
     const rests = document.getElementById("list-rests");
 
@@ -300,16 +333,7 @@ class RestaurantView {
     }
   }
 
-  bindRestaurantDrop(handler) {
-    const links = this.dropRest.querySelectorAll("a");
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.restaurant);
-      });
-    }
-  }
-
-  // AL HACER CLIC EN UNA RESTAURANTE SE EJECUTA LA FUNCIÓN ESPECIFICA
+  // MANEJA CLICS EN RESTAURANTES EN LA LISTA
   bindRestaurantClicks(handler) {
     const restau = document.getElementById("list-rests");
     const links = restau.querySelectorAll("a");
@@ -320,49 +344,7 @@ class RestaurantView {
     }
   }
 
-  // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN
-  mouseenterCategories(handler) {
-    this.dropCat.addEventListener("mouseenter", (event) => {
-      handler();
-    });
-  }
-
-  // AL HACER CLIC EN UNA DE LAS CATEGORÍAS DEL DESPEGABLE, SE MUESTRA INFORMACIÓN
-  bindCategoryDrop(handler) {
-    const links = this.dropCat.querySelectorAll("a");
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.category);
-      });
-    }
-  }
-
-  // AL HACER CLIC EN UNA DE LOS RESTAURANTES DEL DESPEGABLE, SE MUESTRA INFORMACIÓN
-  bindDropRestaurantClicks(handler) {
-    const links = this.dropRest.querySelectorAll("a");
-    for (const link of links) {
-      link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.restaurant);
-      });
-    }
-  }
-
-  // AL HACER CLIC EN EL RESTAURANTE, SE EJECUTA LA FUNCIÓN ASOACIADA
-  bindNavRestaurantClick(handler) {
-    document
-      .getElementById("navbarDropdownRestaurantes")
-      .addEventListener("click", (event) => {
-        handler();
-      });
-  }
-
-  // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN
-  mouseenterRestaurant(handler) {
-    this.dropRest.addEventListener("mouseenter", (event) => {
-      handler();
-    });
-  }
-
+  // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO
   bindInit(handler) {
     // INICIO
     document.getElementById("init").addEventListener("click", (event) => {
@@ -375,6 +357,20 @@ class RestaurantView {
 
     // MIGA DE PAN INICIO
     document.getElementById("content").addEventListener("click", (event) => {
+      handler();
+    });
+  }
+
+  // MANEJA EL EVENTO MOUSEENTER EN LAS CATEGORÍAS
+  mouseenterCategories(handler) {
+    this.dropCat.addEventListener("mouseenter", (event) => {
+      handler();
+    });
+  }
+
+  // MANEJA EL EVENTO MOUSEENTER EN LOS RESTAURANTES
+  mouseenterRestaurant(handler) {
+    this.dropRest.addEventListener("mouseenter", (event) => {
       handler();
     });
   }

@@ -23,8 +23,8 @@ class RestaurantController {
 
     // CATEGORÍAS
     this[VIEW].mouseenterCategories(this.handleDropCat);
-    this[VIEW].bindCategoryDrop(this.handleShowCategory);
-    this[VIEW].bindNavCategoryClick(this.handleCategories); //Retocarlo
+    // this[VIEW].bindCategoryDrop(this.handleShowCategory);
+    this[VIEW].bindNavCategoryClick(this.handleCategories);
 
     // MENU
 
@@ -32,7 +32,7 @@ class RestaurantController {
 
     //RESTAURANTES
     this[VIEW].mouseenterRestaurant(this.handleDropRest);
-    this[VIEW].bindDropRestaurantClicks(this.handleShowCategory);
+    // this[VIEW].bindDropRestaurantClicks(this.handleShowCategory);
     this[VIEW].bindNavRestaurantClick(this.handleRestaurant);
   };
 
@@ -95,7 +95,7 @@ class RestaurantController {
   handleRestaurant = () => {
     this[VIEW].DropdownRestaurant(this[MODEL].getRestaurants());
     // this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
-    this[VIEW].bindRestaurantClicks(this.handleShowRestaurant);
+    this[VIEW].bindRestaurantClicks(this.handleShowRestaurant); // es necesario??
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN MENÚ Y MOSTRAR EL MENÚ CORRESPONDIENTE
