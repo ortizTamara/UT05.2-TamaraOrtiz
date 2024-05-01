@@ -212,7 +212,7 @@ const RestaurantsManager = (function () {
 
     // Encuentra la posición del menú en el array #menus por su nombre.
     #getMenuPosition(menu) {
-      return this.#menus.findIndex((x) => x.name === menu.name);
+      return this.#menus.findIndex((x) => x.menu.name === menu.name);
     }
 
     // Elimina un menú

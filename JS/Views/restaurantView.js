@@ -4,10 +4,8 @@ class RestaurantView {
     this.main = document.getElementById("dishes");
     this.content = document.getElementById("content");
     this.categories = document.getElementById("categories");
-    this.dropCat = document.getElementById("dropdownCategorias");
+    this.dropCat = document.getElementById("navbarDropdownCategorias");
     this.dropRest = document.getElementById("dropdownRestaurantes");
-    this.navCategDrop = document.getElementById("navbarDropdownCategorias");
-    this.navRestauDrop = document.getElementById("navbarDropdownRestaurantes");
   }
   init() {
     // MIGAS DE PAN
@@ -116,36 +114,20 @@ class RestaurantView {
     }
   }
 
-  // MUESTRA EN CATEGORÍA UN DESPEGABLE CON LOS NOMBRES DE CATEGORÍA
-  DropdownCategories(categories) {
-    this.dropCat.replaceChildren();
-    this.dropCat.style.zIndex = 10;
-    for (const category of categories) {
-      this.dropCat.insertAdjacentHTML(
-        "beforeEnd",
-        `<div class="dropcat-item" ><a href="#categorias" data-category="${category.category.name}"> 
-          <p>${category.category.name}<p>
-          </a>
-        </div>`
-      );
-    }
-  }
-
-  // MUESTRA EN CATEGORÍA UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
-  DropdownRestaurant(restaurant) {
+  // MUESTRA EN RESTAURANTE UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
+  DropdownRestaurant(restaurants) {
     this.dropRest.replaceChildren();
-    // this.dropRest.style.zIndex = 10;
-    for (const restau of restaurant) {
-      this.dropCat.insertAdjacentHTML(
+    this.dropRest.style.zIndex = 10;
+    for (const restaurant of restaurants) {
+      this.dropRest.insertAdjacentHTML(
         "beforeEnd",
-        `<div class="dropcat-item" ><a href="#restaurante" data-category="${restaurant.restaurant.name}"> 
+        `<div class="droprestaurant-item" ><a href="#restaurante" data-restaurant="${restaurant.restaurant.name}"> 
             <p>${restaurant.restaurant.name}<p>
             </a>
           </div>`
       );
     }
   }
-
   //MUESTRA LAS CATEGORÍAS EN LA INTERFAZ E INCLUYE MIGAS DE PAN
   showCategories() {
     this.content.replaceChildren();
@@ -228,6 +210,43 @@ class RestaurantView {
     }
   }
 
+  // MUESTRA LOS RESTAURANTES Y LA MIGA DE PAN
+  ShowRestaurants() {
+    this.categories.replaceChildren();
+    this.content.replaceChildren();
+    this.content.insertAdjacentHTML(
+      "afterbegin",
+      `<ul class="breadcrumbs" id="breadcrumbs"> 
+        <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
+        <li class="breadcrumbs-item"><a id="init-bread" href="#"> Restaurantes </a></li>
+     </ul>
+     </div>
+      `
+    );
+
+    this.main.replaceChildren();
+
+    const contentRest = document.createElement("div");
+    contentRest.id = "list-rests";
+    for (const restau of restaurants) {
+      contentRest.insertAdjacentHTML(
+        "afterbegin",
+        `
+      <div class="restaurant">
+        <a data-restaurant="rest-Ciu" href="#restaurante"><h1>Ciudad Real</h1>
+      </div>
+      <div class="restaurant">
+        <a data-restaurant="rest-madrid" href="#restaurante"><h1>Madrid</h1>
+      </div>
+      <div class="restaurant">
+        <a data-restaurant="rest-valencia" href="#restaurante"><h1>Valencia</h1>
+      </div>
+      `
+      );
+    }
+    this.main.append(contentRest);
+  }
+
   // AL HACER CLIC EN UN PLATO, SE EJECUTA LA FUNCIÓN PARA MOSTRAR SU INFO
   bindDishRandom(handler) {
     const dishes = document.getElementById("dishes-random");
@@ -270,9 +289,40 @@ class RestaurantView {
     }
   }
 
+  bindSingleRestaurant(handler) {
+    const rests = document.getElementById("list-rests");
+
+    const links = rests.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.rest);
+      });
+    }
+  }
+
+  bindRestaurantDrop(handler) {
+    const links = this.dropRest.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.restaurant);
+      });
+    }
+  }
+
+  // AL HACER CLIC EN UNA RESTAURANTE SE EJECUTA LA FUNCIÓN ESPECIFICA
+  bindRestaurantClicks(handler) {
+    const restau = document.getElementById("list-rests");
+    const links = restau.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.rest);
+      });
+    }
+  }
+
   // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN
   mouseenterCategories(handler) {
-    this.navCategDrop.addEventListener("mouseenter", (event) => {
+    this.dropCat.addEventListener("mouseenter", (event) => {
       handler();
     });
   }
@@ -287,9 +337,28 @@ class RestaurantView {
     }
   }
 
+  // AL HACER CLIC EN UNA DE LOS RESTAURANTES DEL DESPEGABLE, SE MUESTRA INFORMACIÓN
+  bindDropRestaurantClicks(handler) {
+    const links = this.dropRest.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.restaurant);
+      });
+    }
+  }
+
+  // AL HACER CLIC EN EL RESTAURANTE, SE EJECUTA LA FUNCIÓN ASOACIADA
+  bindNavRestaurantClick(handler) {
+    document
+      .getElementById("navbarDropdownRestaurantes")
+      .addEventListener("click", (event) => {
+        handler();
+      });
+  }
+
   // AL PASAR EL RATÓN POR ENCIMA DE CATEGORÍA, SE ACTIVA SU FUNCIÓN
   mouseenterRestaurant(handler) {
-    this.navRestauDrop.addEventListener("mouseenter", (event) => {
+    this.dropRest.addEventListener("mouseenter", (event) => {
       handler();
     });
   }

@@ -13,11 +13,14 @@ class RestaurantController {
     this.onInit();
 
     // Enlazamos handlers con la vista
-    this[VIEW].bindInit(this.handleInit);
+    // this[VIEW].bindInit(this.handleInit);
+    this[VIEW].bindInit(this.onInit);
   }
 
+  // MÉTODO PARA CARGAR LOS OBJETOS INICIALES
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
+
     // CATEGORÍAS
     this[VIEW].mouseenterCategories(this.handleDropCat);
     this[VIEW].bindCategoryDrop(this.handleShowCategory);
@@ -28,8 +31,12 @@ class RestaurantController {
     // ALERGENOS
 
     //RESTAURANTES
+    this[VIEW].mouseenterRestaurant(this.handleDropRest);
+    this[VIEW].bindDropRestaurantClicks(this.handleShowCategory);
+    this[VIEW].bindNavRestaurantClick(this.handleRestaurant);
   };
 
+  // MÉTODO PARA INICIALIZAR LA VISTA
   onInit = () => {
     this[VIEW].init();
     // PLATOS
@@ -39,52 +46,62 @@ class RestaurantController {
     this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
 
-  onMenu = () => {};
+  // onMenu = () => {};
 
-  onCategory = () => {
+  // onCategory = () => {
+  //   this[VIEW].showCategories(this[MODEL].getCategories());
+  //   this[VIEW].bindCategoryClicks(this.handleShowCategory);
+  // };
+
+  // onAllergen = () => {};
+
+  // onRestaurant = () => {
+  //   this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
+  //   this[VIEW].bindRestaurantClicks(this.handleShowRestaurant);
+  // };
+
+  // handleInit = () => {
+  //   this.onInit();
+  // };
+
+  // handleDropCat = () => {
+  //   this[VIEW].DropdownCategories(this[MODEL].getCategories());
+  // };
+
+  // handleDropRest = () => {};
+
+  handleMenu = () => {
+    // this.onMenu();
+  };
+
+  // MÉTODO PARA MANEJAR LA CATEGORÍA SELECCIONADA
+  handleCategories = () => {
     this[VIEW].showCategories(this[MODEL].getCategories());
     this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
 
-  onAllergen = () => {};
-
-  onRestaurant = () => {
-    //
-  };
-
-  handleInit = () => {
-    this.onInit();
-  };
-
-  handleDropCat = () => {
-    this[VIEW].DropdownCategories(this[MODEL].getCategories());
-  };
-
-  handleDropRest = () => {};
-
-  handleMenu = () => {
-    this.onMenu();
-  };
-
-  handleCategories = () => {
-    this.onCategory();
-  };
-
+  //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
   handleDishes = (title) => {
     const dish = this[MODEL].createDish(title);
     this[VIEW].showInfoDish(this.getDish(dish), this.getCategoryForDish(dish));
   };
 
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN ALÉRGENO
   handleAllergen = () => {
-    this.onAllergen();
+    // this.onAllergen();
   };
 
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR EL MENÚ DESPLEGABLE DE RESTAURANTES
   handleRestaurant = () => {
     this[VIEW].DropdownRestaurant(this[MODEL].getRestaurants());
+    // this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
+    this[VIEW].bindRestaurantClicks(this.handleShowRestaurant);
   };
 
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN MENÚ Y MOSTRAR EL MENÚ CORRESPONDIENTE
   handleShowMenu = (title) => {};
 
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UNA CATEGORÍA Y MOSTRAR LOS PLATOS DE ESA CATEGORÍA
   handleShowCategory = (title) => {
     this.handleCategories;
     const cat = this[MODEL].createCategory(title);
@@ -95,9 +112,22 @@ class RestaurantController {
     this[VIEW].bindDishInCategory(this.handleDishes);
   };
 
+  // handleShowCategory = (categoryClicked) => {
+  //   console.log(categoryClicked);
+  //   // Metodo para las migas de pan (si me da tiempo) que reciba cada una de las partes y lo construya (array)
+  //   //Los scrum(migas de pan) los pongo con el nombre de la categoría
+  //   //elimino todo el contenido, del main y del content
+  //   //Agrego en el content el nombre de la categoría donde me encuentro
+  //   //Dentro del main recorro y muestro todos los platos de esa categoria
+  // };
+
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN ALÉRGENO Y MOSTRAR LOS PLATOS CON ESE ALÉRGENO
   handleShowAllergen = (title) => {};
 
-  handleShowRestaurant = (title) => {};
+  // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR SU INFORMACIÓN
+  handleShowRestaurant = (title) => {
+    const rest = this[MODEL].createRestaurant(title);
+  };
 
   [LOAD_MANAGER_OBJECTS]() {
     // Creamos las categorías
@@ -394,6 +424,7 @@ class RestaurantController {
     this[MODEL].assignAllergenToDish(dish12, allergen1);
     this[MODEL].assignAllergenToDish(dish13, allergen1);
     this[MODEL].assignAllergenToDish(dish14, allergen1);
+    this[MODEL].assignAllergenToDish(dish15, allergen1);
     this[MODEL].assignAllergenToDish(dish16, allergen1);
     this[MODEL].assignAllergenToDish(dish17, allergen1);
 
@@ -406,6 +437,7 @@ class RestaurantController {
     this[MODEL].assignAllergenToDish(dish11, allergen2);
     this[MODEL].assignAllergenToDish(dish12, allergen2);
     this[MODEL].assignAllergenToDish(dish13, allergen2);
+    this[MODEL].assignAllergenToDish(dish15, allergen2);
 
     // Alergeno FRUTOS SECOS
     this[MODEL].assignAllergenToDish(dish16, allergen4);
@@ -440,20 +472,20 @@ class RestaurantController {
 
     // Asignamos los platos a sus menús
     // Menu Día sus platos
-    // this[MODEL].assignDishToMenu(menu1, dish1);
-    // this[MODEL].assignDishToMenu(menu1, dish6);
-    // this[MODEL].assignDishToMenu(menu1, dish15);
+    this[MODEL].assignDishToMenu(menu1, dish1);
+    this[MODEL].assignDishToMenu(menu1, dish6);
+    this[MODEL].assignDishToMenu(menu1, dish15);
 
-    // // Menú pareja sus platos
-    // this[MODEL].assignDishToMenu(menu2, dish1);
-    // this[MODEL].assignDishToMenu(menu2, dish9);
-    // this[MODEL].assignDishToMenu(menu2, dish10);
-    // this[MODEL].assignDishToMenu(menu2, dish15);
+    // Menú pareja sus platos
+    this[MODEL].assignDishToMenu(menu2, dish1);
+    this[MODEL].assignDishToMenu(menu2, dish9);
+    this[MODEL].assignDishToMenu(menu2, dish10);
+    this[MODEL].assignDishToMenu(menu2, dish15);
 
-    // // Menú infantil sus platos
-    // this[MODEL].assignDishToMenu(menu3, dish3);
-    // this[MODEL].assignDishToMenu(menu3, dish11);
-    // this[MODEL].assignDishToMenu(menu3, dish16);
+    // Menú infantil sus platos
+    this[MODEL].assignDishToMenu(menu3, dish3);
+    this[MODEL].assignDishToMenu(menu3, dish11);
+    this[MODEL].assignDishToMenu(menu3, dish16);
 
     // Creamos las coordenadas y los restaurantes
     // COORDENADAS

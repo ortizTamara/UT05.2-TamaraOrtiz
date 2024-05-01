@@ -47,8 +47,13 @@ body {
   background-color: #f8f9fa;
 }
 
-.dropcat-item {
+.dropcat-item,
+.droprestaurant-item {
   text-align: center;
+}
+
+.droprestaurant-item a {
+  color: black;
 }
 
 main {
