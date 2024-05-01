@@ -215,6 +215,10 @@ const RestaurantsManager = (function () {
       return this.#menus.findIndex((x) => x.menu.name === menu.name);
     }
 
+    #getMenuPositionByName(menu) {
+      return this.#menus.findIndex((x) => x.menu.name === menu);
+    }
+
     // Elimina un menú
     removeMenu(...menus) {
       for (const menu of menus) {
@@ -250,6 +254,10 @@ const RestaurantsManager = (function () {
 
     #getAllergenPosition(allergen) {
       return this.#allergens.findIndex((x) => x.name === allergen.name);
+    }
+
+    #getAllergenPositionByName(allergen) {
+      return this.#allergens.findIndex((x) => x.name === allergen);
     }
 
     removeAllergen(...allergens) {
@@ -315,7 +323,7 @@ const RestaurantsManager = (function () {
         if (position === -1) {
           this.#restaurants.push({
             restaurant,
-            products: [],
+            // products: [],
           });
           this.#restaurants.sort(this.#sortRestaurantFunc);
         } else {
@@ -328,6 +336,12 @@ const RestaurantsManager = (function () {
     #getRestaurantPosition(restaurant) {
       return this.#restaurants.findIndex(
         (x) => x.restaurant.name === restaurant.name
+      );
+    }
+
+    #getRestaurantPositionByName(restaurant) {
+      return this.#restaurants.findIndex(
+        (x) => x.restaurant.name === restaurant
       );
     }
 
@@ -825,7 +839,7 @@ const RestaurantsManager = (function () {
       if (existingAllergen) {
         // Devolvemos el alergeno existente para evitar duplicados
         console.log(
-          `El alérgeno ${name} ya existe. Retornando el plato existente...`
+          `El alérgeno ${name} ya existe. Retornando el alergeno existente...`
         );
         return existingAllergen.allergen;
       } else {
@@ -846,7 +860,7 @@ const RestaurantsManager = (function () {
         // Devolvemos el restaurante existente para evitar duplicados
 
         console.log(
-          `El restaurante ${name} ya existe.  Retornando el plato existente...`
+          `El restaurante ${name} ya existe.  Retornando el restaurante existente...`
         );
         return existingRestaurant.restaurant;
       } else {
@@ -872,13 +886,24 @@ const RestaurantsManager = (function () {
     getAllergen() {
       return this.#allergens;
     }
+    getAllergenByName(allergen) {
+      return this.#allergens[this.#getAllergenPositionByName(allergen)];
+    }
 
     getRestaurants() {
       return this.#restaurants;
     }
 
+    getRestaurantByName(restaurant) {
+      return this.#restaurants[this.#getRestaurantPositionByName(restaurant)];
+    }
+
     getMenus() {
       return this.#menus;
+    }
+
+    getMenuByName(menu) {
+      return this.#menus[this.#getMenuPositionByName(menu)];
     }
   }
   function init() {

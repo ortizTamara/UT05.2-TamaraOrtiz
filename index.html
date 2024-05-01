@@ -29,10 +29,11 @@
           </li>
           <!-- CATEGORIAS -->
           <li class="nav-item dropdown">
-            <a class="nav-link" href="#" id="navbarDropdownCategorias" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategorias" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Categorías
             </a>
+            <div class="dropdown-menu" id="dropdownCategorias" aria-labelledby="navbarDropdownCategorias"></div>
 
           </li>
           <!-- MENUS -->
@@ -96,3 +97,24 @@
 </body>
 
 </html>
+
+
+
+<!-- 
+  const bread = document.getElementById("breadcrumbs");
+
+    const li = document.createElement("li");
+    li.id = "allergen-bread";
+    li.innerText = aller;
+
+    const elem = document.getElementById("allergen-bread");
+    elem ? elem.replaceWith(li) : bread.append(li);
+
+    const title = document.getElementById("content__title");
+    const newtitle = document.createElement("div");
+    newtitle.id = "aller-title";
+    newtitle.classList.add("title-aller");
+    const h1 = document.createElement("h2");
+    h1.innerText = aller;
+    newtitle.append(h1);
+    newtitle.style.textAlign = "center"; -->

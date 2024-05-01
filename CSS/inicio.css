@@ -48,11 +48,13 @@ body {
 }
 
 .dropcat-item,
-.droprestaurant-item {
+.droprestaurant-item,
+.dropcategory-item {
   text-align: center;
 }
 
-.droprestaurant-item a {
+.droprestaurant-item a,
+.dropcategory-item a {
   color: black;
 }
 
@@ -184,6 +186,15 @@ figure img {
 
 #info-dish p {
   margin-top: 1em;
+}
+
+#info-restaurant {
+  background-color: #252525;
+  color: white;
+  border-radius: 0.625em;
+  padding: 1em;
+  margin-top: -2em;
+  grid-column: 2 / -2;
 }
 
 .footer {

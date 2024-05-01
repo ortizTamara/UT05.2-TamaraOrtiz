@@ -7,6 +7,7 @@ class RestaurantView {
     this.dropCat = document.getElementById("navbarDropdownCategorias");
     this.dropMen = document.getElementById("navbarDropdownMenus");
     this.dropAller = document.getElementById("navbarDropdownAlergenos");
+    this.navDropCat = document.getElementById("dropdownCategorias");
     this.dropRest = document.getElementById("dropdownRestaurantes");
   }
 
@@ -14,20 +15,15 @@ class RestaurantView {
   init() {
     // MIGAS DE PAN
     this.content.replaceChildren();
-    this.content.insertAdjacentHTML(
-      "afterbegin",
-      `<ul class="breadcrumbs" id="breadcrumbs"> 
-              <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
-           </ul>
-           </div>
-            `
-    );
+
+    this.createBreadcrumbNavigation(["Inicio"]);
 
     // INICIO -> CARGA CENTRAL CON CATEGORIAS
     this.categories.replaceChildren();
     const contentCategories = document.createElement("div");
     contentCategories.id = "list-categories";
 
+    // TODO: MEJORA -> RECORRERLO CON UN FOR PARA PODER AÑADIR + CATEGORÍAS
     contentCategories.insertAdjacentHTML(
       "afterbegin",
       `
@@ -45,6 +41,34 @@ class RestaurantView {
     this.categories.append(contentCategories);
   }
 
+  createBreadcrumbNavigation(crumbs) {
+    this.content.replaceChildren();
+    this.content.insertAdjacentHTML(
+      "afterbegin",
+      `
+      <ul class="breadcrumbs" id="breadcrumbs"></ul>
+      `
+    );
+
+    const breadcrumbsList = this.content.querySelector("#breadcrumbs");
+
+    for (let crumb of crumbs) {
+      breadcrumbsList.insertAdjacentHTML(
+        "afterbegin",
+        `
+          <li class="breadcrumbs-item"><a id="init-bread" href="#"> ${crumb} </a></li>
+        `
+      );
+    }
+
+    this.content.insertAdjacentHTML(
+      "beforeend",
+      `
+      </div>
+      `
+    );
+  }
+
   // MUESTRA LOS PLATOS ALEATORIOS
   ShowRandomDishes(dishes) {
     this.main.replaceChildren(); //Limpiamos el contenido principal
@@ -56,8 +80,7 @@ class RestaurantView {
         Math.floor(Math.random() * arrDishes.length),
         1
       );
-      // let dishName = elem[0].dish.name;
-      // console.log(elem[0].dish.name);
+
       this.main.insertAdjacentHTML(
         "afterbegin",
         ` 
@@ -118,69 +141,28 @@ class RestaurantView {
     }
   }
 
-  // MUESTRA LAS CATEGORÍAS EN LA INTERFAZ E INCLUYE MIGAS DE PAN
-  showCategories() {
-    this.content.replaceChildren();
-    this.content.insertAdjacentHTML(
-      "afterbegin",
-      `<ul class="breadcrumbs" id="breadcrumbs"> 
-                <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
-                <li class="breadcrumbs-item"><a id="init-bread" href="#"> Categorías </a></li>
-             </ul>
-             </div>
-             <div id="content__title" class="content__title"><h1>CATEGORÍAS</h1></div>
-
-              `
-    );
-
-    this.main.replaceChildren();
-
+  // MUESTRA LOS RESTAURANTES
+  ShowInfoCategory(cat) {
     this.categories.replaceChildren();
-    const contentCategories = document.createElement("div");
-    contentCategories.id = "list-categories";
-
-    contentCategories.insertAdjacentHTML(
-      "afterbegin",
+    this.main.replaceChildren();
+    this.content.replaceChildren();
+    this.createBreadcrumbNavigation([cat, "Inicio"]);
+    this.content.insertAdjacentHTML(
+      "beforeend",
       `
-          <div class="category">
-            <a data-category="Entrantes" href="#categorias"><h1>Entrantes</h1>
-          </div>
-          <div class="category">
-            <a data-category="Platos Principales" href="#categorias"><h1>Platos Principales</h1>
-          </div>
-          <div class="category">
-            <a data-category="Postres" href="#categorias"><h1>Postres</h1>
-          </div>
-          `
+      
+     <div id="content__title" class="content__title"><h1>${cat}</h1></div>
+
+      `
     );
-    this.categories.append(contentCategories);
   }
 
   // MUESTRA LOS PLATOS DE UNA CATEGORÍA ESPECÍFICA
   showCategoryDishes(dishes, cat) {
-    const bread = document.getElementById("breadcrumbs");
-
-    const li = document.createElement("li");
-    li.id = "category-bread";
-    li.innerText = cat;
-
-    const elem = document.getElementById("category-bread");
-    elem ? elem.replaceWith(li) : bread.append(li);
-
-    const title = document.getElementById("content__title");
-    const newtitle = document.createElement("div");
-    newtitle.id = "cat-title";
-    newtitle.classList.add("title-cat");
-    const h1 = document.createElement("h2");
-    h1.innerText = cat;
-    newtitle.append(h1);
-    newtitle.style.textAlign = "center";
-
-    // document.getElementById("cate-title");
-    // ? title.lastChild.replaceWith(newtitle)
-    // : title.append(newtitle);
+    this.ShowInfoCategory(cat);
 
     this.main.replaceChildren();
+    this.categories.replaceChildren();
     this.main.id = "dishes-category";
 
     for (const dish of dishes) {
@@ -188,7 +170,8 @@ class RestaurantView {
       contentDishes.classList = "cat-dish";
       contentDishes.insertAdjacentHTML(
         "beforeend",
-        `<figure class="dish-image">
+        `
+        <figure class="dish-image">
           <a data-dish="${dish.name}" href="#categorias" >
             <img src="./Recursos/platos/${dish.image}" />
             <figcaption class="dish__name">
@@ -196,7 +179,6 @@ class RestaurantView {
             </figcaption>
           </a> 
         </figure>`
-        // DEBAJO DE ESTO PONER EL NOMBRE DE LA CATEGORÍA EN EL QUE ESTAMOS
       );
       this.main.append(contentDishes);
     }
@@ -206,13 +188,12 @@ class RestaurantView {
   ShowMenus() {
     this.categories.replaceChildren();
     this.content.replaceChildren();
+    this.createBreadcrumbNavigation(["Menú", "Inicio"]);
+
     this.content.insertAdjacentHTML(
-      "afterbegin",
-      `<ul id="breadcrumbs" class="breadcrumbs"> 
-          <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
-          <li class="breadcrumbs-item"><a id="init-bread" href="#"> Menú </a></li>
-       </ul>
-       </div>
+      "beforeend",
+      `
+      
        <div id="content__title" class="content__title"><h1>MENÚ</h1></div>
         `
     );
@@ -223,17 +204,18 @@ class RestaurantView {
     const contentCategories = document.createElement("div");
     contentCategories.id = "list-menu";
 
+    // TODO: MEJORA -> RECORRERLO CON UN FOR PARA PODER AÑADIR + MENÚS
     contentCategories.insertAdjacentHTML(
       "afterbegin",
       `
           <div class="menu">
-            <a data-menu="Entrantes" href="#menus"><h1>Día</h1>
+            <a data-menu="Día" href="#menus"><h1>Día</h1>
           </div>
           <div class="menu">
-            <a data-menu="Platos Principales" href="#menus"><h1>Parejas</h1>
+            <a data-menu="Parejas" href="#menus"><h1>Parejas</h1>
           </div>
           <div class="menu">
-            <a data-menu="Postres" href="#menus"><h1>Infantil</h1>
+            <a data-menu="Infantil" href="#menus"><h1>Infantil</h1>
           </div>
           `
     );
@@ -242,27 +224,19 @@ class RestaurantView {
 
   // MUESTRA LOS PLATOS DE UN MENÚ ESPECÍFICO
   showMenuDishes(dishes, men) {
-    const bread = document.getElementById("breadcrumbs");
-
-    const li = document.createElement("li");
-    li.id = "menu-bread";
-    li.innerText = men;
-
-    const elem = document.getElementById("menu-bread");
-    elem ? elem.replaceWith(li) : bread.append(li);
+    this.createBreadcrumbNavigation([men, "Menús", "Inicio"]);
 
     const title = document.getElementById("content__title");
+
     const newtitle = document.createElement("div");
-    newtitle.id = "cat-title";
+    newtitle.id = "men-title";
     newtitle.classList.add("title-men");
-    const h1 = document.createElement("h2");
-    h1.innerText = men;
-    newtitle.append(h1);
+    const h2 = document.createElement("h2");
+    h2.innerText = men;
+    newtitle.append(h2);
     newtitle.style.textAlign = "center";
 
-    // document.getElementById("cate-title");
-    // ? title.lastChild.replaceWith(newtitle)
-    // : title.append(newtitle);
+    // title.replaceChildren(newtitle);
 
     this.main.replaceChildren();
     this.main.id = "dishes-menu";
@@ -289,14 +263,13 @@ class RestaurantView {
   ShowAllergen() {
     this.categories.replaceChildren();
     this.content.replaceChildren();
+    this.createBreadcrumbNavigation(["Alergenos", "Inicio"]);
+
     this.content.insertAdjacentHTML(
-      "afterbegin",
-      `<ul id="breadcrumbs" class="breadcrumbs"> 
-            <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
-            <li class="breadcrumbs-item"><a id="init-bread" href="#"> Alérgenos </a></li>
-         </ul>
-         </div>
+      "beforeend",
+      `
          <div id="content__title" class="content__title"><h1>ALERGENOS</h1></div>
+
           `
     );
 
@@ -306,61 +279,113 @@ class RestaurantView {
     const contentCategories = document.createElement("div");
     contentCategories.id = "list-allergen";
 
+    // TODO: MEJORA -> RECORRERLO CON UN FOR PARA PODER AÑADIR + ALERGENOS
     contentCategories.insertAdjacentHTML(
       "afterbegin",
       `
             <div class="allergen">
-              <a data-allergen="Entrantes" href="#allergens"><h1>Gluten</h1>
+              <a data-allergen="Gluten" href="#allergens"><h1>Gluten</h1>
             </div>
             <div class="allergen">
-              <a data-allergen="Platos Principales" href="#allergens"><h1>Lactosa</h1>
+              <a data-allergen="Lactosa" href="#allergens"><h1>Lactosa</h1>
             </div>
             <div class="allergen">
-              <a data-allergen="Postres" href="#allergens"><h1>Frutos Secos</h1>
+              <a data-allergen="Frutos Secos" href="#allergens"><h1>Frutos Secos</h1>
             </div>
             <div class="allergen">
-            <a data-allergen="Postres" href="#allergens"><h1>Soja</h1>
+            <a data-allergen="Soja" href="#allergens"><h1>Soja</h1>
           </div>
             `
     );
     this.categories.append(contentCategories);
   }
 
+  // MUESTRA LOS PLATOS DE UN ALERGENO ESPECÍFICA
+  showAllergenDishes(dishes, aller) {
+    this.createBreadcrumbNavigation([aller, "Alérgenos", "Inicio"]);
+
+    const title = document.getElementById("content__title");
+    const newtitle = document.createElement("div");
+    newtitle.id = "aller-title";
+    newtitle.classList.add("title-aller");
+    const h1 = document.createElement("h2");
+    h1.innerText = aller;
+    newtitle.append(h1);
+    newtitle.style.textAlign = "center";
+
+    this.main.replaceChildren();
+    this.main.id = "dishes-allergen";
+
+    for (const dish of dishes) {
+      const contentDishes = document.createElement("div");
+      contentDishes.classList = "aller-dish";
+
+      contentDishes.insertAdjacentHTML(
+        "beforeend",
+        `
+        <figure class="dish-image">
+            <a data-dish="${dish.dish.name}" href="#allergens" >
+              <img src="./Recursos/platos/${dish.dish.image}" />
+              <figcaption class="dish__name">
+                <h1>${dish.dish.name}<h1>
+              </figcaption>
+            </a> 
+          </figure>`
+      );
+      this.main.append(contentDishes);
+    }
+  }
+
   // MUESTRA LOS RESTAURANTES
-  ShowRestaurants() {
+  ShowInfoRestaurant(rest) {
     this.categories.replaceChildren();
+    this.main.replaceChildren();
     this.content.replaceChildren();
+    this.createBreadcrumbNavigation([
+      rest.restaurant.name,
+      "Restaurantes",
+      "Inicio",
+    ]);
+
     this.content.insertAdjacentHTML(
-      "afterbegin",
-      `<ul class="breadcrumbs" id="breadcrumbs"> 
-        <li class="breadcrumbs-item"><a id="init-bread" href="#"> Inicio </a></li>
-        <li class="breadcrumbs-item"><a id="init-bread" href="#"> Restaurantes </a></li>
-     </ul>
-     </div>
+      "beforeend",
+      `
+     <div id="content__title" class="content__title"><h1>${rest.restaurant.name}</h1></div>
+
       `
     );
 
-    this.main.replaceChildren();
+    const info = document.createElement("div");
+    info.id = "info-restaurant";
 
-    const contentRest = document.createElement("div");
-    contentRest.id = "list-rests";
-    for (const restau of restaurants) {
-      contentRest.insertAdjacentHTML(
-        "afterbegin",
-        `
-      <div class="restaurant">
-        <a data-restaurant="rest-Ciu" href="#restaurante"><h1>Ciudad Real</h1>
-      </div>
-      <div class="restaurant">
-        <a data-restaurant="rest-madrid" href="#restaurante"><h1>Madrid</h1>
-      </div>
-      <div class="restaurant">
-        <a data-restaurant="rest-valencia" href="#restaurante"><h1>Valencia</h1>
-      </div>
-      `
+    const pDescription = document.createElement("p");
+    pDescription.innerText = `Descripción: ${rest.restaurant.description} `;
+
+    const pLocation = document.createElement("p");
+    pLocation.innerText = `Ubicación: ${rest.restaurant.location} `;
+
+    info.append(pDescription, pLocation);
+
+    if (document.getElementById("info-restaurant")) {
+      document.getElementById("info-restaurant").replaceWith(info);
+    } else {
+      this.main.append(info);
+    }
+  }
+
+  // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
+  DropdownCategory(categorys) {
+    this.navDropCat.replaceChildren();
+    this.navDropCat.style.zIndex = 10;
+    for (const category of categorys) {
+      this.navDropCat.insertAdjacentHTML(
+        "beforeEnd",
+        `<div class="dropcategory-item" ><a href="#category" data-category="${category.category.name}"> 
+              <p>${category.category.name}<p>
+              </a>
+            </div>`
       );
     }
-    this.main.append(contentRest);
   }
 
   // MUESTRA EN RESTAURANTE UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
@@ -411,9 +436,31 @@ class RestaurantView {
     }
   }
 
+  // MANEJA CLICS EN PLATOS DE MENÚ
+  bindDishInMenu(handler) {
+    const dishes = document.getElementById("dishes-menu");
+    const links = dishes.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.dish);
+      });
+    }
+  }
+
+  // MANEJA CLICS EN PLATOS DE ALERGENOS
+  bindDishInAllergen(handler) {
+    const dishes = document.getElementById("dishes-allergen");
+    const links = dishes.querySelectorAll("a");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        handler(event.currentTarget.dataset.dish);
+      });
+    }
+  }
+
   // AL HACER CLIC EN UN MENU SE EJECUTA LA FUNCIÓN ESPECIFICA
   bindMenuClicks(handler) {
-    const menu = document.getElementById("list-menus");
+    const menu = document.getElementById("list-menu");
     const links = menu.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
@@ -424,7 +471,7 @@ class RestaurantView {
 
   // AL HACER CLIC EN UN MENU SE EJECUTA LA FUNCIÓN ESPECIFICA
   bindAllergenClicks(handler) {
-    const allergen = document.getElementById("list-allergens");
+    const allergen = document.getElementById("list-allergen");
     const links = allergen.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
@@ -432,26 +479,6 @@ class RestaurantView {
       });
     }
   }
-
-  // MANEJA CLICS EN MENÚ DESPLEGABLE DE CATEGORÍAS
-  // bindCategoryDrop(handler) {
-  //   const links = this.dropCat.querySelectorAll("a");
-  //   for (const link of links) {
-  //     link.addEventListener("click", (event) => {
-  //       handler(event.currentTarget.dataset.category);
-  //     });
-  //   }
-  // }
-
-  // MANEJA CLICS EN MENÚ DESPLEGABLE DE RESTAURANTES
-  // bindDropRestaurantClicks(handler) {
-  //   const links = this.dropRest.querySelectorAll("a");
-  //   for (const link of links) {
-  //     link.addEventListener("click", (event) => {
-  //       handler(event.currentTarget.dataset.restaurant);
-  //     });
-  //   }
-  // }
 
   // MANEJA CLICS EN MENÚ  DE CATEGORÍA
   bindNavCategoryClick(handler) {
@@ -489,25 +516,24 @@ class RestaurantView {
       });
   }
 
-  // MANEJA CLICS EN RESTAURANTES INDIVIDUALES
-  bindSingleRestaurant(handler) {
-    const rests = document.getElementById("list-rests");
-
-    const links = rests.querySelectorAll("a");
+  // MANEJA CLICS EN RESTAURANTES EN LA LISTA
+  bindCategoryDropClicks(handler) {
+    const cat = document.getElementById("dropdownCategorias");
+    const links = cat.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.rest);
+        handler(event.currentTarget.dataset.category);
       });
     }
   }
 
   // MANEJA CLICS EN RESTAURANTES EN LA LISTA
   bindRestaurantClicks(handler) {
-    const restau = document.getElementById("list-rests");
+    const restau = document.getElementById("dropdownRestaurantes");
     const links = restau.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.rest);
+        handler(event.currentTarget.dataset.restaurant);
       });
     }
   }
@@ -529,25 +555,18 @@ class RestaurantView {
     });
   }
 
-  // MANEJA EL EVENTO MOUSEENTER EN LAS CATEGORÍAS
   mouseenterCategories(handler) {
-    this.dropCat.addEventListener("mouseenter", (event) => {
-      handler();
-    });
+    this.dropCat.addEventListener("mouseenter", (event) => {});
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS MENUS
   mouseenterMenus(handler) {
-    this.dropMen.addEventListener("mouseenter", (event) => {
-      handler();
-    });
+    this.dropMen.addEventListener("mouseenter", (event) => {});
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS ALERGENOS
   mouseenterAllergens(handler) {
-    this.dropAller.addEventListener("mouseenter", (event) => {
-      handler();
-    });
+    this.dropAller.addEventListener("mouseenter", (event) => {});
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS RESTAURANTES

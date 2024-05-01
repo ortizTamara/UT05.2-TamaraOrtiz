@@ -22,16 +22,17 @@ class RestaurantController {
     this[LOAD_MANAGER_OBJECTS]();
 
     // CATEGORÍAS
-    this[VIEW].mouseenterCategories(this.handleDropCat);
+    // this[VIEW].mouseenterCategories(this.handleDropCat);
+    this[VIEW].mouseenterCategories();
     // this[VIEW].bindCategoryDrop(this.handleShowCategory);
     this[VIEW].bindNavCategoryClick(this.handleCategories);
 
     // MENU
-    this[VIEW].mouseenterMenus(this.handleDropMen);
+    this[VIEW].mouseenterMenus();
     this[VIEW].bindNavMenuClick(this.handleMenu);
 
     // ALERGENOS
-    this[VIEW].mouseenterAllergens(this.handleDropAller);
+    this[VIEW].mouseenterAllergens();
     this[VIEW].bindNavAllergenClick(this.handleAllergen);
 
     //RESTAURANTES
@@ -74,7 +75,7 @@ class RestaurantController {
 
   // handleDropMen = () => {};
 
-  // handleDropRest = () => {};
+  handleDropRest = () => {};
 
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
   handleDishes = (title) => {
@@ -84,8 +85,9 @@ class RestaurantController {
 
   // MÉTODO PARA MANEJAR LA CATEGORÍA SELECCIONADA
   handleCategories = () => {
-    this[VIEW].showCategories(this[MODEL].getCategories());
-    this[VIEW].bindCategoryClicks(this.handleShowCategory);
+    this[VIEW].DropdownCategory(this[MODEL].getCategories());
+    // this[VIEW].showCategories(this[MODEL].getCategories());
+    this[VIEW].bindCategoryDropClicks(this.handleShowCategory);
   };
 
   handleMenu = () => {
@@ -104,7 +106,6 @@ class RestaurantController {
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR EL MENÚ DESPLEGABLE DE RESTAURANTES
   handleRestaurant = () => {
     this[VIEW].DropdownRestaurant(this[MODEL].getRestaurants());
-    // this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
     this[VIEW].bindRestaurantClicks(this.handleShowRestaurant); // es necesario??
   };
 
@@ -119,27 +120,29 @@ class RestaurantController {
     this[VIEW].bindDishInCategory(this.handleDishes);
   };
 
-  // handleShowCategory = (categoryClicked) => {
-  //   console.log(categoryClicked);
-  //   // Metodo para las migas de pan (si me da tiempo) que reciba cada una de las partes y lo construya (array)
-  //   //Los scrum(migas de pan) los pongo con el nombre de la categoría
-  //   //elimino todo el contenido, del main y del content
-  //   //Agrego en el content el nombre de la categoría donde me encuentro
-  //   //Dentro del main recorro y muestro todos los platos de esa categoria
-  // };
-
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN MENÚ Y MOSTRAR EL MENÚ CORRESPONDIENTE
   handleShowMenu = (title) => {
     this.handleMenu;
-    this[VIEW].showInfoMenu(this[MODEL].createMenu(title));
+    const menu = this[MODEL].getMenuByName(title);
+    this[VIEW].showMenuDishes(menu.dishes, title);
+    this[VIEW].bindDishInMenu(this.handleDishes);
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN ALÉRGENO Y MOSTRAR LOS PLATOS CON ESE ALÉRGENO
-  handleShowAllergen = (title) => {};
+  handleShowAllergen = (title) => {
+    this.handleAllergen;
+    this[VIEW].showAllergenDishes(
+      this[MODEL].getDishesWithAllergen(this[MODEL].getAllergenByName(title)),
+      title
+    );
+    this[VIEW].bindDishInAllergen(this.handleDishes);
+  };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR SU INFORMACIÓN
   handleShowRestaurant = (title) => {
-    const rest = this[MODEL].createRestaurant(title);
+    this.handleRestaurant;
+    const rest = this[MODEL].getRestaurantByName(title);
+    this[VIEW].ShowInfoRestaurant(rest);
   };
 
   [LOAD_MANAGER_OBJECTS]() {
