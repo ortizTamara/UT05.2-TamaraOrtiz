@@ -123,11 +123,17 @@ ul.breadcrumbs li + li:before {
 .menu a,
 .allergen a {
   color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-/* .cat-dish {
-  margin-bottom: 5em;
-} */
+.menu-link:active,
+.menu-link.selected,
+.allergen-link:active,
+.allergen-link.selected {
+  text-decoration: underline;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px rgb(0, 0, 0);
+}
 
 figure {
   border: 0.1875em;

@@ -209,17 +209,34 @@ class RestaurantView {
       "afterbegin",
       `
           <div class="menu">
-            <a data-menu="Día" href="#menus"><h1>Día</h1>
+            <a data-menu="Día" href="#menus" id="menu-dia" class="menu-link"><h1>Día</h1>
           </div>
           <div class="menu">
-            <a data-menu="Parejas" href="#menus"><h1>Parejas</h1>
+            <a data-menu="Parejas" href="#menus" id="menu-parejas" class="menu-link"><h1>Parejas</h1>
           </div>
           <div class="menu">
-            <a data-menu="Infantil" href="#menus"><h1>Infantil</h1>
+            <a data-menu="Infantil" href="#menus" id="menu-infantil" class="menu-link"><h1>Infantil</h1>
           </div>
           `
     );
     this.categories.append(contentCategories);
+
+    // Seleccionamos todos los enlaces del menú
+    const menuLinks = document.querySelectorAll(".menu-link");
+    // Para cada enlace del menú
+    menuLinks.forEach((link) => {
+      //Agregamos un evento de clic a cada enlace del menú
+      link.addEventListener("click", () => {
+        // Iteramos sobre todos los enlaces del menú nuevamente para así limpiar la selección
+        menuLinks.forEach((link) => {
+          // Quitamos la clase selected de todos los enlaces del menú para deseleccionar
+          link.classList.remove("selected");
+        });
+
+        // Subrayamos el enlace del menú seleccionado
+        link.classList.add("selected");
+      });
+    });
   }
 
   // MUESTRA LOS PLATOS DE UN MENÚ ESPECÍFICO
@@ -284,20 +301,37 @@ class RestaurantView {
       "afterbegin",
       `
             <div class="allergen">
-              <a data-allergen="Gluten" href="#allergens"><h1>Gluten</h1>
+              <a data-allergen="Gluten" href="#allergens" class="allergen-link"><h1>Gluten</h1>
             </div>
             <div class="allergen">
-              <a data-allergen="Lactosa" href="#allergens"><h1>Lactosa</h1>
+              <a data-allergen="Lactosa" href="#allergens" class="allergen-link"><h1>Lactosa</h1>
             </div>
             <div class="allergen">
-              <a data-allergen="Frutos Secos" href="#allergens"><h1>Frutos Secos</h1>
+              <a data-allergen="Frutos Secos" href="#allergens" class="allergen-link"><h1>Frutos Secos</h1>
             </div>
             <div class="allergen">
-            <a data-allergen="Soja" href="#allergens"><h1>Soja</h1>
+            <a data-allergen="Soja" href="#allergens" class="allergen-link"><h1>Soja</h1>
           </div>
             `
     );
     this.categories.append(contentCategories);
+
+    // Seleccionamos todos los enlaces del alergeno
+    const allergenLinks = document.querySelectorAll(".allergen-link");
+    // Para cada enlace del alergeno
+    allergenLinks.forEach((link) => {
+      //Agregamos un evento de clic a cada enlace del alergeno
+      link.addEventListener("click", () => {
+        // Iteramos sobre todos los enlaces del alergeno nuevamente para así limpiar la selección
+        allergenLinks.forEach((link) => {
+          // Quitamos la clase selected de todos los enlaces del alergeno para deseleccionar
+          link.classList.remove("selected");
+        });
+
+        // Subrayamos el enlace del alergeno seleccionado
+        link.classList.add("selected");
+      });
+    });
   }
 
   // MUESTRA LOS PLATOS DE UN ALERGENO ESPECÍFICA
