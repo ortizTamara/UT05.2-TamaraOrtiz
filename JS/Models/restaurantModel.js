@@ -726,10 +726,6 @@ const RestaurantsManager = (function () {
       };
     }
 
-    // getDishesInMenu(menu){
-
-    // }
-
     getDishesWithAllergen(allergen, func = null) {
       // Comprobamos que alergeno no sea nulo
       if (!allergen || !(allergen instanceof Allergen)) {

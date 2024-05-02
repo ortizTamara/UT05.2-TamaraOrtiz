@@ -22,7 +22,6 @@ class RestaurantController {
     this[LOAD_MANAGER_OBJECTS]();
 
     // CATEGORÍAS
-    // this[VIEW].mouseenterCategories(this.handleDropCat);
     this[VIEW].mouseenterCategories();
     // this[VIEW].bindCategoryDrop(this.handleShowCategory);
     this[VIEW].bindNavCategoryClick(this.handleCategories);
@@ -36,7 +35,7 @@ class RestaurantController {
     this[VIEW].bindNavAllergenClick(this.handleAllergen);
 
     //RESTAURANTES
-    this[VIEW].mouseenterRestaurant(this.handleDropRest);
+    this[VIEW].mouseenterRestaurant();
     // this[VIEW].bindDropRestaurantClicks(this.handleShowCategory);
     this[VIEW].bindNavRestaurantClick(this.handleRestaurant);
   };
@@ -50,32 +49,6 @@ class RestaurantController {
     // CATEGORIAS
     this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
-
-  // onMenu = () => {};
-
-  // onCategory = () => {
-  //   this[VIEW].showCategories(this[MODEL].getCategories());
-  //   this[VIEW].bindCategoryClicks(this.handleShowCategory);
-  // };
-
-  // onAllergen = () => {};
-
-  // onRestaurant = () => {
-  //   this[VIEW].ShowRestaurants(this[MODEL].getRestaurants());
-  //   this[VIEW].bindRestaurantClicks(this.handleShowRestaurant);
-  // };
-
-  // handleInit = () => {
-  //   this.onInit();
-  // };
-
-  // handleDropCat = () => {
-  //   this[VIEW].DropdownCategories(this[MODEL].getCategories());
-  // };
-
-  // handleDropMen = () => {};
-
-  handleDropRest = () => {};
 
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
   handleDishes = (title) => {

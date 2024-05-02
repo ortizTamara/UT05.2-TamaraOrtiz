@@ -589,22 +589,28 @@ class RestaurantView {
     });
   }
 
-  mouseenterCategories(handler) {
-    this.dropCat.addEventListener("mouseenter", (event) => {});
+  mouseenterCategories() {
+    this.dropCat.addEventListener("mouseenter", (event) => {
+      handler();
+    });
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS MENUS
-  mouseenterMenus(handler) {
-    this.dropMen.addEventListener("mouseenter", (event) => {});
+  mouseenterMenus() {
+    this.dropMen.addEventListener("mouseenter", (event) => {
+      handler();
+    });
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS ALERGENOS
-  mouseenterAllergens(handler) {
-    this.dropAller.addEventListener("mouseenter", (event) => {});
+  mouseenterAllergens() {
+    this.dropAller.addEventListener("mouseenter", (event) => {
+      handler();
+    });
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS RESTAURANTES
-  mouseenterRestaurant(handler) {
+  mouseenterRestaurant() {
     this.dropRest.addEventListener("mouseenter", (event) => {
       handler();
     });
