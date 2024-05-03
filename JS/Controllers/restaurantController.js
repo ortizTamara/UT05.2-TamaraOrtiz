@@ -44,41 +44,46 @@ class RestaurantController {
   onInit = () => {
     this[VIEW].init();
     // PLATOS
-    this[VIEW].ShowRandomDishes(this[MODEL].getDishes());
+    this[VIEW].showRandomDishes(this[MODEL].getDishes());
     this[VIEW].bindDishRandom(this.handleDishes);
     // CATEGORIAS
     this[VIEW].bindCategoryClicks(this.handleShowCategory);
   };
 
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
-  handleDishes = (title) => {
-    const dish = this[MODEL].createDish(title);
-    this[VIEW].showInfoDish(this.getDish(dish), this.getCategoryForDish(dish));
+  handleDishes = (dataSet) => {
+    const dish = this[MODEL].getDishByName(dataSet);
+    const categories = this.getCategoryForDish(dish);
+    console.log(dataSet);
+    this[VIEW].showInfoDish(dish, categories);
+    // this[VIEW].bindElemNewWin(
+    //   this.handleShowDishInfoInNewWindow(dish, categories)
+    // );
   };
 
   // MÉTODO PARA MANEJAR LA CATEGORÍA SELECCIONADA
   handleCategories = () => {
-    this[VIEW].DropdownCategory(this[MODEL].getCategories());
+    this[VIEW].dropdownCategory(this[MODEL].getCategories());
     // this[VIEW].showCategories(this[MODEL].getCategories());
     this[VIEW].bindCategoryDropClicks(this.handleShowCategory);
   };
 
   handleMenu = () => {
     // this.onMenu();
-    this[VIEW].ShowMenus(this[MODEL].getMenus());
+    this[VIEW].showMenus(this[MODEL].getMenus());
     this[VIEW].bindMenuClicks(this.handleShowMenu);
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN ALÉRGENO
   handleAllergen = () => {
     // this.onAllergen();
-    this[VIEW].ShowAllergen(this[MODEL].getAllergen());
+    this[VIEW].showAllergen(this[MODEL].getAllergen());
     this[VIEW].bindAllergenClicks(this.handleShowAllergen);
   };
 
   // MÉTODO PARA MANEJAR LA SELECCIÓN DE UN RESTAURANTE Y MOSTRAR EL MENÚ DESPLEGABLE DE RESTAURANTES
   handleRestaurant = () => {
-    this[VIEW].DropdownRestaurant(this[MODEL].getRestaurants());
+    this[VIEW].dropdownRestaurant(this[MODEL].getRestaurants());
     this[VIEW].bindRestaurantClicks(this.handleShowRestaurant);
   };
 
@@ -115,8 +120,16 @@ class RestaurantController {
   handleShowRestaurant = (title) => {
     this.handleRestaurant;
     const rest = this[MODEL].getRestaurantByName(title);
-    this[VIEW].ShowInfoRestaurant(rest);
+    this[VIEW].showInfoRestaurant(rest);
   };
+
+  handleShowDishInfoInNewWindow = (dish, category) => {
+    this[VIEW].showDishInfoInNewWindow(dish, category);
+  };
+
+  createNewWindow(dishName) {
+    this[VIEW].createNewWindow(dishName);
+  }
 
   [LOAD_MANAGER_OBJECTS]() {
     // Creamos las categorías

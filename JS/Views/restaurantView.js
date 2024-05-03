@@ -1,5 +1,7 @@
+// const MODEL = Symbol("RestaurantModel");
+// const VIEW = Symbol("RestaurantView");
 class RestaurantView {
-  constructor() {
+  constructor(model, view) {
     //Accedemos a los contenedores y elementos
     this.main = document.getElementById("dishes");
     this.content = document.getElementById("content");
@@ -9,6 +11,15 @@ class RestaurantView {
     this.dropAller = document.getElementById("navbarDropdownAlergenos");
     this.navDropCat = document.getElementById("dropdownCategorias");
     this.dropRest = document.getElementById("dropdownRestaurantes");
+
+    // NUEVA VENTANA INFO
+    this.dropcatWind = document.getElementsByClassName("dropcategory-item");
+
+    this.openWindows = [];
+    this.newWindow = null;
+
+    // this[MODEL] = model;
+    // this[VIEW] = view;
   }
 
   // INICIALIZA LA INTERFAZ
@@ -70,7 +81,7 @@ class RestaurantView {
   }
 
   // MUESTRA LOS PLATOS ALEATORIOS
-  ShowRandomDishes(dishes) {
+  showRandomDishes(dishes) {
     this.main.replaceChildren(); //Limpiamos el contenido principal
     this.main.id = "dishes-random";
     const arrDishes = Array.from(dishes); //Nos aseguramos que haya platos
@@ -108,41 +119,58 @@ class RestaurantView {
     h3.innerText = dishElement.dish.name;
     info.append(h3);
 
-    const pNombre = document.createElement("p");
-    pNombre.innerText = `Nombre: ${dishElement.dish.name} `;
+    // const pName = document.createElement("p");
+    // pName.innerText = `Nombre: ${dishElement.dish.name} `;
 
     const pDescription = document.createElement("p");
     pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
 
-    const pIngredient = document.createElement("p");
-    pIngredient.innerText = `Ingredientes: `;
-    dishElement.dish.ingredients.forEach((ingredient) => {
-      pIngredient.innerText += `${ingredient} `;
-    });
+    // const pIngredient = document.createElement("p");
+    // pIngredient.innerText = `Ingredientes: `;
+    // dishElement.dish.ingredients.forEach((ingredient) => {
+    //   pIngredient.innerText += `${ingredient} `;
+    // });
 
-    const pCategory = document.createElement("p");
-    pCategory.innerText += "Categoría: ";
-    for (const category of categories) {
-      pCategory.innerText += `${category.name} `;
-    }
+    // const pCategory = document.createElement("p");
+    // pCategory.innerText += "Categoría: ";
+    // for (const category of categories) {
+    //   pCategory.innerText += `${category.name} `;
+    // }
 
-    const pAllergen = document.createElement("p");
-    pAllergen.innerText += "Alérgenos: ";
-    dishElement.allergens.forEach((allergen) => {
-      pAllergen.innerText += `${allergen.name} `;
-    });
+    // const pAllergen = document.createElement("p");
+    // pAllergen.innerText += "Alérgenos: ";
+    // dishElement.allergens.forEach((allergen) => {
+    //   pAllergen.innerText += `${allergen.name} `;
+    // });
 
-    info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
+    // info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
+    info.append(pDescription);
 
+    info.insertAdjacentHTML(
+      "beforeend",
+      `<div class="btn-container">
+      <button class="btn-dish" id="openWindow" data-dish="${dishElement.dish.name}"> + Info </button>
+       </div>`
+    );
     if (document.getElementById("info-dish")) {
       document.getElementById("info-dish").replaceWith(info);
     } else {
       this.main.append(info);
     }
+    document.getElementById("openWindow").addEventListener("click", (event) => {
+      this.createNewWindow(event.currentTarget.dataset.dish);
+    });
+  }
+
+  createNewWindow(dishName) {
+    const dish = this[MODEL].getDishByName(dishName);
+    const categories = this.getCategoryForDish(dish);
+
+    this[VIEW].bindElemNewWin(this.showDishInfoInNewWindow(dish, categories));
   }
 
   // MUESTRA LOS RESTAURANTES
-  ShowInfoCategory(cat) {
+  showInfoCategory(cat) {
     this.categories.replaceChildren();
     this.main.replaceChildren();
     this.content.replaceChildren();
@@ -159,7 +187,7 @@ class RestaurantView {
 
   // MUESTRA LOS PLATOS DE UNA CATEGORÍA ESPECÍFICA
   showCategoryDishes(dishes, cat) {
-    this.ShowInfoCategory(cat);
+    this.showInfoCategory(cat);
 
     this.main.replaceChildren();
     this.categories.replaceChildren();
@@ -185,7 +213,7 @@ class RestaurantView {
   }
 
   // MUESTRA LOS MENUS
-  ShowMenus() {
+  showMenus() {
     this.categories.replaceChildren();
     this.content.replaceChildren();
     this.createBreadcrumbNavigation(["Menú", "Inicio"]);
@@ -221,19 +249,13 @@ class RestaurantView {
     );
     this.categories.append(contentCategories);
 
-    // Seleccionamos todos los enlaces del menú
     const menuLinks = document.querySelectorAll(".menu-link");
-    // Para cada enlace del menú
     menuLinks.forEach((link) => {
-      //Agregamos un evento de clic a cada enlace del menú
       link.addEventListener("click", () => {
-        // Iteramos sobre todos los enlaces del menú nuevamente para así limpiar la selección
         menuLinks.forEach((link) => {
-          // Quitamos la clase selected de todos los enlaces del menú para deseleccionar
           link.classList.remove("selected");
         });
 
-        // Subrayamos el enlace del menú seleccionado
         link.classList.add("selected");
       });
     });
@@ -277,7 +299,7 @@ class RestaurantView {
   }
 
   // MUESTRA LOS ALERGENOS
-  ShowAllergen() {
+  showAllergen() {
     this.categories.replaceChildren();
     this.content.replaceChildren();
     this.createBreadcrumbNavigation(["Alergenos", "Inicio"]);
@@ -316,19 +338,13 @@ class RestaurantView {
     );
     this.categories.append(contentCategories);
 
-    // Seleccionamos todos los enlaces del alergeno
     const allergenLinks = document.querySelectorAll(".allergen-link");
-    // Para cada enlace del alergeno
     allergenLinks.forEach((link) => {
-      //Agregamos un evento de clic a cada enlace del alergeno
       link.addEventListener("click", () => {
-        // Iteramos sobre todos los enlaces del alergeno nuevamente para así limpiar la selección
         allergenLinks.forEach((link) => {
-          // Quitamos la clase selected de todos los enlaces del alergeno para deseleccionar
           link.classList.remove("selected");
         });
 
-        // Subrayamos el enlace del alergeno seleccionado
         link.classList.add("selected");
       });
     });
@@ -371,7 +387,7 @@ class RestaurantView {
   }
 
   // MUESTRA LOS RESTAURANTES
-  ShowInfoRestaurant(rest) {
+  showInfoRestaurant(rest) {
     this.categories.replaceChildren();
     this.main.replaceChildren();
     this.content.replaceChildren();
@@ -407,8 +423,54 @@ class RestaurantView {
     }
   }
 
+  showDishInfoInNewWindow(dishElement, categories) {
+    const main = this.newWindow.document.querySelector("main");
+
+    main.replaceChildren();
+
+    const info = document.createElement("div");
+    info.id = "info-dish";
+
+    const h3 = document.createElement("h3");
+    h3.innerText = dishElement.dish.name;
+    info.append(h3);
+
+    const pName = document.createElement("p");
+    pName.innerText = `Nombre: ${dishElement.dish.name} `;
+
+    info.insertAdjacentHTML(
+      "beforeend",
+      `<figure class="newWindow-figure"><img src="./Recursos/platos/${dishElement.image}" /></figure>`
+    );
+
+    const pDescription = document.createElement("p");
+    pDescription.innerText = `Descripción: ${dishElement.description} `;
+
+    const pIngredient = document.createElement("p");
+    pIngredient.innerText = `Ingredientes: `;
+    dishElement.dish.ingredients.forEach((ingredient) => {
+      pIngredient.innerText += `${ingredient} `;
+    });
+
+    const pCategory = document.createElement("p");
+    pCategory.innerText += "Categoría: ";
+    for (const category of categories) {
+      pCategory.innerText += `${category.name} `;
+    }
+
+    const pAllergen = document.createElement("p");
+    pAllergen.innerText += "Alérgenos: ";
+    dishElement.allergens.forEach((allergen) => {
+      pAllergen.innerText += `${allergen.name} `;
+    });
+
+    info.append(pName, pDescription, pIngredient, pCategory, pAllergen);
+
+    main.append(info);
+  }
+
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
-  DropdownCategory(categorys) {
+  dropdownCategory(categorys) {
     this.navDropCat.replaceChildren();
     this.navDropCat.style.zIndex = 10;
     for (const category of categorys) {
@@ -423,7 +485,7 @@ class RestaurantView {
   }
 
   // MUESTRA EN RESTAURANTE UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
-  DropdownRestaurant(restaurants) {
+  dropdownRestaurant(restaurants) {
     this.dropRest.replaceChildren();
     this.dropRest.style.zIndex = 10;
     for (const restaurant of restaurants) {
@@ -435,6 +497,30 @@ class RestaurantView {
           </div>`
       );
     }
+  }
+
+  bindElemNewWin(handler) {
+    const buttonOpenWindow = document.getElementById("openWindow");
+
+    buttonOpenWindow.addEventListener("click", (event) => {
+      let windowName = "window" + this.cont;
+      this.cont++;
+
+      this.newWindow = window.open(
+        "windowInfo.html",
+        windowName,
+        "width=900, height=700, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
+      );
+
+      this.openWindows.push(this.newWindow);
+
+      this.newWindow.addEventListener("DOMContentLoaded", () => {
+        console.log(event.target.dataset);
+        handler(event.target.dataset);
+
+        this.newWindow.focus();
+      });
+    });
   }
 
   // MANEJA CLICS EN PLATOS ALEATORIOS
@@ -465,6 +551,16 @@ class RestaurantView {
     const links = dishes.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
+        // Ocultar todas las imágenes de platos excepto la del plato seleccionado
+        const allImages = document.querySelectorAll(".dish-image");
+        allImages.forEach((image) => {
+          if (image.parentElement !== event.currentTarget.parentElement) {
+            image.style.display = "none";
+          } else {
+            image.style.display = "block";
+          }
+        });
+
         handler(event.currentTarget.dataset.dish);
       });
     }

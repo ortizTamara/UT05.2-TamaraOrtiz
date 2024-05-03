@@ -203,6 +203,18 @@ figure img {
   grid-column: 2 / -2;
 }
 
+#btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+#openWindow {
+  font-size: 1em;
+  padding: 0.5em 1em;
+  margin: 0 auto;
+  display: block;
+}
+
 .footer {
   background-color: #252525 !important;
   color: #fff;

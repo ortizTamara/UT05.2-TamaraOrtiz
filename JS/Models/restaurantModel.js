@@ -299,6 +299,10 @@ const RestaurantsManager = (function () {
       return this.#dishes.findIndex((x) => x.dish.name === dish.name);
     }
 
+    #getDishPositionByName(dish) {
+      return this.#dishes.findIndex((x) => x.dish.name === dish);
+    }
+
     removeDish(...dishes) {
       for (const dish of dishes) {
         if (!dish || !(dish instanceof Dish)) {
@@ -873,6 +877,10 @@ const RestaurantsManager = (function () {
 
     getDish(dish) {
       return this.#dishes[this.#getDishPosition(dish)];
+    }
+
+    getDishByName(dish) {
+      return this.#dishes[this.#getDishPositionByName(dish)];
     }
 
     getCategories() {
