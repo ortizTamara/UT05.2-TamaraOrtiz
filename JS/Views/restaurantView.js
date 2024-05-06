@@ -1,7 +1,6 @@
-// const MODEL = Symbol("RestaurantModel");
-// const VIEW = Symbol("RestaurantView");
+// const CONTROLLER = Symbol("RestaurantController");
 class RestaurantView {
-  constructor(model, view) {
+  constructor() {
     //Accedemos a los contenedores y elementos
     this.main = document.getElementById("dishes");
     this.content = document.getElementById("content");
@@ -18,8 +17,7 @@ class RestaurantView {
     this.openWindows = [];
     this.newWindow = null;
 
-    // this[MODEL] = model;
-    // this[VIEW] = view;
+    // this[CONTROLLER] = controller;
   }
 
   // INICIALIZA LA INTERFAZ
@@ -111,7 +109,7 @@ class RestaurantView {
   }
 
   // MUESTRA INFORMACIÓN DETALLADA DE LOS PLATOS
-  showInfoDish(dishElement, categories) {
+  showInfoDish(dishElement) {
     const info = document.createElement("div");
     info.id = "info-dish";
 
@@ -157,17 +155,14 @@ class RestaurantView {
     } else {
       this.main.append(info);
     }
-    document.getElementById("openWindow").addEventListener("click", (event) => {
-      this.createNewWindow(event.currentTarget.dataset.dish);
-    });
+    // document.getElementById("openWindow").addEventListener("click", (event) => {
+    //   handler(dishElement);
+    // });
   }
 
-  createNewWindow(dishName) {
-    const dish = this[MODEL].getDishByName(dishName);
-    const categories = this.getCategoryForDish(dish);
-
-    this[VIEW].bindElemNewWin(this.showDishInfoInNewWindow(dish, categories));
-  }
+  // createNewWindow(dish, categories) {
+  //   this.bindElemNewWin(this.showDishInfoInNewWindow(dish, categories));
+  // }
 
   // MUESTRA LOS RESTAURANTES
   showInfoCategory(cat) {
@@ -425,49 +420,51 @@ class RestaurantView {
   }
 
   showDishInfoInNewWindow(dishElement, categories) {
-    const main = this.newWindow.document.querySelector("main");
+    if (this.newWindow != null) {
+      const main = this.newWindow.document.querySelector("main");
 
-    main.replaceChildren();
+      main.replaceChildren();
 
-    const info = document.createElement("div");
-    info.id = "info-dish";
+      const info = document.createElement("div");
+      info.id = "info-dish";
 
-    const h3 = document.createElement("h3");
-    h3.innerText = dishElement.dish.name;
-    info.append(h3);
+      const h3 = document.createElement("h3");
+      h3.innerText = dishElement.dish.name;
+      info.append(h3);
 
-    const pName = document.createElement("p");
-    pName.innerText = `Nombre: ${dishElement.dish.name} `;
+      const pName = document.createElement("p");
+      pName.innerText = `Nombre: ${dishElement.dish.name} `;
 
-    info.insertAdjacentHTML(
-      "beforeend",
-      `<figure class="newWindow-figure"><img src="./Recursos/platos/${dishElement.image}" /></figure>`
-    );
+      info.insertAdjacentHTML(
+        "beforeend",
+        `<figure class="newWindow-figure"><img src="./Recursos/platos/${dishElement.dish.image}" /></figure>`
+      );
 
-    const pDescription = document.createElement("p");
-    pDescription.innerText = `Descripción: ${dishElement.description} `;
+      const pDescription = document.createElement("p");
+      pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
 
-    const pIngredient = document.createElement("p");
-    pIngredient.innerText = `Ingredientes: `;
-    dishElement.dish.ingredients.forEach((ingredient) => {
-      pIngredient.innerText += `${ingredient} `;
-    });
+      const pIngredient = document.createElement("p");
+      pIngredient.innerText = `Ingredientes: `;
+      dishElement.dish.ingredients.forEach((ingredient) => {
+        pIngredient.innerText += `${ingredient} `;
+      });
 
-    const pCategory = document.createElement("p");
-    pCategory.innerText += "Categoría: ";
-    for (const category of categories) {
-      pCategory.innerText += `${category.name} `;
+      const pCategory = document.createElement("p");
+      pCategory.innerText += "Categoría: ";
+      for (const category of categories) {
+        pCategory.innerText += `${category.name} `;
+      }
+
+      const pAllergen = document.createElement("p");
+      pAllergen.innerText += "Alérgenos: ";
+      dishElement.allergens.forEach((allergen) => {
+        pAllergen.innerText += `${allergen.name} `;
+      });
+
+      info.append(pName, pDescription, pIngredient, pCategory, pAllergen);
+
+      main.append(info);
     }
-
-    const pAllergen = document.createElement("p");
-    pAllergen.innerText += "Alérgenos: ";
-    dishElement.allergens.forEach((allergen) => {
-      pAllergen.innerText += `${allergen.name} `;
-    });
-
-    info.append(pName, pDescription, pIngredient, pCategory, pAllergen);
-
-    main.append(info);
   }
 
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
@@ -510,14 +507,14 @@ class RestaurantView {
       this.newWindow = window.open(
         "windowInfo.html",
         windowName,
-        "width=900, height=700, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
+        "width=1500, height=1500, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
       );
 
       this.openWindows.push(this.newWindow);
 
-      this.newWindow.addEventListener("DOMContentLoaded", () => {
-        console.log(event.target.dataset);
-        handler(event.target.dataset);
+      this.newWindow.addEventListener("DOMContentLoaded", (event) => {
+        // console.log(event.target.dataset);
+        handler();
 
         this.newWindow.focus();
       });
@@ -545,41 +542,6 @@ class RestaurantView {
       });
     }
   }
-
-  // MANEJA CLICS EN PLATOS DE CATEGORÍAS
-  // bindDishInCategory(handler) {
-  //   const dishes = document.getElementById("dishes-category");
-  //   const links = dishes.querySelectorAll("a");
-
-  //   for (const link of links) {
-  //     link.addEventListener("click", (event) => {
-  //       // Evita el comportamiento predeterminado del enlace
-  //       event.preventDefault();
-
-  //       // Obtener el plato que se hizo clic
-  //       const clickedDish = event.currentTarget.closest(".dish-image");
-
-  //       // Obtener todos los platos
-  //       const allDishes = dishes.querySelectorAll(".dish-image");
-
-  //       // Si el plato clicado ya está visible, mostrar todos los platos
-  //       if (clickedDish.style.display === "block") {
-  //         allDishes.forEach((dish) => {
-  //           dish.style.display = "block";
-  //         });
-  //       } else {
-  //         // Ocultar todos los platos excepto el seleccionado
-  //         allDishes.forEach((dish) => {
-  //           if (dish !== clickedDish) {
-  //             dish.style.display = "none";
-  //           }
-  //         });
-  //       }
-
-  //       handler(event.currentTarget.dataset.dish);
-  //     });
-  //   }
-  // }
 
   // MANEJA CLICS EN PLATOS DE CATEGORÍAS Y LOS HACE ARRASTRABLES
   bindDishInCategory(handler) {

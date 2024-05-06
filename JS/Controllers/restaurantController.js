@@ -15,6 +15,9 @@ class RestaurantController {
     // Enlazamos handlers con la vista
     // this[VIEW].bindInit(this.handleInit);
     this[VIEW].bindInit(this.onInit);
+
+    let selectedDish;
+    let selectedCategory;
   }
 
   // MÉTODO PARA CARGAR LOS OBJETOS INICIALES
@@ -53,12 +56,14 @@ class RestaurantController {
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
   handleDishes = (dataSet) => {
     const dish = this[MODEL].getDishByName(dataSet);
-    const categories = this.getCategoryForDish(dish);
-    console.log(dataSet);
-    this[VIEW].showInfoDish(dish, categories);
-    // this[VIEW].bindElemNewWin(
-    //   this.handleShowDishInfoInNewWindow(dish, categories)
-    // );
+    this[VIEW].showInfoDish(dish);
+    const categories = this.getCategoryForDish(this.selectedDish);
+
+    this.selectedDish = dish;
+    this.selectedCategory = categories;
+
+    console.log(dish);
+    this[VIEW].bindElemNewWin(this.handleShowDishInfoInNewWindow);
   };
 
   // MÉTODO PARA MANEJAR LA CATEGORÍA SELECCIONADA
@@ -123,13 +128,16 @@ class RestaurantController {
     this[VIEW].showInfoRestaurant(rest);
   };
 
-  handleShowDishInfoInNewWindow = (dish, category) => {
-    this[VIEW].showDishInfoInNewWindow(dish, category);
+  handleShowDishInfoInNewWindow = () => {
+    this[VIEW].showDishInfoInNewWindow(
+      this.selectedDish,
+      this.selectedCategory
+    );
   };
 
-  createNewWindow(dishName) {
-    this[VIEW].createNewWindow(dishName);
-  }
+  // createNewWindow(dish) {
+  //   this[VIEW].createNewWindow(dish, categories);
+  // }
 
   [LOAD_MANAGER_OBJECTS]() {
     // Creamos las categorías
