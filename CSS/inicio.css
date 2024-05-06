@@ -61,7 +61,7 @@ body {
 main {
   display: grid;
   grid-template-columns: repeat(3, 30%);
-  gap: 1.25em;
+  gap: 1em;
   justify-content: center;
   align-items: center;
   padding: 1.25em;
@@ -142,11 +142,11 @@ figure {
   padding: 1em;
 }
 
-.dish {
+/* .dish {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-}
+} */
 
 figure img {
   width: 100%;
@@ -166,7 +166,7 @@ figure img {
 
 .dish__name {
   color: white;
-  display: grid;
+  /* display: grid; */
   text-align: center;
 }
 
@@ -186,6 +186,7 @@ figure img {
 }
 
 #info-dish h3 {
+  text-align: center;
   font-weight: bold;
   margin: 0;
 }
@@ -245,4 +246,24 @@ figure img {
   color: #ddd;
   margin: 0 0.5em;
   font-size: 1em;
+}
+
+#dishes-category {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dish-image {
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.selected-dish {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  margin-left: auto;
+  margin-right: auto;
 }

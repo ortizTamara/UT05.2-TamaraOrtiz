@@ -193,6 +193,7 @@ class RestaurantView {
     this.categories.replaceChildren();
     this.main.id = "dishes-category";
 
+    this.currentCategoryDishes = dishes;
     for (const dish of dishes) {
       const contentDishes = document.createElement("div");
       contentDishes.classList = "cat-dish";
@@ -546,20 +547,73 @@ class RestaurantView {
   }
 
   // MANEJA CLICS EN PLATOS DE CATEGORÍAS
+  // bindDishInCategory(handler) {
+  //   const dishes = document.getElementById("dishes-category");
+  //   const links = dishes.querySelectorAll("a");
+
+  //   for (const link of links) {
+  //     link.addEventListener("click", (event) => {
+  //       // Evita el comportamiento predeterminado del enlace
+  //       event.preventDefault();
+
+  //       // Obtener el plato que se hizo clic
+  //       const clickedDish = event.currentTarget.closest(".dish-image");
+
+  //       // Obtener todos los platos
+  //       const allDishes = dishes.querySelectorAll(".dish-image");
+
+  //       // Si el plato clicado ya está visible, mostrar todos los platos
+  //       if (clickedDish.style.display === "block") {
+  //         allDishes.forEach((dish) => {
+  //           dish.style.display = "block";
+  //         });
+  //       } else {
+  //         // Ocultar todos los platos excepto el seleccionado
+  //         allDishes.forEach((dish) => {
+  //           if (dish !== clickedDish) {
+  //             dish.style.display = "none";
+  //           }
+  //         });
+  //       }
+
+  //       handler(event.currentTarget.dataset.dish);
+  //     });
+  //   }
+  // }
+
+  // MANEJA CLICS EN PLATOS DE CATEGORÍAS Y LOS HACE ARRASTRABLES
   bindDishInCategory(handler) {
     const dishes = document.getElementById("dishes-category");
     const links = dishes.querySelectorAll("a");
+
     for (const link of links) {
-      link.addEventListener("click", (event) => {
-        // Ocultar todas las imágenes de platos excepto la del plato seleccionado
-        const allImages = document.querySelectorAll(".dish-image");
-        allImages.forEach((image) => {
-          if (image.parentElement !== event.currentTarget.parentElement) {
-            image.style.display = "none";
-          } else {
-            image.style.display = "block";
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const clickedDish = event.currentTarget.closest(".dish-image");
+        if (!clickedDish) return; // Salir si no se encuentra ningún plato
+
+        const allDishes = dishes.querySelectorAll(".dish-image");
+
+        // Si el plato clicado ya está seleccionado, mostrar todos los platos ocultos y salir de la función
+        if (clickedDish.classList.contains("selected-dish")) {
+          allDishes.forEach((dish) => {
+            dish.style.display = "block";
+            dish.classList.remove("selected-dish");
+          });
+          return;
+        }
+
+        // Ocultar todos los platos excepto el seleccionado
+        allDishes.forEach((dish) => {
+          if (dish !== clickedDish) {
+            dish.style.display = "none";
           }
         });
+
+        // Mostrar el plato seleccionado en el centro
+        clickedDish.style.display = "block";
+        clickedDish.classList.add("selected-dish");
 
         handler(event.currentTarget.dataset.dish);
       });
@@ -646,7 +700,7 @@ class RestaurantView {
       });
   }
 
-  // MANEJA CLICS EN RESTAURANTES EN LA LISTA
+  // MANEJA CLICS EN CATEGORIA EN LA LISTA
   bindCategoryDropClicks(handler) {
     const cat = document.getElementById("dropdownCategorias");
     const links = cat.querySelectorAll("a");
@@ -687,28 +741,28 @@ class RestaurantView {
 
   mouseenterCategories() {
     this.dropCat.addEventListener("mouseenter", (event) => {
-      handler();
+      // handler();
     });
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS MENUS
   mouseenterMenus() {
     this.dropMen.addEventListener("mouseenter", (event) => {
-      handler();
+      // handler();
     });
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS ALERGENOS
   mouseenterAllergens() {
     this.dropAller.addEventListener("mouseenter", (event) => {
-      handler();
+      // handler();
     });
   }
 
   // MANEJA EL EVENTO MOUSEENTER EN LOS RESTAURANTES
   mouseenterRestaurant() {
     this.dropRest.addEventListener("mouseenter", (event) => {
-      handler();
+      // handler();
     });
   }
 }
