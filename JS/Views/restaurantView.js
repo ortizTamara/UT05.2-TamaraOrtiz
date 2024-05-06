@@ -558,7 +558,7 @@ class RestaurantView {
     }
   }
 
-  // MANEJA CLICS EN PLATOS DE CATEGORÍAS Y LOS HACE ARRASTRABLES
+  // MANEJA CLICS EN PLATOS DE CATEGORÍAS
   bindDishInCategory(handler) {
     const dishes = document.getElementById("dishes-category");
     const links = dishes.querySelectorAll("a");
@@ -603,6 +603,32 @@ class RestaurantView {
     const links = dishes.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const clickedDish = event.currentTarget.closest(".dish-image");
+        if (!clickedDish) return; // Salir si no se encuentra ningún plato
+
+        const allDishes = dishes.querySelectorAll(".dish-image");
+
+        // Si el plato clicado ya está seleccionado, mostrar todos los platos ocultos y salir de la función
+        if (clickedDish.classList.contains("selected-dish")) {
+          allDishes.forEach((dish) => {
+            dish.style.display = "block";
+            dish.classList.remove("selected-dish");
+          });
+          return;
+        }
+
+        // Ocultar todos los platos excepto el seleccionado
+        allDishes.forEach((dish) => {
+          if (dish !== clickedDish) {
+            dish.style.display = "none";
+          }
+        });
+
+        // Mostrar el plato seleccionado en el centro
+        clickedDish.style.display = "block";
+        clickedDish.classList.add("selected-dish");
         handler(event.currentTarget.dataset.dish);
       });
     }
@@ -614,6 +640,32 @@ class RestaurantView {
     const links = dishes.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const clickedDish = event.currentTarget.closest(".dish-image");
+        if (!clickedDish) return; // Salir si no se encuentra ningún plato
+
+        const allDishes = dishes.querySelectorAll(".dish-image");
+
+        // Si el plato clicado ya está seleccionado, mostrar todos los platos ocultos y salir de la función
+        if (clickedDish.classList.contains("selected-dish")) {
+          allDishes.forEach((dish) => {
+            dish.style.display = "block";
+            dish.classList.remove("selected-dish");
+          });
+          return;
+        }
+
+        // Ocultar todos los platos excepto el seleccionado
+        allDishes.forEach((dish) => {
+          if (dish !== clickedDish) {
+            dish.style.display = "none";
+          }
+        });
+
+        // Mostrar el plato seleccionado en el centro
+        clickedDish.style.display = "block";
+        clickedDish.classList.add("selected-dish");
         handler(event.currentTarget.dataset.dish);
       });
     }

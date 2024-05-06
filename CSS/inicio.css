@@ -248,7 +248,9 @@ figure img {
   font-size: 1em;
 }
 
-#dishes-category {
+#dishes-category,
+#dishes-menu,
+#dishes-allergen {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
