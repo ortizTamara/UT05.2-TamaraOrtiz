@@ -14,6 +14,7 @@ class RestaurantView {
     // NUEVA VENTANA INFO
     this.dropcatWind = document.getElementsByClassName("dropcategory-item");
 
+    this.cont = 0;
     this.openWindows = [];
     this.newWindow = null;
 
@@ -420,51 +421,51 @@ class RestaurantView {
   }
 
   showDishInfoInNewWindow(dishElement, categories) {
-    if (this.newWindow != null) {
-      const main = this.newWindow.document.querySelector("main");
+    // if (this.newWindow != null) {
+    const main = this.newWindow.document.querySelector("main");
 
-      main.replaceChildren();
+    main.replaceChildren();
 
-      const info = document.createElement("div");
-      info.id = "info-dish";
+    const info = document.createElement("div");
+    info.id = "info-dish";
 
-      const h3 = document.createElement("h3");
-      h3.innerText = dishElement.dish.name;
-      info.append(h3);
+    const h3 = document.createElement("h3");
+    h3.innerText = dishElement.dish.name;
+    info.append(h3);
 
-      const pName = document.createElement("p");
-      pName.innerText = `Nombre: ${dishElement.dish.name} `;
+    const pName = document.createElement("p");
+    pName.innerText = `Nombre: ${dishElement.dish.name} `;
 
-      info.insertAdjacentHTML(
-        "beforeend",
-        `<figure class="newWindow-figure"><img src="./Recursos/platos/${dishElement.dish.image}" /></figure>`
-      );
+    info.insertAdjacentHTML(
+      "beforeend",
+      `<figure class="newWindow-figure"><img src="./Recursos/platos/${dishElement.dish.image}" /></figure>`
+    );
 
-      const pDescription = document.createElement("p");
-      pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
+    const pDescription = document.createElement("p");
+    pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
 
-      const pIngredient = document.createElement("p");
-      pIngredient.innerText = `Ingredientes: `;
-      dishElement.dish.ingredients.forEach((ingredient) => {
-        pIngredient.innerText += `${ingredient} `;
-      });
+    const pIngredient = document.createElement("p");
+    pIngredient.innerText = `Ingredientes: `;
+    dishElement.dish.ingredients.forEach((ingredient) => {
+      pIngredient.innerText += `${ingredient} `;
+    });
 
-      const pCategory = document.createElement("p");
-      pCategory.innerText += "Categoría: ";
-      for (const category of categories) {
-        pCategory.innerText += `${category.name} `;
-      }
-
-      const pAllergen = document.createElement("p");
-      pAllergen.innerText += "Alérgenos: ";
-      dishElement.allergens.forEach((allergen) => {
-        pAllergen.innerText += `${allergen.name} `;
-      });
-
-      info.append(pName, pDescription, pIngredient, pCategory, pAllergen);
-
-      main.append(info);
+    const pCategory = document.createElement("p");
+    pCategory.innerText += "Categoría: ";
+    for (const category of categories) {
+      pCategory.innerText += `${category.name} `;
     }
+
+    const pAllergen = document.createElement("p");
+    pAllergen.innerText += "Alérgenos: ";
+    dishElement.allergens.forEach((allergen) => {
+      pAllergen.innerText += `${allergen.name} `;
+    });
+
+    info.append(pName, pDescription, pIngredient, pCategory, pAllergen);
+
+    main.append(info);
+    // }
   }
 
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
@@ -507,7 +508,7 @@ class RestaurantView {
       this.newWindow = window.open(
         "windowInfo.html",
         windowName,
-        "width=1500, height=1500, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
+        "width=1200, height=1000, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
       );
 
       this.openWindows.push(this.newWindow);
@@ -518,6 +519,20 @@ class RestaurantView {
 
         this.newWindow.focus();
       });
+    });
+  }
+
+  closeWindows() {
+    this.openWindows.forEach((window) => {
+      window.close();
+    });
+    this.openWindows = [];
+  }
+
+  bindCloseWindows() {
+    const cerrarVentanasBtn = document.getElementById("navbarDropdownVentanas");
+    cerrarVentanasBtn.addEventListener("click", () => {
+      this.closeWindows();
     });
   }
 

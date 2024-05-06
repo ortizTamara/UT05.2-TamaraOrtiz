@@ -133,8 +133,12 @@ class RestaurantController {
       this.selectedDish,
       this.selectedCategory
     );
+    this[VIEW].bindCloseWindows(this.handleCloseWindows);
   };
 
+  handleCloseWindows = () => {
+    this[VIEW].closeWindows();
+  };
   // createNewWindow(dish) {
   //   this[VIEW].createNewWindow(dish, categories);
   // }
