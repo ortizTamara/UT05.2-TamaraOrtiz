@@ -91,9 +91,13 @@ ul.breadcrumbs li + li:before {
   content: "/\00a0";
 }
 
-.content__title {
-  color: white;
-  text-align: center;
+.content__title,
+.categories {
+  color: white; /* Color del texto */
+  text-align: center; /* Alineación del texto */
+  padding: 0.5em 1em; /* Agrega un poco de espacio alrededor del texto */
+  border-radius: 0.3em; /* Agrega bordes redondeados */
+  text-shadow: 2px 2px 4px rgb(0, 0, 0); /* Sombras para resaltar el texto */
 }
 
 #categories {

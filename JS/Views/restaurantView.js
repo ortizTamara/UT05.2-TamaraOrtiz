@@ -234,7 +234,7 @@ class RestaurantView {
       "beforeend",
       `
       
-       <div id="content__title" class="content__title"><h1>MENÚ</h1></div>
+       <div id="content__title" class="content__title" href="#menu"><h1>MENÚ</h1></div>
         `
     );
 
@@ -249,45 +249,46 @@ class RestaurantView {
       "afterbegin",
       `
           <div class="menu">
-            <a data-menu="Día" href="#menus" id="menu-dia" class="menu-link"><h1>Día</h1>
+            <a data-menu="Día" href="#menu" id="menu-dia" class="menu-link"><h1>Día</h1>
           </div>
           <div class="menu">
-            <a data-menu="Parejas" href="#menus" id="menu-parejas" class="menu-link"><h1>Parejas</h1>
+            <a data-menu="Parejas" href="#menu" id="menu-parejas" class="menu-link"><h1>Parejas</h1>
           </div>
           <div class="menu">
-            <a data-menu="Infantil" href="#menus" id="menu-infantil" class="menu-link"><h1>Infantil</h1>
+            <a data-menu="Infantil" href="#menu" id="menu-infantil" class="menu-link"><h1>Infantil</h1>
           </div>
           `
     );
     this.categories.append(contentCategories);
 
-    const menuLinks = document.querySelectorAll(".menu-link");
-    menuLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        menuLinks.forEach((link) => {
-          link.classList.remove("selected");
-        });
+    // const menuLinks = document.querySelectorAll(".menu-link");
+    // menuLinks.forEach((link) => {
+    //   link.addEventListener("click", () => {
+    //     menuLinks.forEach((link) => {
+    //       link.classList.remove("selected");
+    //     });
 
-        link.classList.add("selected");
-      });
-    });
+    //     link.classList.add("selected");
+    //   });
+    // });
   }
 
   // MUESTRA LOS PLATOS DE UN MENÚ ESPECÍFICO
   showMenuDishes(dishes, men) {
     this.createBreadcrumbNavigation([men, "Menús", "Inicio"]);
 
-    const title = document.getElementById("content__title");
+    const title = document.getElementById("categories");
 
-    const newtitle = document.createElement("div");
-    newtitle.id = "men-title";
-    newtitle.classList.add("title-men");
+    const newTitle = document.createElement("div");
+    newTitle.id = "menu-title";
+    newTitle.classList.add("title-menu");
     const h2 = document.createElement("h2");
     h2.innerText = men;
-    newtitle.append(h2);
-    newtitle.style.textAlign = "center";
+    newTitle.append(h2);
+    newTitle.style.textAlign = "center";
 
-    // title.replaceChildren(newtitle);
+    // Reemplazamos el título actual con el nuevo título del menú
+    title.replaceChildren(newTitle);
 
     this.main.replaceChildren();
     this.main.id = "dishes-menu";
@@ -298,7 +299,7 @@ class RestaurantView {
       contentDishes.insertAdjacentHTML(
         "beforeend",
         `<figure class="dish-image">
-          <a data-dish="${dish.name}" href="#menus" >
+          <a data-dish="${dish.name}" href="#" >
             <img src="./Recursos/platos/${dish.image}" />
             <figcaption class="dish__name">
               <h1>${dish.name}<h1>
@@ -350,30 +351,33 @@ class RestaurantView {
     );
     this.categories.append(contentCategories);
 
-    const allergenLinks = document.querySelectorAll(".allergen-link");
-    allergenLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        allergenLinks.forEach((link) => {
-          link.classList.remove("selected");
-        });
+    // const allergenLinks = document.querySelectorAll(".allergen-link");
+    // allergenLinks.forEach((link) => {
+    //   link.addEventListener("click", () => {
+    //     allergenLinks.forEach((link) => {
+    //       link.classList.remove("selected");
+    //     });
 
-        link.classList.add("selected");
-      });
-    });
+    //     link.classList.add("selected");
+    //   });
+    // });
   }
 
   // MUESTRA LOS PLATOS DE UN ALERGENO ESPECÍFICA
   showAllergenDishes(dishes, aller) {
     this.createBreadcrumbNavigation([aller, "Alérgenos", "Inicio"]);
 
-    const title = document.getElementById("content__title");
-    const newtitle = document.createElement("div");
-    newtitle.id = "aller-title";
-    newtitle.classList.add("title-aller");
-    const h1 = document.createElement("h2");
-    h1.innerText = aller;
-    newtitle.append(h1);
-    newtitle.style.textAlign = "center";
+    const title = document.getElementById("categories");
+
+    const newTitle = document.createElement("div");
+    newTitle.id = "aller-title";
+    newTitle.classList.add("title-aller");
+    const h2 = document.createElement("h2");
+    h2.innerText = aller;
+    newTitle.append(h2);
+    newTitle.style.textAlign = "center";
+
+    title.replaceChildren(newTitle);
 
     this.main.replaceChildren();
     this.main.id = "dishes-allergen";
@@ -580,6 +584,8 @@ class RestaurantView {
 
     for (const link of links) {
       link.addEventListener("click", function (event) {
+        const args = event.currentTarget.dataset.dish;
+
         event.preventDefault();
 
         const clickedDish = event.currentTarget.closest(".dish-image");
@@ -607,7 +613,7 @@ class RestaurantView {
         clickedDish.style.display = "block";
         clickedDish.classList.add("selected-dish");
 
-        handler(event.currentTarget.dataset.dish);
+        handler(args);
       });
     }
   }
@@ -692,7 +698,16 @@ class RestaurantView {
     const links = menu.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.menu);
+        const args = event.currentTarget.dataset.menu;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [args],
+          "div",
+          { action: "showMenu", args },
+          "#menu",
+          event
+        );
+        handler(args);
       });
     }
   }
@@ -717,12 +732,21 @@ class RestaurantView {
       });
   }
 
-  // MANEJA CLICS EN MENÚ DE MENU
+  // MANEJA CLICS EN MENÚ DE NAVEGACIÓN
   bindNavMenuClick(handler) {
     document
       .getElementById("navbarDropdownMenus")
       .addEventListener("click", (event) => {
-        handler();
+        const args = event.currentTarget.dataset.menu;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [],
+          "nav",
+          { action: "ShowSingleMenu" },
+          "#menu",
+          event
+        );
+        handler(args);
       });
   }
 
@@ -740,14 +764,6 @@ class RestaurantView {
     document
       .getElementById("navbarDropdownRestaurantes")
       .addEventListener("click", (event) => {
-        // this[EXCECUTE_HANDLER](
-        //   handler,
-        //   [],
-        //   "nav",
-        //   { action: "showRestaurant" },
-        //   "#restaurante",
-        //   event
-        // );
         handler();
       });
   }
@@ -758,7 +774,17 @@ class RestaurantView {
     const links = cat.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.category);
+        const args = event.currentTarget.dataset.category;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [args],
+          "nav",
+          { action: "ShowCategory", args },
+          "#",
+          event
+        );
+
+        handler(args);
       });
     }
   }
@@ -785,36 +811,36 @@ class RestaurantView {
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO
   bindInit(handler) {
-    // document.getElementById("init").addEventListener("click", (event) => {
-    //   this[EXCECUTE_HANDLER](
-    //     handler,
-    //     [],
-    //     "body",
-    //     { action: "init" },
-    //     "#",
-    //     event
-    //   );
-    // });
-    // document.getElementById("logo").addEventListener("click", (event) => {
-    //   this[EXCECUTE_HANDLER](
-    //     handler,
-    //     [],
-    //     "body",
-    //     { action: "init" },
-    //     "#",
-    //     event
-    //   );
-    // });
-    // document.getElementById("content").addEventListener("click", (event) => {
-    //   this[EXCECUTE_HANDLER](
-    //     handler,
-    //     [],
-    //     "body",
-    //     { action: "init" },
-    //     "#",
-    //     event
-    //   );
-    // });
+    document.getElementById("init").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "body",
+        { action: "init" },
+        "#",
+        event
+      );
+    });
+    document.getElementById("logo").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "body",
+        { action: "init" },
+        "#",
+        event
+      );
+    });
+    document.getElementById("content").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "body",
+        { action: "init" },
+        "#",
+        event
+      );
+    });
   }
 
   mouseenterCategories() {
