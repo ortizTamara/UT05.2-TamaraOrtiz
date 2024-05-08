@@ -1,4 +1,4 @@
-// const CONTROLLER = Symbol("RestaurantController");
+const EXCECUTE_HANDLER = Symbol("excecuteHandler");
 class RestaurantView {
   constructor() {
     //Accedemos a los contenedores y elementos
@@ -17,8 +17,23 @@ class RestaurantView {
     this.cont = 0;
     this.openWindows = [];
     this.newWindow = null;
+  }
 
-    // this[CONTROLLER] = controller;
+  [EXCECUTE_HANDLER](
+    handler,
+    handlerArguments,
+    scrollElement,
+    data,
+    url,
+    event
+  ) {
+    handler(...handlerArguments);
+    const scroll = document.querySelector(scrollElement);
+    //console.log(scroll);
+    if (scroll) scroll.scrollIntoView();
+    //$(scrollElement).get(0).scrollIntoView();
+    history.pushState(data, null, url);
+    event.preventDefault();
   }
 
   // INICIALIZA LA INTERFAZ
@@ -453,7 +468,7 @@ class RestaurantView {
     const pCategory = document.createElement("p");
     pCategory.innerText += "Categoría: ";
     for (const category of categories) {
-      pCategory.innerText += `${category.name} `;
+      pCategory.innerText += `${category.category.name} `;
     }
 
     const pAllergen = document.createElement("p");
@@ -508,7 +523,7 @@ class RestaurantView {
       this.newWindow = window.open(
         "windowInfo.html",
         windowName,
-        "width=1200, height=1000, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
+        "width=1400, height=900, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no" // Características de la ventana
       );
 
       this.openWindows.push(this.newWindow);
@@ -753,17 +768,39 @@ class RestaurantView {
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO
   bindInit(handler) {
-    // INICIO
-    document.getElementById("init").addEventListener("click", (event) => {
-      handler();
-    });
-    // LOGO
-    document.getElementById("logo").addEventListener("click", (event) => {
-      handler();
-    });
+    // // INICIO
+    // document.getElementById("init").addEventListener("click", (event) => {
+    //   handler();
+    // });
+    // // LOGO
+    // document.getElementById("logo").addEventListener("click", (event) => {
+    //   handler();
+    // });
 
-    // MIGA DE PAN INICIO
-    document.getElementById("content").addEventListener("click", (event) => {
+    // // MIGA DE PAN INICIO
+    // document.getElementById("content").addEventListener("click", (event) => {
+    //   handler();
+    // });
+    document.getElementById("init").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "body",
+        { action: "init" },
+        "#",
+        event
+      );
+      handler();
+    });
+    document.getElementById("logo").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "body",
+        { action: "init" },
+        "#",
+        event
+      );
       handler();
     });
   }

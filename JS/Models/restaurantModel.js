@@ -286,6 +286,7 @@ const RestaurantsManager = (function () {
             dish,
             allergens: [],
           });
+
           this.#dishes.sort(this.#sortDishFunc);
         } else {
           console.log("Plato ya añadido:", dish);
@@ -515,9 +516,14 @@ const RestaurantsManager = (function () {
     }
 
     // un plato puede estar en más categorías
+    // El problema es que esta devolviendo todo el dish, y debería de devolver solo plato
     *getCategoryForDish(dish) {
+      if (!dish) {
+        return; // Terminar el generador si dish es nulo
+      }
       for (const category of this.#categories) {
-        const foundDish = category.dishes.find((item) => item === dish);
+        // TODO: Aquí me he dado cuenta que foundDish sale undefined
+        const foundDish = category.dishes.find((item) => item.dish === dish);
         if (foundDish) {
           yield category.category;
         }
@@ -880,6 +886,7 @@ const RestaurantsManager = (function () {
     }
 
     getDishByName(dish) {
+      console.log("Buscando plato por nombre:", dish);
       return this.#dishes[this.#getDishPositionByName(dish)];
     }
 

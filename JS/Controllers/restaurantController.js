@@ -24,6 +24,7 @@ class RestaurantController {
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
 
+    // TODO: borrar los mouseenter (ya no sirven para nada, creo)
     // CATEGORÍAS
     this[VIEW].mouseenterCategories();
     // this[VIEW].bindCategoryDrop(this.handleShowCategory);
@@ -56,13 +57,13 @@ class RestaurantController {
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
   handleDishes = (dataSet) => {
     const dish = this[MODEL].getDishByName(dataSet);
-    this[VIEW].showInfoDish(dish);
-    const categories = this.getCategoryForDish(this.selectedDish);
-
     this.selectedDish = dish;
+
+    // TODO: y en categories sale: categories = getCategoryForDish {<suspended>¡}
+    const categories = this[MODEL].getCategoryForDish(this.selectedDish);
     this.selectedCategory = categories;
 
-    console.log(dish);
+    this[VIEW].showInfoDish(dish);
     this[VIEW].bindElemNewWin(this.handleShowDishInfoInNewWindow);
   };
 
@@ -382,6 +383,10 @@ class RestaurantController {
       dish15,
       dish16,
       dish17
+    );
+    console.log(
+      "Platos en la base de datos:",
+      this[MODEL].getDishByName("Tarta de Zanahoria")
     );
 
     // Asignamos los platos a sus categorías

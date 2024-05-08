@@ -1875,11 +1875,45 @@ function testeoAssignAndDesign() {
   }
 }
 
-console.log("hola");
+function comprobacion() {
+  const manager = RestaurantsManager.getInstance();
 
-testeoDish();
-testeoCategory();
-testeoAllergen();
-testeoRestaurante();
-testeoRestaurantsManager();
-testeoAssignAndDesign();
+  // Agregar un mensaje de registro para verificar los platos en la base de datos
+  console.log("Platos en la base de datos:", manager.getDishes());
+
+  const dish1 = new Dish(
+    "Batata Fries",
+    "Crujientes y doradas, servidas con nuestra salsa especial.",
+    ["Batata", "Salsa especial"],
+    "entrante01.webp"
+  );
+  try {
+    manager.addDish(dish1);
+    console.log(dish1.name, "añadido con éxito");
+  } catch (error) {
+    console.error("Error al añadir Plato:", error);
+  }
+
+  //TODO: Aquí me he dado cuenta que si solo pongo dish1, no lo encuentra, pero si pongo el .name si funciona
+  const dish = manager.getDishByName(dish1.name);
+
+  if (dish) {
+    // Si se encuentra el plato, imprimirlo
+    console.log("Plato encontrado:", dish);
+    const categoryGenerator = manager.getCategoryForDish(dish);
+    for (const category of categoryGenerator) {
+      console.log(category);
+    }
+  } else {
+    // Si no se encuentra el plato, imprimir un mensaje de advertencia
+    console.log("El plato no fue encontrado.");
+  }
+}
+
+// testeoDish();
+// testeoCategory();
+// testeoAllergen();
+// testeoRestaurante();
+// testeoRestaurantsManager();
+// testeoAssignAndDesign();
+comprobacion();
