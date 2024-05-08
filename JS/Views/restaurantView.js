@@ -320,7 +320,7 @@ class RestaurantView {
     this.content.insertAdjacentHTML(
       "beforeend",
       `
-         <div id="content__title" class="content__title"><h1>ALERGENOS</h1></div>
+         <div id="content__title" class="content__title" href="#allergens"><h1>ALERGENOS</h1></div>
 
           `
     );
@@ -755,7 +755,17 @@ class RestaurantView {
     document
       .getElementById("navbarDropdownAlergenos")
       .addEventListener("click", (event) => {
-        handler();
+        const args = event.currentTarget.dataset.allergen;
+
+        this[EXCECUTE_HANDLER](
+          handler,
+          [],
+          "nav",
+          { action: "ShowSingleAllergen" },
+          "#allergens",
+          event
+        );
+        handler(args);
       });
   }
 

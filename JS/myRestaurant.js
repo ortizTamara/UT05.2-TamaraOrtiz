@@ -22,6 +22,7 @@ const historyActions = {
   showDishInCategory: (event) => RestaurantApp.handleDishes(event.state.args),
 
   ShowSingleMenu: (event) => RestaurantApp.handleShowMenu(event.state.args),
+  ShowSingleMenu: (event) => RestaurantApp.handleShowAllergen(event.state.args),
 };
 history.replaceState({ action: "init" }, null);
 
