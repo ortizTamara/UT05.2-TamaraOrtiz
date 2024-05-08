@@ -412,7 +412,7 @@ class RestaurantView {
     this.content.insertAdjacentHTML(
       "beforeend",
       `
-     <div id="content__title" class="content__title"><h1>${rest.restaurant.name}</h1></div>
+     <div id="content__title" class="content__title" href="#"><h1>${rest.restaurant.name}</h1></div>
 
       `
     );
@@ -740,6 +740,14 @@ class RestaurantView {
     document
       .getElementById("navbarDropdownRestaurantes")
       .addEventListener("click", (event) => {
+        // this[EXCECUTE_HANDLER](
+        //   handler,
+        //   [],
+        //   "nav",
+        //   { action: "showRestaurant" },
+        //   "#restaurante",
+        //   event
+        // );
         handler();
       });
   }
@@ -761,48 +769,52 @@ class RestaurantView {
     const links = restau.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.restaurant);
+        const args = event.currentTarget.dataset.restaurant;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [args],
+          "nav",
+          { action: "showRestaurant", args },
+          "#restaurante",
+          event
+        );
+        handler(args);
       });
     }
   }
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO
   bindInit(handler) {
-    // // INICIO
     // document.getElementById("init").addEventListener("click", (event) => {
-    //   handler();
+    //   this[EXCECUTE_HANDLER](
+    //     handler,
+    //     [],
+    //     "body",
+    //     { action: "init" },
+    //     "#",
+    //     event
+    //   );
     // });
-    // // LOGO
     // document.getElementById("logo").addEventListener("click", (event) => {
-    //   handler();
+    //   this[EXCECUTE_HANDLER](
+    //     handler,
+    //     [],
+    //     "body",
+    //     { action: "init" },
+    //     "#",
+    //     event
+    //   );
     // });
-
-    // // MIGA DE PAN INICIO
     // document.getElementById("content").addEventListener("click", (event) => {
-    //   handler();
+    //   this[EXCECUTE_HANDLER](
+    //     handler,
+    //     [],
+    //     "body",
+    //     { action: "init" },
+    //     "#",
+    //     event
+    //   );
     // });
-    document.getElementById("init").addEventListener("click", (event) => {
-      this[EXCECUTE_HANDLER](
-        handler,
-        [],
-        "body",
-        { action: "init" },
-        "#",
-        event
-      );
-      handler();
-    });
-    document.getElementById("logo").addEventListener("click", (event) => {
-      this[EXCECUTE_HANDLER](
-        handler,
-        [],
-        "body",
-        { action: "init" },
-        "#",
-        event
-      );
-      handler();
-    });
   }
 
   mouseenterCategories() {
