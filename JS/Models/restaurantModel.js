@@ -824,9 +824,9 @@ const RestaurantsManager = (function () {
       );
       if (existingCategory) {
         // Devolvemos el menú existente para evitar duplicados
-        console.log(
-          `La categoria ${name} ya existe. Retornando la categoría existente...`
-        );
+        // console.log(
+        //   `La categoria ${name} ya existe. Retornando la categoría existente...`
+        // );
         return existingCategory.category;
       } else {
         // Si no existe, crea un nuevo menú
@@ -886,7 +886,6 @@ const RestaurantsManager = (function () {
     }
 
     getDishByName(dish) {
-      console.log("Buscando plato por nombre:", dish);
       return this.#dishes[this.#getDishPositionByName(dish)];
     }
 

@@ -133,29 +133,8 @@ class RestaurantView {
     h3.innerText = dishElement.dish.name;
     info.append(h3);
 
-    // const pName = document.createElement("p");
-    // pName.innerText = `Nombre: ${dishElement.dish.name} `;
-
     const pDescription = document.createElement("p");
     pDescription.innerText = `Descripción: ${dishElement.dish.description} `;
-
-    // const pIngredient = document.createElement("p");
-    // pIngredient.innerText = `Ingredientes: `;
-    // dishElement.dish.ingredients.forEach((ingredient) => {
-    //   pIngredient.innerText += `${ingredient} `;
-    // });
-
-    // const pCategory = document.createElement("p");
-    // pCategory.innerText += "Categoría: ";
-    // for (const category of categories) {
-    //   pCategory.innerText += `${category.name} `;
-    // }
-
-    // const pAllergen = document.createElement("p");
-    // pAllergen.innerText += "Alérgenos: ";
-    // dishElement.allergens.forEach((allergen) => {
-    //   pAllergen.innerText += `${allergen.name} `;
-    // });
 
     // info.append(pNombre, pDescription, pIngredient, pCategory, pAllergen);
     info.append(pDescription);
@@ -171,14 +150,7 @@ class RestaurantView {
     } else {
       this.main.append(info);
     }
-    // document.getElementById("openWindow").addEventListener("click", (event) => {
-    //   handler(dishElement);
-    // });
   }
-
-  // createNewWindow(dish, categories) {
-  //   this.bindElemNewWin(this.showDishInfoInNewWindow(dish, categories));
-  // }
 
   // MUESTRA LOS RESTAURANTES
   showInfoCategory(cat) {
@@ -260,35 +232,31 @@ class RestaurantView {
           `
     );
     this.categories.append(contentCategories);
-
-    // const menuLinks = document.querySelectorAll(".menu-link");
-    // menuLinks.forEach((link) => {
-    //   link.addEventListener("click", () => {
-    //     menuLinks.forEach((link) => {
-    //       link.classList.remove("selected");
-    //     });
-
-    //     link.classList.add("selected");
-    //   });
-    // });
   }
 
   // MUESTRA LOS PLATOS DE UN MENÚ ESPECÍFICO
   showMenuDishes(dishes, men) {
+    const menuLinks = document.querySelectorAll(".menu-link");
+    menuLinks.forEach((link) => {
+      link.classList.remove("selected");
+    });
+
+    const menuTitle = men == "Día" ? "dia" : men.toLowerCase();
+    const menu = document.getElementById(`menu-${menuTitle}`);
+    menu.classList.add("selected");
+
     this.createBreadcrumbNavigation([men, "Menús", "Inicio"]);
 
-    const title = document.getElementById("categories");
-
-    const newTitle = document.createElement("div");
-    newTitle.id = "menu-title";
-    newTitle.classList.add("title-menu");
-    const h2 = document.createElement("h2");
-    h2.innerText = men;
-    newTitle.append(h2);
-    newTitle.style.textAlign = "center";
-
+    // const title = document.getElementById("div");
+    // const newTitle = document.createElement("div");
+    // newTitle.id = "menu-title";
+    // newTitle.classList.add("title-menu");
+    // const h2 = document.createElement("h2");
+    // h2.innerText = men;
+    // newTitle.append(h2);
+    // newTitle.style.textAlign = "center";
     // Reemplazamos el título actual con el nuevo título del menú
-    title.replaceChildren(newTitle);
+    // title.replaceChildren(newTitle);
 
     this.main.replaceChildren();
     this.main.id = "dishes-menu";
@@ -336,48 +304,44 @@ class RestaurantView {
       "afterbegin",
       `
             <div class="allergen">
-              <a data-allergen="Gluten" href="#allergens" class="allergen-link"><h1>Gluten</h1>
+              <a data-allergen="Gluten" href="#allergens" id="allergen-gluten" class="allergen-link"><h1>Gluten</h1>
             </div>
             <div class="allergen">
-              <a data-allergen="Lactosa" href="#allergens" class="allergen-link"><h1>Lactosa</h1>
+              <a data-allergen="Lactosa" href="#allergens" id="allergen-lactosa" class="allergen-link"><h1>Lactosa</h1>
             </div>
             <div class="allergen">
-              <a data-allergen="Frutos Secos" href="#allergens" class="allergen-link"><h1>Frutos Secos</h1>
+              <a data-allergen="Frutos Secos" href="#allergens" id="allergen-frutos-secos" class="allergen-link"><h1>Frutos Secos</h1>
             </div>
             <div class="allergen">
-            <a data-allergen="Soja" href="#allergens" class="allergen-link"><h1>Soja</h1>
+            <a data-allergen="Soja" href="#allergens" id="allergen-soja" class="allergen-link"><h1>Soja</h1>
           </div>
             `
     );
     this.categories.append(contentCategories);
-
-    // const allergenLinks = document.querySelectorAll(".allergen-link");
-    // allergenLinks.forEach((link) => {
-    //   link.addEventListener("click", () => {
-    //     allergenLinks.forEach((link) => {
-    //       link.classList.remove("selected");
-    //     });
-
-    //     link.classList.add("selected");
-    //   });
-    // });
   }
 
   // MUESTRA LOS PLATOS DE UN ALERGENO ESPECÍFICA
   showAllergenDishes(dishes, aller) {
+    const allergenLinks = document.querySelectorAll(".allergen-link");
+    allergenLinks.forEach((link) => {
+      link.classList.remove("selected");
+    });
+    const allergenTitle =
+      aller == "Frutos Secos" ? "frutos-secos" : aller.toLowerCase();
+    const allergen = document.getElementById(`allergen-${allergenTitle}`);
+    allergen.classList.add("selected");
+
     this.createBreadcrumbNavigation([aller, "Alérgenos", "Inicio"]);
 
-    const title = document.getElementById("categories");
-
-    const newTitle = document.createElement("div");
-    newTitle.id = "aller-title";
-    newTitle.classList.add("title-aller");
-    const h2 = document.createElement("h2");
-    h2.innerText = aller;
-    newTitle.append(h2);
-    newTitle.style.textAlign = "center";
-
-    title.replaceChildren(newTitle);
+    // const title = document.getElementById("div");
+    // const newTitle = document.createElement("div");
+    // newTitle.id = "aller-title";
+    // newTitle.classList.add("title-aller");
+    // const h2 = document.createElement("h2");
+    // h2.innerText = aller;
+    // newTitle.append(h2);
+    // newTitle.style.textAlign = "center";
+    // title.replaceChildren(newTitle);
 
     this.main.replaceChildren();
     this.main.id = "dishes-allergen";
@@ -561,7 +525,16 @@ class RestaurantView {
     const links = dishes.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.dish);
+        const args = event.currentTarget.dataset.dish;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [args],
+          "main",
+          { action: "showDishes", args },
+          "#single-product",
+          event
+        );
+        handler(args);
       });
     }
   }
@@ -572,7 +545,16 @@ class RestaurantView {
     const links = cats.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.category);
+        const args = event.currentTarget.dataset.category;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [args],
+          "div",
+          { action: "showDishesFromCategory", args },
+          "#single-product",
+          event
+        );
+        handler(args);
       });
     }
   }
@@ -613,6 +595,9 @@ class RestaurantView {
         clickedDish.style.display = "block";
         clickedDish.classList.add("selected-dish");
 
+        const state = { action: "showDishInCategory", args };
+        history.pushState(state, null, args); // Esto agregará el estado al historial
+
         handler(args);
       });
     }
@@ -624,6 +609,8 @@ class RestaurantView {
     const links = dishes.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
+        const args = event.currentTarget.dataset.dish;
+
         event.preventDefault();
 
         const clickedDish = event.currentTarget.closest(".dish-image");
@@ -650,7 +637,11 @@ class RestaurantView {
         // Mostrar el plato seleccionado en el centro
         clickedDish.style.display = "block";
         clickedDish.classList.add("selected-dish");
-        handler(event.currentTarget.dataset.dish);
+
+        const state = { action: "showDishInCategory", args };
+        history.pushState(state, null, args);
+
+        handler(args);
       });
     }
   }
@@ -661,6 +652,8 @@ class RestaurantView {
     const links = dishes.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
+        const args = event.currentTarget.dataset.dish;
+
         event.preventDefault();
 
         const clickedDish = event.currentTarget.closest(".dish-image");
@@ -687,7 +680,11 @@ class RestaurantView {
         // Mostrar el plato seleccionado en el centro
         clickedDish.style.display = "block";
         clickedDish.classList.add("selected-dish");
-        handler(event.currentTarget.dataset.dish);
+
+        const state = { action: "showDishInCategory", args };
+        history.pushState(state, null, args);
+
+        handler(args);
       });
     }
   }
@@ -718,7 +715,16 @@ class RestaurantView {
     const links = allergen.querySelectorAll("a");
     for (const link of links) {
       link.addEventListener("click", (event) => {
-        handler(event.currentTarget.dataset.allergen);
+        const args = event.currentTarget.dataset.allergen;
+        this[EXCECUTE_HANDLER](
+          handler,
+          [args],
+          "div",
+          { action: "showAllergen", args },
+          "#allergens",
+          event
+        );
+        handler(args);
       });
     }
   }
@@ -737,7 +743,6 @@ class RestaurantView {
     document
       .getElementById("navbarDropdownMenus")
       .addEventListener("click", (event) => {
-        const args = event.currentTarget.dataset.menu;
         this[EXCECUTE_HANDLER](
           handler,
           [],
@@ -746,7 +751,7 @@ class RestaurantView {
           "#menu",
           event
         );
-        handler(args);
+        handler();
       });
   }
 
@@ -755,8 +760,7 @@ class RestaurantView {
     document
       .getElementById("navbarDropdownAlergenos")
       .addEventListener("click", (event) => {
-        const args = event.currentTarget.dataset.allergen;
-
+        // const args = event.currentTarget.dataset.allergen;
         this[EXCECUTE_HANDLER](
           handler,
           [],
@@ -765,7 +769,7 @@ class RestaurantView {
           "#allergens",
           event
         );
-        handler(args);
+        handler();
       });
   }
 

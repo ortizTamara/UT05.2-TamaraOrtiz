@@ -384,10 +384,6 @@ class RestaurantController {
       dish16,
       dish17
     );
-    console.log(
-      "Platos en la base de datos:",
-      this[MODEL].getDishByName("Tarta de Zanahoria")
-    );
 
     // Asignamos los platos a sus categorías
     // Platos a entrantes
