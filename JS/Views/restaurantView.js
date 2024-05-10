@@ -404,7 +404,6 @@ class RestaurantView {
   }
 
   showDishInfoInNewWindow(dishElement, categories) {
-    // if (this.newWindow != null) {
     const main = this.newWindow.document.querySelector("main");
 
     main.replaceChildren();
@@ -448,7 +447,6 @@ class RestaurantView {
     info.append(pName, pDescription, pIngredient, pCategory, pAllergen);
 
     main.append(info);
-    // }
   }
 
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS

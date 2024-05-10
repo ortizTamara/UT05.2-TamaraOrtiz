@@ -56,11 +56,16 @@ class RestaurantController {
 
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
   handleDishes = (dataSet) => {
+    // TODO: Se repite dos veces por el history en bindDishRandom
     const dish = this[MODEL].getDishByName(dataSet);
+    // console.log("Nombre del plato obtenido:", dataSet);
+
     this.selectedDish = dish;
 
     // TODO: y en categories sale: categories = getCategoryForDish {<suspended>¡}
     const categories = this[MODEL].getCategoryForDish(this.selectedDish);
+    // console.log("¿Son los mismos objetos?", this.selectedDish === dish);
+
     this.selectedCategory = categories;
 
     this[VIEW].showInfoDish(dish);

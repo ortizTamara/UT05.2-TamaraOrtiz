@@ -522,8 +522,12 @@ const RestaurantsManager = (function () {
         return; // Terminar el generador si dish es nulo
       }
       for (const category of this.#categories) {
+        console.log("Category:", category); // Verifica el objeto category
+        console.log("Dishes in category:", category.dishes); // Verifica los platos en la categoría
+
         // TODO: Aquí me he dado cuenta que foundDish sale undefined
         const foundDish = category.dishes.find((item) => item.dish === dish);
+        console.log("Found dish:", foundDish); // Verifica el plato encontrado
         if (foundDish) {
           yield category.category;
         }
