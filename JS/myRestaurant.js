@@ -33,5 +33,6 @@ const historyActions = {
   },
   ShowSingleMenu: () => RestaurantApp.handleMenu(),
   ShowSingleAllergen: () => RestaurantApp.handleAllergen(),
+  showAdmin: () => RestaurantApp.handleAdmin(),
 };
 history.replaceState({ action: "init" }, null);

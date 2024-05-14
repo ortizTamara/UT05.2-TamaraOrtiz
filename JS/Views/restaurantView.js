@@ -1,4 +1,10 @@
+import {
+  createDishValidation,
+  deleteDishValidation,
+} from "../Utils/validation.js";
+
 const EXCECUTE_HANDLER = Symbol("excecuteHandler");
+
 class RestaurantView {
   constructor() {
     //Accedemos a los contenedores y elementos
@@ -152,7 +158,7 @@ class RestaurantView {
     }
   }
 
-  // MUESTRA LOS RESTAURANTES
+  // MUESTRA LAS CATEGORÍAS
   showInfoCategory(cat) {
     this.categories.replaceChildren();
     this.main.replaceChildren();
@@ -449,13 +455,192 @@ class RestaurantView {
     main.append(info);
   }
 
+  showAdmin() {
+    this.categories.replaceChildren();
+    this.content.replaceChildren();
+    this.createBreadcrumbNavigation(["Admin", "Inicio"]);
+
+    this.main.replaceChildren();
+    this.content.insertAdjacentHTML(
+      "beforeend",
+      `<div id="content__title" class="content__title">
+          <h1>Administración</h1>
+        </div>
+        `
+    );
+  }
+
+  showCreateDish(categories, allergens) {
+    let html = `
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header title" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link custom-btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                CREAR NUEVO PLATO
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              <form action="" name="createDish">
+                <fieldset>
+                  <div class="form__name">
+                    <label for="validationServer01" class="form-label">Nombre del Plato*</label><br />
+                    <input
+                      type="text"
+                      name="dishName"
+                      id="validationServer01"
+                      class="form-control w-100"
+                      placeholder="Escribe el nombre del plato"
+                      pattern=".{3,25}"
+                      required
+                    />
+                    <div id="validationServer01Feedback" class="invalid-feedback">
+                      Introduzca un nombre válido
+                    </div>
+                    <div class="valid-feedback">
+                      Nombre válido
+                    </div>
+                  </div>
+                  <div class="form__desc">
+                    <label for="validationServer02" class="form-label">Descripción del plato*</label><br />
+                    <input
+                      type="text"
+                      name="dishDescription"
+                      id="validationServer02"
+                      class="form-control"
+                      placeholder="Breve descripción"
+                      pattern=".{5,200}"
+                      required
+                    />
+                    <div id="validationServer02Feedback" class="invalid-feedback">
+                      Introduzca una descripción
+                    </div>
+                    <div class="valid-feedback">
+                      Descripción válida
+                    </div>
+                  </div>
+                  <div class="form__categ">
+                    <label for="validationServer03" class="form-label">Categoría</label>
+                    <br />
+                    <select name="dishCate" id="validationServer03" class="form-select" aria-describedby="validationServer03Feedback">
+                      <option value=""></option>`;
+
+    for (const category of categories) {
+      html += `<option value="${category.category.name}">${category.category.name}</option>`;
+    }
+
+    html += `</select>
+              </div>
+              <div class="form__aller">
+                <label for="validationServer04" class="form-label">Alérgenos</label>
+                <br />
+                <select name="dishAllergen" id="validationServer04" class="form-select" aria-describedby="validationServer04Feedback">
+                  <option value=""></option>`;
+
+    for (const allergen of allergens) {
+      html += `<option value="${allergen.name}">${allergen.name}</option>`;
+    }
+
+    html += `</select>
+              </div>
+              <div class="form-button" id="buttonDish">
+                <button id="btn-CreateDish" type="submit" class="btn btn-primary">Crear Plato</button>
+                <button class="btn btn-primary" type="reset">Resetear</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+    this.main.insertAdjacentHTML("afterbegin", html);
+  }
+
+  showDeleteDish(dishes) {
+    let html = `
+    <div class="card">
+      <div class="card-header title" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed custom-btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            ELIMINAR PLATO
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <form action="" name="deleteDish">
+            <fieldset>
+              <div class="form__dishes">
+                <label for="validationServer05" class="form-label">Selecciona el plato a eliminar</label>
+                <br />
+                <select name="dishAllergen" id="validationServer05" class="form-select" aria-describedby="validationServer04Feedback">
+                  <option value=""></option>`;
+
+    for (const dish of dishes) {
+      html += `<option data-dish="${dish.dish.name}" value="${dish.dish.name}">${dish.dish.name}</option>`;
+    }
+
+    html += `</select>
+                  <div id="validationServer05Feedback" class="invalid-feedback">
+                    Por favor, seleccione un Plato para eliminarlo
+                  </div>
+                  <div class="valid-feedback"></div>
+                </div>
+                <br>
+                <button id="btn-DeleteDish" type="submit" class="btn btn-danger">Eliminar Plato</button>
+                <br><br>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+    this.main.insertAdjacentHTML("beforeend", html);
+  }
+
+  showModalDish(name, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Nuevo Plato";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">El plato
+    <strong>${name}</strong> ha sido creado correctamente.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> El plato <strong>${name}</strong> ya está
+    creado.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      if (complete) {
+        document.createDish.reset();
+      }
+      document.createDish.dishName.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
   dropdownCategory(categorys) {
     this.navDropCat.replaceChildren();
     this.navDropCat.style.zIndex = 10;
     for (const category of categorys) {
       this.navDropCat.insertAdjacentHTML(
-        "beforeEnd",
+        "beforeend",
         `<div class="dropcategory-item" ><a href="#category" data-category="${category.category.name}"> 
               <p>${category.category.name}<p>
               </a>
@@ -470,7 +655,7 @@ class RestaurantView {
     this.dropRest.style.zIndex = 10;
     for (const restaurant of restaurants) {
       this.dropRest.insertAdjacentHTML(
-        "beforeEnd",
+        "beforeend",
         `<div class="droprestaurant-item" ><a href="#restaurante" data-restaurant="${restaurant.restaurant.name}"> 
             <p>${restaurant.restaurant.name}<p>
             </a>
@@ -780,6 +965,22 @@ class RestaurantView {
       });
   }
 
+  bindNavAdminClick(handler) {
+    document
+      .getElementById("navbarDropdownAdmin")
+      .addEventListener("click", (event) => {
+        this[EXCECUTE_HANDLER](
+          handler,
+          [],
+          "nav",
+          { action: "showAdmin" },
+          "#",
+          event
+        );
+        handler();
+      });
+  }
+
   // MANEJA CLICS EN CATEGORIA EN LA LISTA
   bindCategoryDropClicks(handler) {
     const cat = document.getElementById("dropdownCategorias");
@@ -819,6 +1020,13 @@ class RestaurantView {
         handler(args);
       });
     }
+  }
+
+  bindCreateDish(handler) {
+    createDishValidation(handler);
+  }
+  bindDeleteDish(handler) {
+    deleteDishValidation(handler);
   }
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO

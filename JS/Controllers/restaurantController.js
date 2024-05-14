@@ -42,6 +42,9 @@ class RestaurantController {
     this[VIEW].mouseenterRestaurant();
     // this[VIEW].bindDropRestaurantClicks(this.handleShowCategory);
     this[VIEW].bindNavRestaurantClick(this.handleRestaurant);
+
+    // ADMIN
+    this[VIEW].bindNavAdminClick(this.handleAdmin);
   };
 
   // MÉTODO PARA INICIALIZAR LA VISTA
@@ -145,9 +148,73 @@ class RestaurantController {
   handleCloseWindows = () => {
     this[VIEW].closeWindows();
   };
-  // createNewWindow(dish) {
-  //   this[VIEW].createNewWindow(dish, categories);
-  // }
+
+  handleAdmin = () => {
+    this[VIEW].showAdmin();
+    this[VIEW].showCreateDish(
+      this[MODEL].getCategories(),
+      this[MODEL].getAllergen()
+    );
+    this[VIEW].bindCreateDish(this.handleCreateDish);
+
+    this[VIEW].showDeleteDish(this[MODEL].getDishes());
+  };
+
+  pruebaCreateDish = (name, descrip, cat, aller) => {
+    const dish = this[MODEL].createDish(name, descrip, cat, aller);
+  };
+
+  handleCreateDish = (name, descrip, cat, aller) => {
+    console.log(name + " " + descrip + " " + cat + " " + aller);
+
+    // Creamos el nuevo plato
+    const dish = this[MODEL].createDish(name, descrip, cat, aller);
+
+    // dish.description = descrip;
+
+    let complete;
+    let error = "";
+    try {
+      //Verificamos y gestionamos la asignación de categoría y alérgeno
+      if (cat != "") {
+        const category = this[MODEL].createCategory(cat);
+
+        //Asignamos la categoría al plato
+        this[MODEL].assignCategoryToDish(category, dish);
+      }
+
+      if (aller != "") {
+        const allergen = this[MODEL].createAllergen(aller);
+
+        this[MODEL].assignAllergenToDish(allergen, dish);
+      }
+
+      complete = true;
+      //lo redirigimos a la vista administrador
+      this.handleAdmin();
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+
+    //Mostramos el resultado
+    this[VIEW].showModalDish(name, complete, error);
+  };
+
+  hadleDeleteDish = (dishName) => {
+    let complete;
+    let error = "";
+
+    try {
+      let dish = this[MODEL].createDish(dishName);
+      this[MODEL].removeDish(dish.dish);
+      complete = true;
+      this.handleAdmin();
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+  };
 
   [LOAD_MANAGER_OBJECTS]() {
     // Creamos las categorías

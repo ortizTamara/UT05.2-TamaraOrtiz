@@ -57,10 +57,16 @@
             </a>
             <div class="dropdown-menu" id="dropdownRestaurantes" aria-labelledby="navbarDropdownRestaurantes"></div>
           </li>
-          <li class="nav-tiem">
+          <li class="nav-tiem dropdown">
             <a class="nav-link" href="#" id="navbarDropdownVentanas" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               Cerrar Ventanas
+            </a>
+          </li>
+          <li class="nav-tiem dropdown" id="adminNavItem">
+            <a class="nav-link" href="#" id="navbarDropdownAdmin" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Admin
             </a>
           </li>
         </ul>
@@ -86,6 +92,25 @@
       </div>
     </div>
   </footer>
+
+  <div class="modal" tabindex="-1" id="messageModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
