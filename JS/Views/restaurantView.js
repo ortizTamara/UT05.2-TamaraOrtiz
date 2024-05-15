@@ -1,6 +1,10 @@
 import {
   createDishValidation,
   deleteDishValidation,
+  dishMenuValidation,
+  restaurantValidation,
+  deleteCategoryValidation,
+  createCategoryValidation,
 } from "../Utils/validation.js";
 
 const EXCECUTE_HANDLER = Symbol("excecuteHandler");
@@ -523,27 +527,33 @@ class RestaurantView {
                   </div>
                   <div class="form__categ">
                     <label for="validationServer03" class="form-label">Categoría</label>
-                    <br />
-                    <select name="dishCate" id="validationServer03" class="form-select" aria-describedby="validationServer03Feedback">
-                      <option value=""></option>`;
+                    <select name="dishCate" class="form-select" id="validationServer03" aria-describedby="validationServer03Feedback" required>
+                      <option value="" ></option>`;
 
     for (const category of categories) {
       html += `<option value="${category.category.name}">${category.category.name}</option>`;
     }
 
     html += `</select>
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                    Por favor, seleccione una categoría.
+                  </div>
+                  <div class="valid-feedback"></div>
               </div>
               <div class="form__aller">
                 <label for="validationServer04" class="form-label">Alérgenos</label>
-                <br />
-                <select name="dishAllergen" id="validationServer04" class="form-select" aria-describedby="validationServer04Feedback">
-                  <option value=""></option>`;
+                <select name="dishAllergen"  class="form-select" id="validationServer04" aria-describedby="validationServer04Feedback" required>
+                  <option value="" ></option>`;
 
     for (const allergen of allergens) {
       html += `<option value="${allergen.name}">${allergen.name}</option>`;
     }
 
     html += `</select>
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                    Por favor, seleccione un alergeno.
+                  </div>
+                  <div class="valid-feedback"></div>
               </div>
               <div class="form-button" id="buttonDish">
                 <button id="btn-CreateDish" type="submit" class="btn btn-primary">Crear Plato</button>
@@ -576,7 +586,7 @@ class RestaurantView {
               <div class="form__dishes">
                 <label for="validationServer05" class="form-label">Selecciona el plato a eliminar</label>
                 <br />
-                <select name="dishAllergen" id="validationServer05" class="form-select" aria-describedby="validationServer04Feedback">
+                <select name="dDish" id="validationServer05" class="form-select" aria-describedby="validationServer04Feedback" required>
                   <option value=""></option>`;
 
     for (const dish of dishes) {
@@ -590,8 +600,9 @@ class RestaurantView {
                   <div class="valid-feedback"></div>
                 </div>
                 <br>
-                <button id="btn-DeleteDish" type="submit" class="btn btn-danger">Eliminar Plato</button>
-                <br><br>
+                <div class="form-button" id="buttonDish">
+                  <button id="btn-DeleteDish" type="submit" class="btn btn-danger">Eliminar Plato</button>
+                </div>
               </fieldset>
             </form>
           </div>
@@ -599,11 +610,283 @@ class RestaurantView {
       </div>
     </div>
   `;
-
-    this.main.insertAdjacentHTML("beforeend", html);
+    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+    // this.main.insertAdjacentHTML("beforeend", html);
   }
 
-  showModalDish(name, complete, error) {
+  showAdminDishMenu(menus, dishes) {
+    let html = `
+    <div class="card">
+      <div class="card-header title" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed custom-btn" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            ASIGNACIÓN Y DESIGNACIÓN DE PLATO A MENÚ
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          <form action="" name="dishMenu">
+            <fieldset>
+              <div class="form__dishes">
+                <label for="validationServer06" class="form-label">Selecciona una opción</label>
+                <br />
+                <select name="adOption" id="validationServer06" class="form-select" aria-describedby="validationServer04Feedback">
+                  <option value="asignar" selected >Asignar Plato a Menú</option>
+                  <option value="designar" >Desasignar Plato a Menú</option>
+                  <option value="ordenar" >Ordenar Menú</option>
+                  <div id="validationServer07Feedback" class="invalid-feedback">
+                     Por favor, seleccione una Opción
+                  </div>
+                  <div class="valid-feedback"></div>
+                </select>
+              </div>
+              <br>
+              <div class="form__menus">
+                <label class="form-label"> Selecciona un menú </label>
+                <select name="adMenu" class="form-select" id="selMenu" aria-describedby="validationServer08Feedback" required >
+                <option value=""  ></option>`;
+
+    for (const menu of menus) {
+      html += `<option data-menu="${menu.menu.name}" value="${menu.menu.name}">${menu.menu.name}</option>`;
+    }
+
+    html += `</select>
+                  <div id="validationServer07Feedback" class="invalid-feedback">
+                    Por favor, Seleccione un menú
+                  </div>
+                  <div class="valid-feedback"></div>
+                </div>
+                <br>
+                <div class="form__dishes">
+                <label class="form-label"> Selecciona un plato </label>
+                <select name="adDish" class="form-select" id="selDish" aria-describedby="validationServer09Feedback" required>
+                  <option value=""  ></option>`;
+
+    for (const dish of dishes) {
+      html += `<option data-dish="${dish.dish.name}" value="${dish.dish.name}">${dish.dish.name}</option>`;
+    }
+
+    html += `</select>
+                  <div id="validationServer07Feedback" class="invalid-feedback">
+                    Por favor, seleccione un plato
+                  </div>
+                  <div class="valid-feedback"></div>
+                </div>
+                <br>
+                <div class="form-button" id="buttonDish">
+                  <button id="btn-dishMenu" type="submit" class="btn btn-danger">Realizar Opción</button>
+                </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>`;
+
+    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+  }
+
+  showCreaDelCategory(categories) {
+    let html = `
+    <div class="card">
+      <div class="card-header title" id="headingFour">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed custom-btn" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            ADMINISTRACIÓN CATEGORÍAS
+          </button>
+        </h5>
+      </div>
+      <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          <form action="" name="cCategory">
+            <fieldset>
+              <div class="form__nameCat">
+                <label for="validationServer08" class="form-label">Nombre de la Categoría*</label>
+                <br />
+                <input
+                type="text"
+                name="cCate"
+                class="form-control"
+                id="validationServer08"
+                placeholder="Escribe el nombre de la categoría"
+                pattern=".{3,35}"
+                required
+                />
+                <div id="validationServer08Feedback" class="invalid-feedback">
+                  Introduzca un nombre válido
+                </div>
+                <div  class="valid-feedback">
+                  Nombre válido
+                </div>
+              </div>
+              <br>
+              <div class="form-button" id="btnCreaCat">
+                <button id="btn-dishMenu" type="submit" class="btn btn-danger">Crear Categoría</button>
+              </div>
+            </fieldset>
+          </form>
+          <br>
+          <form action="" name="dCategory">
+            <fieldset>
+              <div class="form__category">
+                <label class="form-label"> Selecciona una Categoría* </label>
+                  <select name="dCate" class="form-select" id="selMenu" aria-describedby="validationServer09Feedback" required>
+                  <option value=""  ></option>
+         
+      `;
+    for (const category of categories) {
+      html += `<option data-cate="${category.category.name}" value="${category.category.name}">${category.category.name}</option>`;
+    }
+
+    html += ` </select>
+              <div id="validationServer09Feedback" class="invalid-feedback">
+                Por favor, seleccione una Categoría
+              </div>
+              <div class="valid-feedback"></div>
+              <br>
+            </div>
+            <div class="form-button" id="btndelCat">
+              <button id="btnDCate" type="submit" class="btn btn-danger">Eliminar Categoría</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>`;
+
+    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+  }
+
+  showCreateRestaurant() {
+    let html = `
+  <div class="card">
+    <div class="card-header title" id="headingFive">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed custom-btn" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          CREAR RESTAURANTE
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+    <div class="card-body">
+    <form action="" name="cRestaurant">
+      <div class="form__nameRest">
+        <label for="validationServer10" class="form-label">Nombre del Restaurante*</label><br />
+          <input
+          type="text"
+          name="restauName"
+          class="form-control"
+          id="validationServer10"
+          placeholder="Escribe el nombre del Restaurante"
+          pattern=".{3,35}"
+          required
+          />
+          <div id="validationServer10Feedback" class="invalid-feedback">
+          Introduzca un nombre válido
+          </div>
+          <div class="valid-feedback">
+            Nombre válido
+          </div>
+        </div><br>
+        <h5 class="title">COORDENADAS</h5><br>
+        <div class="form__RLatitude">
+          <label for="validationServer11" class="form-label"> Indique la latitud del Restaurante* </label><br />
+            <input
+              type="text"
+              name="cooLat"
+              class="form-control"
+              id="validationServer11"
+              placeholder="Escribe la latitud"
+              pattern="^(-?[0-9]{1,2}(\\.\\d+)?|90(\\.0+)?)$"
+              required
+            />
+            <div id="validationServer11Feedback" class="invalid-feedback">
+              Introduzca una latitud válida
+            </div>
+            <div  class="valid-feedback">
+              Latitud válida
+            </div>
+       </div><br>
+       <div class="form__RLongitude">
+          <label for="validationServer13" class="form-label"> Indique la longitud del Restaurante* </label><br />
+            <input
+              type="text"
+              name="cooLong"
+              class="form-control"
+              id="validationServer13"
+              placeholder="Escribe la longitud"
+              pattern="^(-?[0-9]{1,3}(\\.\\d+)?|180(\\.0+)?)$"
+              required
+            />
+            <div id="validationServer13Feedback" class="invalid-feedback">
+              Introduzca una longitud válida
+            </div>
+            <div  class="valid-feedback">
+              Longitud válida
+            </div>
+        </div><br>
+        <div class="form-button" id="buttonRest">
+          <button id="btnRest" type="submit" class="btn btn-primary">Crear Restaurante</button>
+          <button class="btn btn-primary" type="reset">Resetear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>`;
+
+    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+  }
+
+  showUpdateCatDish() {
+    let html = `
+    <div class="card">
+      <div class="card-header title" id="headingSix">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed custom-btn" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+            MODIFICAR CATEGORÍAS DE UN PLATO
+          </button>
+        </h5>
+      </div>
+      <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+        <div class="card-body">
+          <form action="" name="catDish">
+          <fieldset>
+          
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+  }
+
+  showAddCatDish(dishes) {
+    let html = `
+    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+      <div class="card-body">
+        <form action="" name="upCatDish">
+          <label class="form-label"> Selecciona un Plato* </label> 
+          <select name="dishcat" class="form-select" id="selectDishCat" aria-describedby="validationServer16Feedback" required>
+          <option value=""  ></option>`;
+
+    for (const dish of dishes) {
+      html += `<option data-dish="${dish.dish.name}" value="${dish.dish.name}">${dish.dish.name}</option>`;
+    }
+
+    html += `<div id="validationServer16Feedback" class="invalid-feedback">
+                Por favor, seleccione un plato
+               </div>
+              <div  class="valid-feedback"></div>  
+          </form>
+        </div>
+      </div>`;
+
+    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+  }
+
+  showCreateDishModal(name, complete, error) {
     const messageContainer = document.getElementById("messageModal");
     const messageModal = new bootstrap.Modal(messageContainer);
     const title = document.getElementById("modal-title");
@@ -634,6 +917,162 @@ class RestaurantView {
       once: true,
     });
   }
+
+  showDeleteDishModal(dish, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Plato eliminar";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">El plato
+    <strong>${dish}</strong> ha sido eliminado correctamente.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> El plato no se puede eliminar.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      document.deleteDish.dDish.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
+  showDishMenuModal(complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Asignación y designación de plato a menú";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">La acción se ha realizado correctamente.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i>La acción no se ha realizado<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      document.dishMenu.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
+  showCreateCategoryModal(categ, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Crear Categoría";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">La categoría
+        <strong>${categ}</strong> ha sido creado correctamente.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> La categoría <strong>${categ}</strong> 
+          ya esta creada.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      if (done) {
+        document.cCategory.reset();
+      }
+      document.cCategory.cCate.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
+  showDeleteCategoryModal(categ, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Eliminar Categoría";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">La categoría
+        <strong>${categ}</strong> ha sido eliminada correctamente.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> La categoría <strong>${categ}</strong> 
+          no se ha podido eliminar.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      if (done) {
+        document.dCategory.reset();
+      }
+      document.dCategory.dCate.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
+  showRestaurantModal(name, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Crear Restaurante";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">El restaurante
+        <strong>${name}</strong> ha sido creado correctamente.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> El restaurate <strong>${name}</strong> 
+          no ha podido crearse.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      if (complete) {
+        document.cRestaurant.reset();
+      }
+      document.cRestaurant.restauName.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
   dropdownCategory(categorys) {
     this.navDropCat.replaceChildren();
@@ -1025,8 +1464,25 @@ class RestaurantView {
   bindCreateDish(handler) {
     createDishValidation(handler);
   }
+
   bindDeleteDish(handler) {
     deleteDishValidation(handler);
+  }
+
+  bindDishMenu(handler) {
+    dishMenuValidation(handler);
+  }
+
+  bindCreateCategory(handler) {
+    createCategoryValidation(handler);
+  }
+
+  bindDeleteCategory(handler) {
+    deleteCategoryValidation(handler);
+  }
+
+  bindRestaurant(handler) {
+    restaurantValidation(handler);
   }
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO

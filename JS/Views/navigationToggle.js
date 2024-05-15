@@ -47,7 +47,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 });
-
-// function redirectToInicio() {
-//   window.location.href = "../../../index.html";
-// }

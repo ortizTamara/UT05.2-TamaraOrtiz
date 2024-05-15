@@ -304,19 +304,39 @@ const RestaurantsManager = (function () {
       return this.#dishes.findIndex((x) => x.dish.name === dish);
     }
 
-    removeDish(...dishes) {
-      for (const dish of dishes) {
-        if (!dish || !(dish instanceof Dish)) {
-          throw new DishIsNull(dish);
-        }
-        const position = this.#getDishPosition(dish);
+    removeDish(dishRemove) {
+      if (!dishRemove || !(dishRemove instanceof Dish)) {
+        throw new DishIsNull(dishRemove);
+      }
+      const position = this.#getDishPosition(dishRemove);
+      if (position !== -1) {
+        this.#dishes.splice(position, 1);
+      } else {
+        throw new DishNotRegistred(dishRemove);
+      }
+
+      return this;
+    }
+
+    removeDishCategory(dishRemove) {
+      for (const category of this.#categories) {
+        const position = this.#getDishPositionInCategory(
+          category.dishes,
+          dishRemove
+        );
         if (position !== -1) {
-          this.#dishes.splice(position, 1);
-        } else {
-          throw new DishNotRegistred(dish);
+          category.dishes.splice(position, 1);
         }
       }
-      return this;
+    }
+
+    removeDishMenu(dishRemove) {
+      for (const menu of this.#menus) {
+        const position = this.#getDishPositionInMenu(menu.dishes, dishRemove);
+        if (position !== -1) {
+          menu.dishes.splice(position, 1);
+        }
+      }
     }
 
     addRestaurant(...restaurants) {

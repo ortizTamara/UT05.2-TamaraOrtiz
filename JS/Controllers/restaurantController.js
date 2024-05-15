@@ -151,6 +151,7 @@ class RestaurantController {
 
   handleAdmin = () => {
     this[VIEW].showAdmin();
+
     this[VIEW].showCreateDish(
       this[MODEL].getCategories(),
       this[MODEL].getAllergen()
@@ -158,17 +159,29 @@ class RestaurantController {
     this[VIEW].bindCreateDish(this.handleCreateDish);
 
     this[VIEW].showDeleteDish(this[MODEL].getDishes());
-  };
+    this[VIEW].bindDeleteDish(this.handleDeleteDish);
 
-  pruebaCreateDish = (name, descrip, cat, aller) => {
-    const dish = this[MODEL].createDish(name, descrip, cat, aller);
+    this[VIEW].showAdminDishMenu(
+      this[MODEL].getMenus(),
+      this[MODEL].getDishes()
+    );
+    this[VIEW].bindDishMenu(this.handleDishMenu);
+
+    this[VIEW].showCreaDelCategory(this[MODEL].getCategories());
+    this[VIEW].bindCreateCategory(this.handleCreateCategory);
+    this[VIEW].bindDeleteCategory(this.handleDeleteCategory);
+
+    this[VIEW].showCreateRestaurant();
+    this[VIEW].bindRestaurant(this.handleCreateRestaurant);
+
+    this[VIEW].showUpdateCatDish();
   };
 
   handleCreateDish = (name, descrip, cat, aller) => {
     console.log(name + " " + descrip + " " + cat + " " + aller);
 
     // Creamos el nuevo plato
-    const dish = this[MODEL].createDish(name, descrip, cat, aller);
+    const dish = this[MODEL].createDish(name, descrip, cat, "imgDefecto.png");
 
     // dish.description = descrip;
 
@@ -198,22 +211,111 @@ class RestaurantController {
     }
 
     //Mostramos el resultado
-    this[VIEW].showModalDish(name, complete, error);
+    this[VIEW].showCreateDishModal(name, complete, error);
   };
 
-  hadleDeleteDish = (dishName) => {
+  handleDeleteDish = (dishName) => {
     let complete;
     let error = "";
 
     try {
-      let dish = this[MODEL].createDish(dishName);
+      let dish = this[MODEL].getDishByName(dishName);
       this[MODEL].removeDish(dish.dish);
+      this[MODEL].removeDishCategory(dish.dish);
+      this[MODEL].removeDishMenu(dish.dish);
+
+      complete = true;
+
+      this.handleAdmin();
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+
+    this[VIEW].showDeleteDishModal(dishName, complete, error);
+  };
+
+  handleDishMenu = (option, menuName, dishName) => {
+    let complete;
+    let error = "";
+
+    try {
+      let menu = this[MODEL].getMenuByName(menuName);
+      let dish = this[MODEL].getDishByName(dishName);
+
+      if (option == "asignar") {
+        this[MODEL].assignDishToMenu(menu.menu, dish.dish);
+      }
+      if (option == "designar") {
+        this[MODEL].deassignDishToMenu(menu.menu, dish.dish);
+      }
+
+      if (option == "ordenar") {
+        this[MODEL].changeDishesPositionsInMenu(menu, dish, dish);
+      }
+
       complete = true;
       this.handleAdmin();
     } catch (exception) {
       complete = false;
       error = exception;
     }
+
+    this[VIEW].showDishMenuModal(complete, error);
+  };
+
+  handleCreateCategory = (catName) => {
+    const categ = this[MODEL].createCategory(catName);
+
+    let complete;
+    let error = "";
+
+    try {
+      this[MODEL].addCategory(categ);
+
+      complete = true;
+      this.handleAdmin;
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+
+    this[VIEW].showCreateCategoryModal(catName, complete, error);
+  };
+
+  // TODO: Falta que se elimine también del inicio y que al crear una nueva categoría aparezca también en la selección de eliminar
+  handleDeleteCategory = (catName) => {
+    const categ = this[MODEL].createCategory(catName);
+
+    let complete;
+    let error = "";
+
+    try {
+      this[MODEL].removeCategory(categ);
+
+      complete = true;
+      this.handleAdmin;
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+    this[VIEW].showDeleteCategoryModal(catName, complete, error);
+  };
+
+  handleCreateRestaurant = (name, lat, long) => {
+    let complete;
+    let error = "";
+    try {
+      const coor = new Coordinate(lat, long);
+      this[MODEL].addRestaurant(this[MODEL].createRestaurant(name, coor));
+
+      complete = true;
+      this.handleAdmin();
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+    this[VIEW].showRestaurantModal(name, complete, error);
   };
 
   [LOAD_MANAGER_OBJECTS]() {
@@ -581,23 +683,17 @@ class RestaurantController {
     let valencia = new Coordinate("39.4697", "-0.3763");
 
     // Añadimos los restaurantes
-    let restaurant1 = this[MODEL].createRestaurant(
-      "Ciudad Real",
-      "Restaurante Vegan Kitchen en la plaza mayor de Ciudad Real",
-      ciudadReal
-    );
+    let restaurant1 = this[MODEL].createRestaurant("Ciudad Real", ciudadReal);
+    restaurant1.description =
+      "Restaurante Vegan Kitchen en la plaza mayor de Ciudad Real";
 
-    let restaurant2 = this[MODEL].createRestaurant(
-      "Madrid",
-      "Restaurante Vegan Kitchen en la plaza España de Madrid",
-      madrid
-    );
+    let restaurant2 = this[MODEL].createRestaurant("Madrid", madrid);
+    restaurant2.description =
+      "Restaurante Vegan Kitchen en la plaza España de Madrid";
 
-    let restaurant3 = this[MODEL].createRestaurant(
-      "Valencia",
-      "Restaurante Vegan Kitchen en la plaza de la Reina de Valencia",
-      valencia
-    );
+    let restaurant3 = this[MODEL].createRestaurant("Valencia", valencia);
+    restaurant3.description =
+      "Restaurante Vegan Kitchen en la plaza de la Reina de Valencia";
 
     // Añadimos los restaurantes
     this[MODEL].addRestaurant(restaurant1);

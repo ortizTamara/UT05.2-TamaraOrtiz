@@ -41,6 +41,7 @@ function createDishValidation(handler) {
       );
     }
   });
+
   form.addEventListener("reset", function (event) {
     for (const input of this.querySelectorAll("input")) {
       input.classList.remove("is-valid");
@@ -52,6 +53,237 @@ function createDishValidation(handler) {
 
 function deleteDishValidation(handler) {
   const form = document.forms.deleteDish;
+  var inputs = form.querySelectorAll("select");
+  var totalInputs = inputs.length;
+  var validInputs = 0;
+
+  inputs.forEach(function (input) {
+    input.addEventListener("input", function (event) {
+      // Comprueba si el campo es válido
+      if (event.target.checkValidity()) {
+        // Si es válido, añade la clase 'valid' y elimina la clase 'invalid'
+        event.target.classList.add("is-valid");
+        event.target.classList.remove("is-invalid");
+      } else {
+        // Si no es válido, añade la clase 'invalid' y elimina la clase 'valid'
+        event.target.classList.add("is-invalid");
+        event.target.classList.remove("is-valid");
+      }
+
+      progress();
+    });
+  });
+
+  function progress() {
+    validInputs = Array.from(inputs).filter(function (input) {
+      return input.checkValidity();
+    }).length;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (totalInputs == validInputs) {
+      handler(this.dDish.value);
+    }
+  });
+
+  form.addEventListener("reset", function (event) {
+    for (const input of this.querySelectorAll("input")) {
+      input.classList.remove("is-valid");
+      input.classList.remove("is-invalid");
+    }
+    this.dDish.focus();
+  });
 }
 
-export { createDishValidation, deleteDishValidation };
+function dishMenuValidation(handler) {
+  const form = document.forms.dishMenu;
+  var inputs = form.querySelectorAll("select");
+  var totalInputs = inputs.length;
+  var validInputs = 0;
+
+  inputs.forEach(function (input) {
+    input.addEventListener("input", function (event) {
+      // Comprueba si el campo es válido
+      if (event.target.checkValidity()) {
+        // Si es válido, añade la clase 'valid' y elimina la clase 'invalid'
+        event.target.classList.add("is-valid");
+        event.target.classList.remove("is-invalid");
+      } else {
+        // Si no es válido, añade la clase 'invalid' y elimina la clase 'valid'
+        event.target.classList.add("is-invalid");
+        event.target.classList.remove("is-valid");
+      }
+
+      progress();
+    });
+  });
+
+  function progress() {
+    validInputs = Array.from(inputs).filter(function (input) {
+      return input.checkValidity();
+    }).length;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (totalInputs == validInputs) {
+      handler(this.adOption.value, this.adMenu.value, this.adDish.value);
+    }
+  });
+  form.addEventListener("reset", function (event) {
+    for (const input of inputs) {
+      input.classList.remove("is-valid");
+      input.classList.remove("is-invalid");
+    }
+    this.adOption.focus();
+  });
+}
+
+function createCategoryValidation(handler) {
+  const form = document.forms.cCategory;
+  var inputs = form.querySelectorAll("select");
+  var totalInputs = inputs.length;
+  var validInputs = 0;
+
+  inputs.forEach(function (input) {
+    input.addEventListener("input", function (event) {
+      // Comprueba si el campo es válido
+      if (event.target.checkValidity()) {
+        // Si es válido, añade la clase 'valid' y elimina la clase 'invalid'
+        event.target.classList.add("is-valid");
+        event.target.classList.remove("is-invalid");
+      } else {
+        // Si no es válido, añade la clase 'invalid' y elimina la clase 'valid'
+        event.target.classList.add("is-invalid");
+        event.target.classList.remove("is-valid");
+      }
+
+      progress();
+    });
+  });
+
+  function progress() {
+    validInputs = Array.from(inputs).filter(function (input) {
+      return input.checkValidity();
+    }).length;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (totalInputs == validInputs) {
+      handler(this.cCate.value);
+    }
+  });
+  form.addEventListener("reset", function (event) {
+    for (const input of inputs) {
+      input.classList.remove("is-valid");
+      input.classList.remove("is-invalid");
+    }
+    this.cCate.focus();
+  });
+}
+
+function deleteCategoryValidation(handler) {
+  const form = document.forms.dCategory;
+  var inputs = form.querySelectorAll("select");
+  var totalInputs = inputs.length;
+  var validInputs = 0;
+
+  inputs.forEach(function (input) {
+    input.addEventListener("input", function (event) {
+      // Comprueba si el campo es válido
+      if (event.target.checkValidity()) {
+        // Si es válido, añade la clase 'valid' y elimina la clase 'invalid'
+        event.target.classList.add("is-valid");
+        event.target.classList.remove("is-invalid");
+      } else {
+        // Si no es válido, añade la clase 'invalid' y elimina la clase 'valid'
+        event.target.classList.add("is-invalid");
+        event.target.classList.remove("is-valid");
+      }
+
+      progress();
+    });
+  });
+
+  function progress() {
+    validInputs = Array.from(inputs).filter(function (input) {
+      return input.checkValidity();
+    }).length;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (totalInputs == validInputs) {
+      handler(this.dCate.value);
+    }
+  });
+
+  form.addEventListener("reset", function (event) {
+    for (const input of this.querySelectorAll("input")) {
+      input.classList.remove("is-valid");
+      input.classList.remove("is-invalid");
+    }
+    this.dCate.focus();
+  });
+}
+
+function restaurantValidation(handler) {
+  const form = document.forms.cRestaurant;
+  var inputs = form.querySelectorAll("select");
+  var totalInputs = inputs.length;
+  var validInputs = 0;
+
+  inputs.forEach(function (input) {
+    input.addEventListener("input", function (event) {
+      // Comprueba si el campo es válido
+      if (event.target.checkValidity()) {
+        // Si es válido, añade la clase 'valid' y elimina la clase 'invalid'
+        event.target.classList.add("is-valid");
+        event.target.classList.remove("is-invalid");
+      } else {
+        // Si no es válido, añade la clase 'invalid' y elimina la clase 'valid'
+        event.target.classList.add("is-invalid");
+        event.target.classList.remove("is-valid");
+      }
+
+      progress();
+    });
+  });
+
+  function progress() {
+    validInputs = Array.from(inputs).filter(function (input) {
+      return input.checkValidity();
+    }).length;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (totalInputs == validInputs) {
+      handler(this.restauName.value, this.cooLat.value, this.cooLong.value);
+    }
+  });
+
+  form.addEventListener("reset", function (event) {
+    for (const input of inputs) {
+      input.classList.remove("is-valid");
+      input.classList.remove("is-invalid");
+    }
+    this.crName.focus();
+  });
+}
+
+export {
+  createDishValidation,
+  deleteDishValidation,
+  dishMenuValidation,
+  restaurantValidation,
+  createCategoryValidation,
+  deleteCategoryValidation,
+};

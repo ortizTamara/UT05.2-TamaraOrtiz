@@ -58,6 +58,7 @@ body {
 
 .droprestaurant-item a,
 .dropcategory-item a {
+  text-decoration: none;
   color: black;
 }
 
@@ -81,6 +82,7 @@ main {
 }
 
 #init-bread {
+  text-decoration: none;
   color: white;
 }
 
@@ -125,10 +127,14 @@ ul.breadcrumbs li + li:before {
 .dropcat-item a {
   color: black;
 }
+a {
+  text-decoration: none;
+}
 
 .category a,
 .menu a,
 .allergen a {
+  text-decoration: none;
   color: white;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
@@ -296,6 +302,10 @@ figure img {
   margin: 0;
 }
 
+.card {
+  margin-bottom: 1em;
+}
+
 #createDish,
 #deleteDish {
   background-color: #f8f9fa;
@@ -324,7 +334,9 @@ figure img {
 }
 
 .form__categ select,
-.form__aller select {
+.form__aller select,
+.form__dishes select,
+.form__menus select {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   width: 100%;
@@ -352,6 +364,12 @@ figure img {
   font-weight: bold;
 }
 
-.hidden {
-  display: none;
+.custom-btn {
+  text-decoration: none;
+  color: black;
+}
+
+.invalid-feedback {
+  margin-top: -1em;
+  margin-bottom: 1em;
 }
