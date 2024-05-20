@@ -5,6 +5,7 @@ import {
   restaurantValidation,
   deleteCategoryValidation,
   createCategoryValidation,
+  addDishCategoryValidation,
 } from "../Utils/validation.js";
 
 const EXCECUTE_HANDLER = Symbol("excecuteHandler");
@@ -102,6 +103,65 @@ class RestaurantView {
       </div>
       `
     );
+  }
+
+  showCookiesMessage() {
+    const toast = `<div class="fixed-top p-5 mt-5">
+    <div id="cookies-message" class="toast fade show 
+    w-100 mw-100" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <h4 class="me-auto">Aviso de uso de cookies</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                id="btnDismissCookie"></button>
+        </div>
+        <div class="toast-body p-4 d-flex flex-column">
+            <p>
+                Este sitio web almacena datos en cookies para activar su
+                funcionalidad, entre las que se encuentra
+                datos analíticos y personalización. Para poder utilizar este
+                sitio, estás automáticamente aceptando
+                que
+                utilizamos cookies.
+            </p>
+            <div class="ml-auto">
+                <button type="button" class="btn btn-outline-danger mr-3 deny" id="btnDenyCookie" data-bs-dismiss="toast">
+                    Denegar
+                </button>
+                <button type="button" class="btn btn-success" id="btnAcceptCookie" data-bs-dismiss="toast">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>`;
+    document.body.insertAdjacentHTML("afterbegin", toast);
+
+    const cookiesMessage = document.getElementById("cookies-message");
+    cookiesMessage.addEventListener("hidden.bs.toast", (event) => {
+      event.currentTarget.parentElement.remove();
+    });
+
+    const btnAcceptCookie = document.getElementById("btnAcceptCookie");
+    btnAcceptCookie.addEventListener("click", (event) => {
+      setCookie("acceptedCookieMessage", "true", 1);
+    });
+
+    const denyCookieFunction = (event) => {
+      this.main.replaceChildren();
+      this.main.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="container my-3"><div class="alert alert-warning" role="alert">
+        <strong>Para utilizar esta web es necesario aceptar el uso de cookies. Debe recargar la página y aceptar las condicones para seguir navegando. Gracias.</strong>
+      </div></div>`
+      );
+      this.categories.remove();
+      this.nav.remove();
+      this.content.remove();
+    };
+    const btnDenyCookie = document.getElementById("btnDenyCookie");
+    btnDenyCookie.addEventListener("click", denyCookieFunction);
+    const btnDismissCookie = document.getElementById("btnDismissCookie");
+    btnDismissCookie.addEventListener("click", denyCookieFunction);
   }
 
   // MUESTRA LOS PLATOS ALEATORIOS
@@ -542,7 +602,7 @@ class RestaurantView {
               </div>
               <div class="form__aller">
                 <label for="validationServer04" class="form-label">Alérgenos</label>
-                <select name="dishAllergen"  class="form-select" id="validationServer04" aria-describedby="validationServer04Feedback" required>
+                <select name="dishAllergen"  class="form-select" id="validationServer04" aria-describedby="validationServer04Feedback">
                   <option value="" ></option>`;
 
     for (const allergen of allergens) {
@@ -675,7 +735,8 @@ class RestaurantView {
                 </div>
                 <br>
                 <div class="form-button" id="buttonDish">
-                  <button id="btn-dishMenu" type="submit" class="btn btn-danger">Realizar Opción</button>
+                
+                  <button id="btn-dishMenu" type="submit" class="btn btn-primary">Realizar Opción</button>
                 </div>
             </fieldset>
           </form>
@@ -706,8 +767,8 @@ class RestaurantView {
                 <input
                 type="text"
                 name="cCate"
-                class="form-control"
                 id="validationServer08"
+                class="form-control w-100"
                 placeholder="Escribe el nombre de la categoría"
                 pattern=".{3,35}"
                 required
@@ -721,7 +782,7 @@ class RestaurantView {
               </div>
               <br>
               <div class="form-button" id="btnCreaCat">
-                <button id="btn-dishMenu" type="submit" class="btn btn-danger">Crear Categoría</button>
+                <button id="btn-dishMenu" type="submit" class="btn btn-primary">Crear Categoría</button>
               </div>
             </fieldset>
           </form>
@@ -827,7 +888,7 @@ class RestaurantView {
         </div><br>
         <div class="form-button" id="buttonRest">
           <button id="btnRest" type="submit" class="btn btn-primary">Crear Restaurante</button>
-          <button class="btn btn-primary" type="reset">Resetear</button>
+          <button class="btn btn-danger" type="reset">Resetear</button>
         </div>
       </form>
     </div>
@@ -839,7 +900,7 @@ class RestaurantView {
 
   showUpdateCatDish() {
     let html = `
-    <div class="card">
+    <div class="card" id="updateCatDish">
       <div class="card-header title" id="headingSix">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed custom-btn" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
@@ -850,8 +911,17 @@ class RestaurantView {
       <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
         <div class="card-body">
           <form action="" name="catDish">
-          <fieldset>
-          
+            <fieldset>
+              <p>Selecciona una opción:*</p>
+              <div class="form-check">
+                <input class="form-check-input radioCatDish" type="radio" name="option" id="radioA" data-opt="radioA"/>
+                <label class="form-check-label" for="radioA">Añadir plato a una categoría
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input radioCatDish" type="radio" name="option" id="radioD" data-opt="radioD"/>
+                <label class="form-check-label" for="radioD">Eliminar plato de una categoría</label>
+              </div>
             </fieldset>
           </form>
         </div>
@@ -862,28 +932,96 @@ class RestaurantView {
     this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
   }
 
-  showAddCatDish(dishes) {
+  showDishSelection(dishes) {
     let html = `
-    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+    <div aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
       <div class="card-body">
-        <form action="" name="upCatDish">
+        <form action="" name="upDish">
+        <div id="primeraParte">
           <label class="form-label"> Selecciona un Plato* </label> 
-          <select name="dishcat" class="form-select" id="selectDishCat" aria-describedby="validationServer16Feedback" required>
+          <select name="dishcat" class="form-select" id="selectDish" aria-describedby="validationServer14Feedback" required>
           <option value=""  ></option>`;
 
     for (const dish of dishes) {
       html += `<option data-dish="${dish.dish.name}" value="${dish.dish.name}">${dish.dish.name}</option>`;
     }
 
-    html += `<div id="validationServer16Feedback" class="invalid-feedback">
+    html += `<div id="validationServer14Feedback" class="invalid-feedback">
                 Por favor, seleccione un plato
                </div>
               <div  class="valid-feedback"></div>  
+            </div>
           </form>
         </div>
       </div>`;
 
-    this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
+    this.main
+      .querySelector("#updateCatDish")
+      .insertAdjacentHTML("beforeend", html);
+  }
+
+  showAddCategorySelection(categories) {
+    let html = `
+    <div  aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
+      <div class="card-body">
+        <form action="" name="upCat">
+          <div id="segundaParte">
+          <label class="form-label"> Selecciona la Categoría que quieres añadir* </label> 
+          <select name="catedish" class="form-select" id="selcatdish" aria-describedby="validationServer15Feedback" required>
+            <option value=""  ></option>`;
+
+    for (const category of categories) {
+      html += `<option data-cate="${category.category.name}" value="${category.category.name}">${category.category.name}</option>`;
+    }
+
+    html += `<div id="validationServer15Feedback" class="invalid-feedback">
+                Por favor, seleccione una categoría
+              </div>
+              <div  class="valid-feedback"></div>
+            </select>
+            <div class="form-button" id="btnAddCat">
+              <button id="btnAddCatD" type="submit" class="btn btn-primary">Añadir</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>`;
+
+    this.main
+      .querySelector("#updateCatDish")
+      .insertAdjacentHTML("beforeend", html);
+  }
+
+  showDeleCategorySelection(categories) {
+    let html = `
+    <div  aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
+      <div class="card-body">
+        <form action="" name="upCat">
+          <div id="segundaParte">
+          <label class="form-label"> Selecciona la Categoría que quieres eliminar* </label> 
+          <select name="catedish" class="form-select" id="selcatdish" aria-describedby="validationServer15Feedback" required>
+            <option value=""  ></option>`;
+
+    for (const category of categories) {
+      html += `<option data-cate="${category.category.name}" value="${category.category.name}">${category.category.name}</option>`;
+    }
+
+    html += `<div id="validationServer15Feedback" class="invalid-feedback">
+                Por favor, seleccione una categoría
+              </div>
+              <div  class="valid-feedback"></div>
+            </select>
+            <div class="form-button" id="btnDelCat">
+              <button id="btnDelCatD" type="submit" class="btn btn-danger">Eliminar</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>`;
+
+    this.main
+      .querySelector("#updateCatDish")
+      .insertAdjacentHTML("beforeend", html);
   }
 
   showCreateDishModal(name, complete, error) {
@@ -1071,6 +1209,108 @@ class RestaurantView {
     messageContainer.addEventListener("hidden.bs.modal", listener, {
       once: true,
     });
+  }
+
+  showAddCategoryDishModal(dishName, catName, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Añadir Categoría a Plato";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">La categoría
+        <strong>${catName}</strong> ha sido añadida correctamente al plato <strong>${dishName}</strong>.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> La categoría <strong>${catName}</strong> 
+          no se ha podido añadir al plato <strong>${dishName}</strong>.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      if (complete) {
+        // document.getElementById("updateCatDish").focus();
+        document.btnAddCat.focus();
+      }
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+
+    /*
+    messageModal.show();
+    const listener = (event) => {
+      document.dishMenu.focus();
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+    */
+  }
+  showDelCategoryDishModal(dishName, catName, complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Eliminar Categoría a Plato";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">La categoría
+        <strong>${catName}</strong> ha sido eliminada correctamente al plato <strong>${dishName}</strong>.</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i> La categoría <strong>${catName}</strong> 
+          no se ha podido eliminar del plato <strong>${dishName}</strong>.<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    const listener = (event) => {
+      if (complete) {
+        // document.getElementById("updateCatDish").focus();
+        document.btnDelCat.focus();
+      }
+    };
+    messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
+  showIdentifacationLink() {
+    const userArea = document.getElementById("userArea");
+    userArea.replaceChildren();
+    userArea.insertAdjacentHTML(
+      "afterbegin",
+      `<a class="account d-flex
+    mx-2 flex-column" style="text-align: right; height: 40px">
+    <a id="login" href="#"><i class="bi bi-person-circle" ariahidden="true"></i> Iniciar Sesión</a>
+    </a>`
+    );
+  }
+
+  showAuthUserProfile(user) {
+    const userArea = document.getElementById("userArea");
+    userArea.replaceChildren();
+    userArea.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="account d-flex
+    mx-2 flex-column" style="text-align: right">Bienvenid@ , 
+    ${user.username} <a id="aCloseSession" href="#">Cerrar sesión</a>
+    </div>
+    <div class="image">
+    <img alt="${user.username}" src="./img/La Virgñlilla-S.png" />
+    </div>`
+    );
   }
 
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
@@ -1483,6 +1723,63 @@ class RestaurantView {
 
   bindRestaurant(handler) {
     restaurantValidation(handler);
+  }
+
+  bindUpdateCatDish(handler) {
+    let radios = document.getElementsByClassName("radioCatDish");
+    for (const r of radios) {
+      r.addEventListener("click", (event) => {
+        const opt = event.currentTarget.dataset.opt;
+
+        // this[EXCECUTE_HANDLER](
+        //   handler,
+        //   [opt],
+        //   "document.fACD",
+        //   { action: "showAdminFormCatDish", opt },
+        //   "#",
+        //   event
+        // );
+        handler(opt);
+      });
+    }
+  }
+
+  bindDishSelection(handler) {
+    const firstSelect = document.getElementById("selectDish");
+    addDishCategoryValidation(handler);
+
+    // addDishValidation(handler);
+    firstSelect.addEventListener("change", (event) => {
+      const dish = firstSelect.value;
+
+      // this[EXCECUTE_HANDLER](
+      //   handler,
+      //   [dish],
+      //   "document.fACD",
+      //   { action: "showCatDish", dish },
+      //   "#",
+      //   event
+      // );
+      handler(dish);
+    });
+  }
+
+  bindAddCatDish(handler) {
+    addDishCategoryValidation(handler);
+    // AddDelCateValidation(handler);
+    // const form = document.forms.fACD;
+    // let button = document.getElementById("btnAddCatD");
+    // let dish = "";
+    // let cat = "";
+    // button.addEventListener("click", function (event) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    // addDishCategoryValidation(handler);
+    // });
+  }
+
+  bindDelCatDish(handler) {
+    addDishCategoryValidation(handler);
   }
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO

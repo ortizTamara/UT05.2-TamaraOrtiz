@@ -369,7 +369,53 @@ figure img {
   color: black;
 }
 
-.invalid-feedback {
-  margin-top: -1em;
-  margin-bottom: 1em;
+/* .invalid-feedback { */
+/* margin-top: -1em; */
+/* margin-bottom: 1em; */
+/* } */
+
+.toast-body {
+  overflow-y: auto;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.toast-header h4 {
+  margin-top: 0.2em;
+  color: black;
+  font-size: 1.5rem;
+}
+
+.toast-body p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.toast-body .btn {
+  margin-top: 0.5rem;
+}
+
+.fixed-top {
+  top: 50%;
+  transform: translate(35%, -50%);
+  width: 70rem;
+  height: 30rem;
+}
+
+.my-3 {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35rem;
+  height: 30rem;
+}
+
+#updateCatDish {
+  margin-bottom: 5em;
+}
+#buttonRest,
+#btnAddCatD,
+#btnDelCat {
+  margin-top: 1em;
 }

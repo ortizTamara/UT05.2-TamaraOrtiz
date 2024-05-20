@@ -173,6 +173,10 @@ const RestaurantsManager = (function () {
       );
     }
 
+    #getCategoryPositionByName(category) {
+      return this.#categories.findIndex((x) => x.category.name === category);
+    }
+
     // Elimina una categoría. Los platos quedarán desasignados de la categoría.
     removeCategory(...categories) {
       for (const category of categories) {
@@ -537,21 +541,17 @@ const RestaurantsManager = (function () {
 
     // un plato puede estar en más categorías
     // El problema es que esta devolviendo todo el dish, y debería de devolver solo plato
-    *getCategoryForDish(dish) {
-      if (!dish) {
-        return; // Terminar el generador si dish es nulo
+    getCategoriesForDish(dishName) {
+      if (!dishName) {
+        return []; // Devuelve un array vacío si dishName es nulo
       }
-      for (const category of this.#categories) {
-        console.log("Category:", category); // Verifica el objeto category
-        console.log("Dishes in category:", category.dishes); // Verifica los platos en la categoría
 
-        // TODO: Aquí me he dado cuenta que foundDish sale undefined
-        const foundDish = category.dishes.find((item) => item.dish === dish);
-        console.log("Found dish:", foundDish); // Verifica el plato encontrado
-        if (foundDish) {
-          yield category.category;
-        }
-      }
+      // Filtrar categorías que contienen el plato y mapear a sus nombres
+      const categoriesWithDish = this.#categories.filter((category) =>
+        category.dishes.some((dish) => dish.name === dishName)
+      );
+
+      return categoriesWithDish;
     }
 
     deassignAllergenToDish(dish, ...allergens) {
@@ -915,6 +915,10 @@ const RestaurantsManager = (function () {
 
     getCategories() {
       return this.#categories;
+    }
+
+    getCategoryByName(category) {
+      return this.#categories[this.#getCategoryPositionByName(category)];
     }
 
     getAllergen() {

@@ -1,12 +1,18 @@
 import Coordinate from "../Models/objectRestaurant.js";
+import { getCookie } from "../Utils/cookie.js";
+
 const MODEL = Symbol("RestaurantModel");
 const VIEW = Symbol("RestaurantView");
+const USER = Symbol("USER");
+const AUTH = Symbol("AUTH");
 const LOAD_MANAGER_OBJECTS = Symbol("Load Manager Objects");
 
 class RestaurantController {
-  constructor(model, view) {
+  constructor(model, view, auth) {
     this[MODEL] = model;
     this[VIEW] = view;
+    this[USER] = null;
+    this[AUTH] = auth;
 
     // Eventos iniciales del Controlador
     this.onLoad();
@@ -23,6 +29,10 @@ class RestaurantController {
   // MÉTODO PARA CARGAR LOS OBJETOS INICIALES
   onLoad = () => {
     this[LOAD_MANAGER_OBJECTS]();
+
+    // if (getCookie("acceptedCookieMessage") !== "true") {
+    //   this[VIEW].showCookiesMessage();
+    // }
 
     // TODO: borrar los mouseenter (ya no sirven para nada, creo)
     // CATEGORÍAS
@@ -66,7 +76,7 @@ class RestaurantController {
     this.selectedDish = dish;
 
     // TODO: y en categories sale: categories = getCategoryForDish {<suspended>¡}
-    const categories = this[MODEL].getCategoryForDish(this.selectedDish);
+    const categories = this[MODEL].getCategoriesForDish(this.selectedDish);
     // console.log("¿Son los mismos objetos?", this.selectedDish === dish);
 
     this.selectedCategory = categories;
@@ -175,7 +185,18 @@ class RestaurantController {
     this[VIEW].bindRestaurant(this.handleCreateRestaurant);
 
     this[VIEW].showUpdateCatDish();
+    this[VIEW].bindUpdateCatDish(this.handleUpdateCatDish);
   };
+
+  handleOpenSession() {
+    this.onInit();
+    this[VIEW].showAuthUserProfile(this[USER]);
+  }
+
+  handleCloseSession() {
+    this[USER] = null;
+    this[VIEW].showIdentificationLink();
+  }
 
   handleCreateDish = (name, descrip, cat, aller) => {
     console.log(name + " " + descrip + " " + cat + " " + aller);
@@ -316,6 +337,86 @@ class RestaurantController {
       error = exception;
     }
     this[VIEW].showRestaurantModal(name, complete, error);
+  };
+
+  handleUpdateCatDish = (opt) => {
+    // TODO: Cambiarlo a ingles
+    let primeraParte = document.getElementById("primeraParte");
+    let segundaParte = document.getElementById("segundaParte");
+    if (primeraParte != undefined) {
+      primeraParte.parentNode.parentNode.remove();
+    }
+    if (segundaParte != undefined) {
+      segundaParte.parentNode.parentNode.remove();
+    }
+    if (opt == "radioA") {
+      this[VIEW].showDishSelection(this[MODEL].getDishes());
+      this[VIEW].bindDishSelection(this.handleAddSelection);
+    } else {
+      this[VIEW].showDishSelection(this[MODEL].getDishes());
+      this[VIEW].bindDishSelection(this.handleDeleteSelection);
+    }
+  };
+
+  handleAddSelection = (dish) => {
+    let segundaParte = document.getElementById("segundaParte");
+    if (segundaParte != undefined) {
+      segundaParte.parentNode.parentNode.remove();
+    }
+    let categoriasAExcluir = this[MODEL].getCategoriesForDish(dish);
+    let categories = this[MODEL].getCategories();
+    let categoriasFiltradas = categories.filter(
+      (cat) =>
+        !categoriasAExcluir.some((exclude) => exclude.category === cat.category)
+    );
+    this[VIEW].showAddCategorySelection(categoriasFiltradas);
+    this[VIEW].bindAddCatDish(this.handleAddCatDish);
+  };
+
+  handleDeleteSelection = (dish) => {
+    let categoriasAIncluir = this[MODEL].getCategoriesForDish(dish);
+    this[VIEW].showDeleCategorySelection(categoriasAIncluir);
+    this[VIEW].bindDelCatDish(this.handleDelCatDish);
+  };
+
+  handleAddCatDish = (dishName, catName) => {
+    let complete;
+    let error = "";
+
+    try {
+      let dish = this[MODEL].getDishByName(dishName);
+      let category = this[MODEL].getCategoryByName(catName);
+
+      this[MODEL].assignCategoryToDish(category.category, dish.dish);
+
+      complete = true;
+      this.handleAdmin;
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+
+    this[VIEW].showAddCategoryDishModal(dishName, catName, complete, error);
+  };
+
+  handleDelCatDish = (dishName, catName) => {
+    let complete;
+    let error = "";
+
+    try {
+      let dish = this[MODEL].getDishByName(dishName);
+      let category = this[MODEL].getCategoryByName(catName);
+
+      this[MODEL].deassignCategoryToDish(category.category, dish.dish);
+
+      complete = true;
+      this.handleAdmin;
+    } catch (exception) {
+      complete = false;
+      error = exception;
+    }
+
+    this[VIEW].showDelCategoryDishModal(dishName, catName, complete, error);
   };
 
   [LOAD_MANAGER_OBJECTS]() {

@@ -144,7 +144,7 @@ function dishMenuValidation(handler) {
 
 function createCategoryValidation(handler) {
   const form = document.forms.cCategory;
-  var inputs = form.querySelectorAll("select");
+  var inputs = form.querySelectorAll("input, select");
   var totalInputs = inputs.length;
   var validInputs = 0;
 
@@ -235,7 +235,7 @@ function deleteCategoryValidation(handler) {
 
 function restaurantValidation(handler) {
   const form = document.forms.cRestaurant;
-  var inputs = form.querySelectorAll("select");
+  var inputs = form.querySelectorAll("input, select");
   var totalInputs = inputs.length;
   var validInputs = 0;
 
@@ -279,6 +279,74 @@ function restaurantValidation(handler) {
   });
 }
 
+function addDishCategoryValidation(handler) {
+  const formDish = document.forms.upDish;
+  const formCat = document.forms.upCat;
+
+  const validateForm = (form) => {
+    const inputs = form.querySelectorAll("select");
+    const totalInputs = inputs.length;
+    let validInputs = 0;
+
+    inputs.forEach(function (input) {
+      input.addEventListener("input", function (event) {
+        // Comprueba si el campo es válido
+        if (event.target.checkValidity()) {
+          // Si es válido, añade la clase 'valid' y elimina la clase 'invalid'
+          event.target.classList.add("is-valid");
+          event.target.classList.remove("is-invalid");
+        } else {
+          // Si no es válido, añade la clase 'invalid' y elimina la clase 'valid'
+          event.target.classList.add("is-invalid");
+          event.target.classList.remove("is-valid");
+        }
+
+        progress();
+      });
+    });
+
+    function progress() {
+      validInputs = Array.from(inputs).filter(function (input) {
+        return input.checkValidity();
+      }).length;
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (totalInputs === validInputs) {
+        const dishcat = formDish ? formDish.dishcat.value : null;
+        const catdish = formCat ? formCat.catedish.value : null;
+        if (form === formCat) {
+          handler(dishcat, catdish);
+        } else if (form === formDish) {
+          handler(catdish, dishcat);
+        }
+      }
+    });
+
+    form.addEventListener("reset", function () {
+      resetForm();
+    });
+
+    const resetForm = () => {
+      for (const input of inputs) {
+        input.classList.remove("is-valid");
+        input.classList.remove("is-invalid");
+      }
+      form.querySelector("select").focus();
+    };
+  };
+
+  if (formDish) {
+    validateForm(formDish);
+  }
+
+  if (formCat) {
+    validateForm(formCat);
+  }
+}
+
 export {
   createDishValidation,
   deleteDishValidation,
@@ -286,4 +354,5 @@ export {
   restaurantValidation,
   createCategoryValidation,
   deleteCategoryValidation,
+  addDishCategoryValidation,
 };
