@@ -340,14 +340,13 @@ class RestaurantController {
   };
 
   handleUpdateCatDish = (opt) => {
-    // TODO: Cambiarlo a ingles
-    let primeraParte = document.getElementById("primeraParte");
-    let segundaParte = document.getElementById("segundaParte");
-    if (primeraParte != undefined) {
-      primeraParte.parentNode.parentNode.remove();
+    let firstPart = document.getElementById("firstPart");
+    let secondPart = document.getElementById("secondPart");
+    if (firstPart != undefined) {
+      firstPart.parentNode.parentNode.remove();
     }
-    if (segundaParte != undefined) {
-      segundaParte.parentNode.parentNode.remove();
+    if (secondPart != undefined) {
+      secondPart.parentNode.parentNode.remove();
     }
     if (opt == "radioA") {
       this[VIEW].showDishSelection(this[MODEL].getDishes());
@@ -359,23 +358,29 @@ class RestaurantController {
   };
 
   handleAddSelection = (dish) => {
-    let segundaParte = document.getElementById("segundaParte");
-    if (segundaParte != undefined) {
-      segundaParte.parentNode.parentNode.remove();
+    let secondPart = document.getElementById("secondPart");
+    if (secondPart != undefined) {
+      secondPart.parentNode.parentNode.remove();
     }
-    let categoriasAExcluir = this[MODEL].getCategoriesForDish(dish);
+    let categoriesToExclude = this[MODEL].getCategoriesForDish(dish);
     let categories = this[MODEL].getCategories();
-    let categoriasFiltradas = categories.filter(
+    let filteredCategories = categories.filter(
       (cat) =>
-        !categoriasAExcluir.some((exclude) => exclude.category === cat.category)
+        !categoriesToExclude.some(
+          (exclude) => exclude.category === cat.category
+        )
     );
-    this[VIEW].showAddCategorySelection(categoriasFiltradas);
+    this[VIEW].showAddCategorySelection(filteredCategories);
     this[VIEW].bindAddCatDish(this.handleAddCatDish);
   };
 
   handleDeleteSelection = (dish) => {
-    let categoriasAIncluir = this[MODEL].getCategoriesForDish(dish);
-    this[VIEW].showDeleCategorySelection(categoriasAIncluir);
+    let secondPart = document.getElementById("secondPart");
+    if (secondPart != undefined) {
+      secondPart.parentNode.parentNode.remove();
+    }
+    let categoriesToInclude = this[MODEL].getCategoriesForDish(dish);
+    this[VIEW].showDeleCategorySelection(categoriesToInclude);
     this[VIEW].bindDelCatDish(this.handleDelCatDish);
   };
 

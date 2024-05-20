@@ -937,7 +937,7 @@ class RestaurantView {
     <div aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
       <div class="card-body">
         <form action="" name="upDish">
-        <div id="primeraParte">
+        <div id="firstPart">
           <label class="form-label"> Selecciona un Plato* </label> 
           <select name="dishcat" class="form-select" id="selectDish" aria-describedby="validationServer14Feedback" required>
           <option value=""  ></option>`;
@@ -965,7 +965,7 @@ class RestaurantView {
     <div  aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
       <div class="card-body">
         <form action="" name="upCat">
-          <div id="segundaParte">
+          <div id="secondPart">
           <label class="form-label"> Selecciona la Categoría que quieres añadir* </label> 
           <select name="catedish" class="form-select" id="selcatdish" aria-describedby="validationServer15Feedback" required>
             <option value=""  ></option>`;
@@ -997,7 +997,7 @@ class RestaurantView {
     <div  aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
       <div class="card-body">
         <form action="" name="upCat">
-          <div id="segundaParte">
+          <div id="secondPart">
           <label class="form-label"> Selecciona la Categoría que quieres eliminar* </label> 
           <select name="catedish" class="form-select" id="selcatdish" aria-describedby="validationServer15Feedback" required>
             <option value=""  ></option>`;
