@@ -7,6 +7,7 @@ import {
   createCategoryValidation,
   addDishCategoryValidation,
 } from "../Utils/validation.js";
+import { setCookie } from "../Utils/cookie.js";
 
 const EXCECUTE_HANDLER = Symbol("excecuteHandler");
 
@@ -107,12 +108,10 @@ class RestaurantView {
 
   showCookiesMessage() {
     const toast = `<div class="fixed-top p-5 mt-5">
-    <div id="cookies-message" class="toast fade show 
-    w-100 mw-100" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="cookies-message" class="toast fade show w-100 mw-100" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <h4 class="me-auto">Aviso de uso de cookies</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
-                id="btnDismissCookie"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" id="btnDismissCookie"></button>
         </div>
         <div class="toast-body p-4 d-flex flex-column">
             <p>
@@ -127,8 +126,8 @@ class RestaurantView {
                 <button type="button" class="btn btn-outline-danger mr-3 deny" id="btnDenyCookie" data-bs-dismiss="toast">
                     Denegar
                 </button>
-                <button type="button" class="btn btn-success" id="btnAcceptCookie" data-bs-dismiss="toast">
-                    Aceptar
+                <button type="button" class="btn btn-primary" id="btnAcceptCookie" data-bs-dismiss="toast">
+                  Aceptar
                 </button>
             </div>
         </div>
@@ -154,8 +153,8 @@ class RestaurantView {
         <strong>Para utilizar esta web es necesario aceptar el uso de cookies. Debe recargar la página y aceptar las condicones para seguir navegando. Gracias.</strong>
       </div></div>`
       );
+      document.getElementById("mainNavItems").remove();
       this.categories.remove();
-      this.nav.remove();
       this.content.remove();
     };
     const btnDenyCookie = document.getElementById("btnDenyCookie");
@@ -694,7 +693,6 @@ class RestaurantView {
                 <select name="adOption" id="validationServer06" class="form-select" aria-describedby="validationServer04Feedback">
                   <option value="asignar" selected >Asignar Plato a Menú</option>
                   <option value="designar" >Desasignar Plato a Menú</option>
-                  <option value="ordenar" >Ordenar Menú</option>
                   <div id="validationServer07Feedback" class="invalid-feedback">
                      Por favor, seleccione una Opción
                   </div>
@@ -1285,17 +1283,53 @@ class RestaurantView {
       once: true,
     });
   }
-
-  showIdentifacationLink() {
+  showIdentificationLink() {
     const userArea = document.getElementById("userArea");
     userArea.replaceChildren();
     userArea.insertAdjacentHTML(
       "afterbegin",
-      `<a class="account d-flex
-    mx-2 flex-column" style="text-align: right; height: 40px">
-    <a id="login" href="#"><i class="bi bi-person-circle" ariahidden="true"></i> Iniciar Sesión</a>
-    </a>`
+      `<div class="nav-tiem dropdown">
+			<a id="login" href="#" class="nav-link"><i class="bi bi-person-circle" aria-hidden="true"></i> Identificate</a>
+		</div>`
     );
+  }
+
+  showLogin() {
+    this.categories.replaceChildren();
+    this.content.replaceChildren();
+    this.main.replaceChildren();
+    const login = `<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+      <div class="user_card">
+        <div class="d-flex justify-content-center form_container">
+        <form name="fLogin" role="form" novalidate>
+            <div class="input-group mb-3">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+              </div>
+              <input type="text" name="username" class="form-control input_user" value="" placeholder="usuario">
+            </div>
+            <div class="input-group mb-2">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+              </div>
+              <input type="password" name="password" class="form-control input_pass" value="" placeholder="contraseña">
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input name="remember" type="checkbox" class="custom-control-input" id="customControlInline">
+                <label class="custom-control-label" for="customControlInline">Recuerdame</label>
+              </div>
+            </div>
+              <div class="d-flex justify-content-center mt-3 login_container">
+                <button class="btn login_btn" type="submit">Acceder</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>`;
+    this.main.insertAdjacentHTML("afterbegin", login);
   }
 
   showAuthUserProfile(user) {
@@ -1303,14 +1337,32 @@ class RestaurantView {
     userArea.replaceChildren();
     userArea.insertAdjacentHTML(
       "afterbegin",
-      `<div class="account d-flex
-    mx-2 flex-column" style="text-align: right">Bienvenid@ , 
-    ${user.username} <a id="aCloseSession" href="#">Cerrar sesión</a>
-    </div>
-    <div class="image">
-    <img alt="${user.username}" src="./img/La Virgñlilla-S.png" />
-    </div>`
+      `<div class="user-profile d-flex align-items-center">
+      <li class="account d-flex mx-2 flex-column" style="text-align: right">Bienvenid@,
+          ${user.username} <a id="aCloseSession" href="#">Cerrar sesión</a>
+      </li>
+      <div class="imageLogin">
+          <img src="./Recursos/Login.png" />
+      </div>
+  </div>`
     );
+  }
+
+  showAdminTools() {
+    let adminTools = document.getElementById("adminNavItem");
+
+    adminTools.style.visibility = "visible";
+  }
+
+  showInvalidUserMessage() {
+    this.main.insertAdjacentHTML(
+      "beforeend",
+      `<div class="invalid-message"><div class="alert alert-warning" role="alert">
+		<strong>El usuario y la contraseña no son válidos. Inténtelo nuevamente.</strong>
+	</div></div>`
+    );
+    document.forms.fLogin.reset();
+    document.forms.fLogin.username.focus();
   }
 
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
@@ -1782,6 +1834,37 @@ class RestaurantView {
     addDishCategoryValidation(handler);
   }
 
+  bindIdentificationLink(handler) {
+    const login = document.getElementById("login");
+    login.addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "main",
+        { action: "login" },
+        "#",
+        event
+      );
+    });
+  }
+
+  bindLogin(handler) {
+    const form = document.forms.fLogin;
+    form.addEventListener("submit", (event) => {
+      handler(form.username.value, form.password.value, form.remember.checked);
+      event.preventDefault();
+    });
+  }
+
+  bindCloseSession(handler) {
+    document
+      .getElementById("aCloseSession")
+      .addEventListener("click", (event) => {
+        handler();
+        event.preventDefault();
+      });
+  }
+
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO
   bindInit(handler) {
     document.getElementById("init").addEventListener("click", (event) => {
@@ -1814,6 +1897,18 @@ class RestaurantView {
         event
       );
     });
+  }
+
+  initHistory() {
+    history.replaceState({ action: "init" }, null);
+  }
+
+  setUserCookie(user) {
+    setCookie("activeUser", user.username, 1);
+  }
+
+  deleteUserCookie() {
+    setCookie("activeUser", "", 0);
   }
 
   mouseenterCategories() {

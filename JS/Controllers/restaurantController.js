@@ -3,16 +3,16 @@ import { getCookie } from "../Utils/cookie.js";
 
 const MODEL = Symbol("RestaurantModel");
 const VIEW = Symbol("RestaurantView");
-const USER = Symbol("USER");
 const AUTH = Symbol("AUTH");
+const USER = Symbol("USER");
 const LOAD_MANAGER_OBJECTS = Symbol("Load Manager Objects");
 
 class RestaurantController {
   constructor(model, view, auth) {
     this[MODEL] = model;
     this[VIEW] = view;
-    this[USER] = null;
     this[AUTH] = auth;
+    this[USER] = null;
 
     // Eventos iniciales del Controlador
     this.onLoad();
@@ -28,11 +28,22 @@ class RestaurantController {
 
   // MÉTODO PARA CARGAR LOS OBJETOS INICIALES
   onLoad = () => {
-    this[LOAD_MANAGER_OBJECTS]();
+    if (getCookie("acceptedCookieMessage") !== "true") {
+      this[VIEW].showCookiesMessage();
+    }
+    const userCookie = getCookie("activeUser");
+    console.log(userCookie);
+    if (userCookie) {
+      const user = this[AUTH].getUser(userCookie);
+      if (user) {
+        this[USER] = user;
+        this.onOpenSession();
+      }
+    } else {
+      this.onCloseSession();
+    }
 
-    // if (getCookie("acceptedCookieMessage") !== "true") {
-    //   this[VIEW].showCookiesMessage();
-    // }
+    this[LOAD_MANAGER_OBJECTS]();
 
     // TODO: borrar los mouseenter (ya no sirven para nada, creo)
     // CATEGORÍAS
@@ -188,15 +199,47 @@ class RestaurantController {
     this[VIEW].bindUpdateCatDish(this.handleUpdateCatDish);
   };
 
-  handleOpenSession() {
+  onOpenSession() {
     this.onInit();
+    this[VIEW].initHistory();
     this[VIEW].showAuthUserProfile(this[USER]);
+    this[VIEW].bindCloseSession(this.handleCloseSession);
   }
 
-  handleCloseSession() {
+  onCloseSession() {
     this[USER] = null;
+    this[VIEW].deleteUserCookie();
     this[VIEW].showIdentificationLink();
+    this[VIEW].bindIdentificationLink(this.handleLoginForm);
   }
+
+  handleLoginForm = () => {
+    this[VIEW].showLogin();
+    this[VIEW].bindLogin(this.handleLogin);
+  };
+
+  handleLogin = (username, password, remember) => {
+    if (this[AUTH].validateUser(username, password)) {
+      this[USER] = this[AUTH].getUser(username);
+      this.onOpenSession();
+
+      if (username == "admin") {
+        this[VIEW].showAdminTools();
+      }
+
+      if (remember) {
+        this[VIEW].setUserCookie(this[USER]);
+      }
+    } else {
+      this[VIEW].showInvalidUserMessage();
+    }
+  };
+
+  handleCloseSession = () => {
+    this.onCloseSession();
+    this.onInit();
+    this[VIEW].initHistory();
+  };
 
   handleCreateDish = (name, descrip, cat, aller) => {
     console.log(name + " " + descrip + " " + cat + " " + aller);
@@ -271,10 +314,6 @@ class RestaurantController {
         this[MODEL].deassignDishToMenu(menu.menu, dish.dish);
       }
 
-      if (option == "ordenar") {
-        this[MODEL].changeDishesPositionsInMenu(menu, dish, dish);
-      }
-
       complete = true;
       this.handleAdmin();
     } catch (exception) {
@@ -286,7 +325,7 @@ class RestaurantController {
   };
 
   handleCreateCategory = (catName) => {
-    const categ = this[MODEL].createCategory(catName);
+    const categ = this[MODEL].getCategoryByName(catName);
 
     let complete;
     let error = "";
@@ -304,9 +343,8 @@ class RestaurantController {
     this[VIEW].showCreateCategoryModal(catName, complete, error);
   };
 
-  // TODO: Falta que se elimine también del inicio y que al crear una nueva categoría aparezca también en la selección de eliminar
   handleDeleteCategory = (catName) => {
-    const categ = this[MODEL].createCategory(catName);
+    const categ = this[MODEL].getCategoryByName(catName);
 
     let complete;
     let error = "";

@@ -9,10 +9,12 @@ import RestaurantsManager, {
 
 import RestaurantController from "./Controllers/restaurantController.js";
 import RestaurantView from "./Views/restaurantView.js";
+import AuthenticationService from "./Utils/authentication.js";
 
 const RestaurantApp = new RestaurantController(
   RestaurantsManager.getInstance(),
-  new RestaurantView()
+  new RestaurantView(),
+  AuthenticationService.getInstance()
 );
 
 export default RestaurantApp;

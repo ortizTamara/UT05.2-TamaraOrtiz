@@ -14,8 +14,13 @@ body {
   animation: fadeInPage 1s ease-in-out;
 }
 
+.header__logo {
+  height: 40px;
+  margin-left: 1em;
+}
+
 .custom-navbar .navbar-nav {
-  margin-left: -7em;
+  margin-left: 25em;
 }
 
 .navbar-dark {
@@ -23,6 +28,7 @@ body {
 }
 
 #adminNavItem {
+  visibility: hidden;
   margin-left: 0.5em;
 }
 
@@ -397,9 +403,9 @@ figure img {
 
 .fixed-top {
   top: 50%;
-  transform: translate(35%, -50%);
-  width: 70rem;
-  height: 30rem;
+  /* transform: translate(35%, -50%); */
+  /* width: 70rem; */
+  /* height: 30rem; */
 }
 
 .my-3 {
@@ -418,4 +424,74 @@ figure img {
 #btnAddCatD,
 #btnDelCat {
   margin-top: 1em;
+}
+
+/* Login */
+.user_card {
+  transform: translate(200%, 40%);
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  background: #252525;
+  padding: 2em;
+  box-shadow: 0 0.25em 0.625em 0 rgba(0, 0, 0, 0.2),
+    0 0.375em 1.25em 0 rgba(0, 0, 0, 0.19);
+  border-radius: 0.3125em;
+}
+
+.login_btn {
+  margin-top: 1em;
+  width: 10em;
+  background-color: #2e7d32;
+  color: white !important;
+  font-weight: bold;
+  padding: 0.625em;
+  border: none;
+  border-radius: 0.3125em;
+  cursor: pointer;
+}
+
+.login_btn:focus {
+  box-shadow: none !important;
+  outline: 0;
+}
+
+.login_btn:hover {
+  background-color: green;
+}
+
+.input-group-text {
+  border: 0 !important;
+  border-radius: 0.25em 0 0 0.25em !important;
+}
+
+.input_user,
+.input_pass:focus {
+  box-shadow: none !important;
+  outline: 0;
+}
+
+.custom-checkbox .custom-control-label {
+  color: white;
+  cursor: pointer;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #5cb85c;
+}
+
+#userArea {
+  color: white;
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+.imageLogin img {
+  width: 3em;
+  height: 3em;
+}
+
+.invalid-message {
+  margin-top: -10em;
 }

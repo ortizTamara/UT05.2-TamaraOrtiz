@@ -1,7 +1,11 @@
 import {
   BaseException,
   InvalidAccessConstructorException,
+  EmptyValueException,
+  InvalidValueException,
+  AbstractClassException,
 } from "./exceptions.js";
+import { User } from "./user.js";
 
 class AuthenticationServiceException extends BaseException {
   constructor(
@@ -13,23 +17,28 @@ class AuthenticationServiceException extends BaseException {
     this.name = "AuthenticationServiceException";
   }
 }
+
 const AuthenticationService = (function () {
   let instantiated;
+
   function init() {
     // Inicialización del Singleton
     class Authentication {
       constructor() {
         if (!new.target) throw new InvalidAccessConstructorException();
       }
+
       validateUser(username, password) {
         return !!(username === "admin" && password === "admin");
       }
+
       getUser(username) {
         let user = null;
         if (username === "admin") user = new User("admin");
         return user;
       }
     }
+
     const auth = new Authentication();
     Object.freeze(auth);
     return auth;
@@ -43,4 +52,5 @@ const AuthenticationService = (function () {
     },
   };
 })();
+
 export default AuthenticationService;
