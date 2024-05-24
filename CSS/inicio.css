@@ -20,14 +20,15 @@ body {
 }
 
 .custom-navbar .navbar-nav {
-  margin-left: 25em;
+  margin-left: 13em;
 }
 
 .navbar-dark {
   background-color: #252525 !important;
 }
 
-#adminNavItem {
+#adminNavItem,
+#favNavItem {
   visibility: hidden;
   margin-left: 0.5em;
 }
@@ -184,14 +185,24 @@ figure img {
 }
 
 .dish__name {
+  display: flex;
   color: white;
   /* display: grid; */
   text-align: center;
+  justify-content: center;
 }
 
 .dish__name h1 {
   margin-left: 1.25em;
   margin-top: 0.625em;
+}
+
+.favbutton {
+  margin-top: 1.6em;
+  margin-left: 2.5em;
+  height: 3em;
+  width: 3em;
+  font-size: 0.8em;
 }
 
 #info-dish {
@@ -494,4 +505,12 @@ figure img {
 
 .invalid-message {
   margin-top: -10em;
+}
+
+.favoriteDishes {
+  color: white;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

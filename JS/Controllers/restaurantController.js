@@ -5,6 +5,7 @@ const MODEL = Symbol("RestaurantModel");
 const VIEW = Symbol("RestaurantView");
 const AUTH = Symbol("AUTH");
 const USER = Symbol("USER");
+const FAV = Symbol("FAV");
 const LOAD_MANAGER_OBJECTS = Symbol("Load Manager Objects");
 
 class RestaurantController {
@@ -13,6 +14,7 @@ class RestaurantController {
     this[VIEW] = view;
     this[AUTH] = auth;
     this[USER] = null;
+    this[FAV] = [];
 
     // Eventos iniciales del Controlador
     this.onLoad();
@@ -42,6 +44,11 @@ class RestaurantController {
     } else {
       this.onCloseSession();
     }
+
+    // const fav = this[VIEW].getFavs();
+    // if (fav) {
+    //   this[FAV] = JSON.parse(fav);
+    // }
 
     this[LOAD_MANAGER_OBJECTS]();
 
@@ -73,9 +80,16 @@ class RestaurantController {
     this[VIEW].init();
     // PLATOS
     this[VIEW].showRandomDishes(this[MODEL].getDishes());
+
     this[VIEW].bindDishRandom(this.handleDishes);
     // CATEGORIAS
     this[VIEW].bindCategoryClicks(this.handleShowCategory);
+
+    // FAVORITOS
+    if (this[USER] != null) {
+      this[VIEW].showFavButton();
+      this[VIEW].bindFavButton(this.handleFavs);
+    }
   };
 
   //MÉTODO PARA MANEJAR LA SELECCIÓN DE UN PLATO Y MOSTRAR SU INFORMACIÓN EN LA VISTA
@@ -130,6 +144,12 @@ class RestaurantController {
       this[MODEL].getDishesInCategory(cat),
       cat.name
     );
+
+    if (this[USER] != null) {
+      this[VIEW].showFavButton();
+      this[VIEW].bindFavButton(this.handleFavs);
+    }
+
     this[VIEW].bindDishInCategory(this.handleDishes);
   };
 
@@ -138,6 +158,12 @@ class RestaurantController {
     this.handleMenu;
     const menu = this[MODEL].getMenuByName(title);
     this[VIEW].showMenuDishes(menu.dishes, title);
+
+    if (this[USER] != null) {
+      this[VIEW].showFavButton();
+      this[VIEW].bindFavButton(this.handleFavs);
+    }
+
     this[VIEW].bindDishInMenu(this.handleDishes);
   };
 
@@ -148,6 +174,12 @@ class RestaurantController {
       this[MODEL].getDishesWithAllergen(this[MODEL].getAllergenByName(title)),
       title
     );
+
+    if (this[USER] != null) {
+      this[VIEW].showFavButton();
+      this[VIEW].bindFavButton(this.handleFavs);
+    }
+
     this[VIEW].bindDishInAllergen(this.handleDishes);
   };
 
@@ -204,6 +236,8 @@ class RestaurantController {
     this[VIEW].initHistory();
     this[VIEW].showAuthUserProfile(this[USER]);
     this[VIEW].bindCloseSession(this.handleCloseSession);
+    this[VIEW].showFavNav();
+    this[VIEW].bindFavNav(this.handleFavNav);
   }
 
   onCloseSession() {
@@ -211,6 +245,11 @@ class RestaurantController {
     this[VIEW].deleteUserCookie();
     this[VIEW].showIdentificationLink();
     this[VIEW].bindIdentificationLink(this.handleLoginForm);
+    this[VIEW].showRemoveFavNav();
+  }
+
+  onFav() {
+    this[VIEW].showFavs(this[FAV]);
   }
 
   handleLoginForm = () => {
@@ -225,6 +264,7 @@ class RestaurantController {
 
       if (username == "admin") {
         this[VIEW].showAdminTools();
+        // this[VIEW].showFavTools();
       }
 
       if (remember) {
@@ -239,6 +279,23 @@ class RestaurantController {
     this.onCloseSession();
     this.onInit();
     this[VIEW].initHistory();
+  };
+
+  handleFavNav = () => {
+    this.onFav();
+  };
+
+  handleFavs = (fav) => {
+    let dish = this[MODEL].createDish(fav);
+
+    if (
+      this[FAV].findIndex(
+        (element) => JSON.stringify(element) == JSON.stringify(dish)
+      ) == -1
+    ) {
+      this[FAV].push(dish);
+      localStorage.setItem("fav", JSON.stringify(this[FAV]));
+    }
   };
 
   handleCreateDish = (name, descrip, cat, aller) => {
@@ -261,9 +318,9 @@ class RestaurantController {
       }
 
       if (aller != "") {
-        const allergen = this[MODEL].createAllergen(aller);
+        const allergen = this[MODEL].getAllergenByName(aller);
 
-        this[MODEL].assignAllergenToDish(allergen, dish);
+        this[MODEL].assignAllergenToDish(dish, allergen);
       }
 
       complete = true;
@@ -325,7 +382,8 @@ class RestaurantController {
   };
 
   handleCreateCategory = (catName) => {
-    const categ = this[MODEL].getCategoryByName(catName);
+    // const categ = this[MODEL].getCategoryByName(catName);
+    const categ = this[MODEL].createCategory(catName);
 
     let complete;
     let error = "";
@@ -344,7 +402,8 @@ class RestaurantController {
   };
 
   handleDeleteCategory = (catName) => {
-    const categ = this[MODEL].getCategoryByName(catName);
+    // const categ = this[MODEL].getCategoryByName(catName);
+    const categ = this[MODEL].createCategory(catName);
 
     let complete;
     let error = "";

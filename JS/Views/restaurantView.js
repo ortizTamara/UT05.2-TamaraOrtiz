@@ -22,6 +22,7 @@ class RestaurantView {
     this.dropAller = document.getElementById("navbarDropdownAlergenos");
     this.navDropCat = document.getElementById("dropdownCategorias");
     this.dropRest = document.getElementById("dropdownRestaurantes");
+    this.ul = document.getElementById("mainNavItems");
 
     // NUEVA VENTANA INFO
     this.dropcatWind = document.getElementsByClassName("dropcategory-item");
@@ -109,7 +110,7 @@ class RestaurantView {
   showCookiesMessage() {
     const toast = `<div class="fixed-top p-5 mt-5">
     <div id="cookies-message" class="toast fade show w-100 mw-100" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
+      <div class="toast-header">
             <h4 class="me-auto">Aviso de uso de cookies</h4>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" id="btnDismissCookie"></button>
         </div>
@@ -124,7 +125,8 @@ class RestaurantView {
             </p>
             <div class="ml-auto">
                 <button type="button" class="btn btn-outline-danger mr-3 deny" id="btnDenyCookie" data-bs-dismiss="toast">
-                    Denegar
+                  Denegar
+                </button>
                 </button>
                 <button type="button" class="btn btn-primary" id="btnAcceptCookie" data-bs-dismiss="toast">
                   Aceptar
@@ -143,6 +145,8 @@ class RestaurantView {
     const btnAcceptCookie = document.getElementById("btnAcceptCookie");
     btnAcceptCookie.addEventListener("click", (event) => {
       setCookie("acceptedCookieMessage", "true", 1);
+      document.getElementById("cookies-message").replaceChildren();
+      document.getElementById("cookies-message").remove();
     });
 
     const denyCookieFunction = (event) => {
@@ -150,10 +154,15 @@ class RestaurantView {
       this.main.insertAdjacentHTML(
         "afterbegin",
         `<div class="container my-3"><div class="alert alert-warning" role="alert">
-        <strong>Para utilizar esta web es necesario aceptar el uso de cookies. Debe recargar la página y aceptar las condicones para seguir navegando. Gracias.</strong>
-      </div></div>`
+              <strong>Para utilizar esta web es necesario aceptar el uso de cookies. Debe recargar la página y aceptar las condicones para seguir navegando. Gracias.</strong>
+          </div></div>`
       );
+      // document
+      //   .getElementById("nav")
+      //   .removeChild(document.getElementById("navbarDropdownCategorias"));
+      // document.getElementById("mainNavItems").remove();
       document.getElementById("mainNavItems").remove();
+      document.getElementById("cookies-message").remove();
       this.categories.remove();
       this.content.remove();
     };
@@ -1354,6 +1363,12 @@ class RestaurantView {
     adminTools.style.visibility = "visible";
   }
 
+  showFavTools() {
+    let adminTools = document.getElementById("favNavItem");
+
+    adminTools.style.visibility = "visible";
+  }
+
   showInvalidUserMessage() {
     this.main.insertAdjacentHTML(
       "beforeend",
@@ -1363,6 +1378,68 @@ class RestaurantView {
     );
     document.forms.fLogin.reset();
     document.forms.fLogin.username.focus();
+  }
+
+  showFavNav() {
+    const fav = document.createElement("li");
+    fav.classList.add("nav-tiem");
+    fav.insertAdjacentHTML(
+      "afterbegin",
+      '<a href="#"  class="nav-link" id="nav-fav">Favoritos</a>'
+    );
+    this.ul.append(fav);
+  }
+
+  showRemoveFavNav() {
+    const favNav = document.getElementById("nav-fav");
+    if (favNav) favNav.parentElement.remove();
+  }
+
+  showFavButton() {
+    let dishes = document.getElementsByClassName("dish");
+
+    for (const dish of dishes) {
+      const h1 = dish.querySelector(" h1");
+      const name = h1.textContent;
+
+      h1.insertAdjacentHTML(
+        "afterend",
+        `<button type="button" class="btn btn-outline-primary favbutton" data-fav="${name}" ><i class="bi bi-star"></i></button>`
+      );
+    }
+  }
+
+  showFavs(favs) {
+    this.main.replaceChildren();
+    this.categories.replaceChildren();
+    this.content.replaceChildren();
+    this.createBreadcrumbNavigation(["Favoritos", "Inicio"]);
+
+    if (favs.length == 0) {
+      this.main.insertAdjacentHTML(
+        "afterbegin",
+        `<h1 class="favoriteDishes">Aun no tienes Platos Favoritos</h1>`
+      );
+    } else {
+      for (const dish of favs) {
+        const contentFavDishes = document.createElement("div");
+        contentFavDishes.classList = "favdish";
+
+        contentFavDishes.insertAdjacentHTML(
+          "afterbegin",
+          `
+          <figure class="dish-image">
+            <a data-dish="${dish.name}" href="#">
+              <img src="./Recursos/platos/${dish.image}" />
+              <figcaption class="dish__name">
+                <h1>${dish.name}</h1>
+              </figcaption>
+            </a> 
+          </figure>`
+        );
+        this.main.prepend(contentFavDishes);
+      }
+    }
   }
 
   // MUESTRA EN CATEGORIA UN DESPEGABLE CON LOS NOMBRES DE CATEGORIAS
@@ -1378,6 +1455,10 @@ class RestaurantView {
             </div>`
       );
     }
+  }
+
+  getFavs() {
+    return localStorage.getItem("fav");
   }
 
   // MUESTRA EN RESTAURANTE UN DESPEGABLE CON LOS NOMBRES DE RESTAURANTE
@@ -1863,6 +1944,30 @@ class RestaurantView {
         handler();
         event.preventDefault();
       });
+  }
+  bindFavNav(handler) {
+    document.getElementById("nav-fav").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "nav",
+        { action: "showFavs" },
+        "#",
+        event
+      );
+    });
+  }
+
+  bindFavButton(handler) {
+    const favbtn = document.getElementsByClassName("favbutton");
+    for (const b of favbtn) {
+      b.addEventListener("click", (event) => {
+        const { fav } = event.currentTarget.dataset;
+        console.log(fav);
+        handler(fav);
+        event.preventDefault();
+      });
+    }
   }
 
   // ASIGNA FUNCIOENS PARA MANEJAR EVENTOS DE INICIO
