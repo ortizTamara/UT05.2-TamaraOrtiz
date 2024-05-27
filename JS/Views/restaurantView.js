@@ -257,7 +257,7 @@ class RestaurantView {
     this.currentCategoryDishes = dishes;
     for (const dish of dishes) {
       const contentDishes = document.createElement("div");
-      contentDishes.classList = "cat-dish";
+      contentDishes.classList = "cat-dish dish";
       contentDishes.insertAdjacentHTML(
         "beforeend",
         `
@@ -341,7 +341,7 @@ class RestaurantView {
 
     for (const dish of dishes) {
       const contentDishes = document.createElement("div");
-      contentDishes.classList = "men-dish";
+      contentDishes.classList = "men-dish dish";
       contentDishes.insertAdjacentHTML(
         "beforeend",
         `<figure class="dish-image">
@@ -426,7 +426,7 @@ class RestaurantView {
 
     for (const dish of dishes) {
       const contentDishes = document.createElement("div");
-      contentDishes.classList = "aller-dish";
+      contentDishes.classList = "aller-dish dish";
 
       contentDishes.insertAdjacentHTML(
         "beforeend",
@@ -1297,7 +1297,7 @@ class RestaurantView {
     userArea.replaceChildren();
     userArea.insertAdjacentHTML(
       "afterbegin",
-      `<div class="nav-tiem dropdown">
+      `<div class="account nav-tiem dropdown">
 			<a id="login" href="#" class="nav-link"><i class="bi bi-person-circle" aria-hidden="true"></i> Identificate</a>
 		</div>`
     );
@@ -1309,35 +1309,38 @@ class RestaurantView {
     this.main.replaceChildren();
     const login = `<div class="container h-100">
     <div class="d-flex justify-content-center h-100">
-      <div class="user_card">
-        <div class="d-flex justify-content-center form_container">
-        <form name="fLogin" role="form" novalidate>
-            <div class="input-group mb-3">
-              <div class="input-group-append">
-                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-              </div>
-              <input type="text" name="username" class="form-control input_user" value="" placeholder="usuario">
+        <div class="user_card">
+            <div class="d-flex justify-content-center form_container">
+                <form name="fLogin" role="form" novalidate>
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                        </div>
+                        <input type="text" name="username" class="form-control input_user" value=""
+                            placeholder="usuario">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+                        </div>
+                        <input type="password" name="password" class="form-control input_pass" value=""
+                            placeholder="contraseña">
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input name="remember" type="checkbox" class="custom-control-input"
+                                id="customControlInline">
+                            <label class="custom-control-label" for="customControlInline">Recuerdame</label>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3 login_container">
+                        <button class="btn login_btn" type="submit">Acceder</button>
+                    </div>
+                </form>
             </div>
-            <div class="input-group mb-2">
-              <div class="input-group-append">
-                <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
-              </div>
-              <input type="password" name="password" class="form-control input_pass" value="" placeholder="contraseña">
-            </div>
-            <div class="form-group">
-              <div class="custom-control custom-checkbox">
-                <input name="remember" type="checkbox" class="custom-control-input" id="customControlInline">
-                <label class="custom-control-label" for="customControlInline">Recuerdame</label>
-              </div>
-            </div>
-              <div class="d-flex justify-content-center mt-3 login_container">
-                <button class="btn login_btn" type="submit">Acceder</button>
-          </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>`;
+</div>`;
     this.main.insertAdjacentHTML("afterbegin", login);
   }
 
@@ -1346,8 +1349,8 @@ class RestaurantView {
     userArea.replaceChildren();
     userArea.insertAdjacentHTML(
       "afterbegin",
-      `<div class="user-profile d-flex align-items-center">
-      <li class="account d-flex mx-2 flex-column" style="text-align: right">Bienvenid@,
+      `<div class="account user-profile d-flex align-items-center">
+      <li class="d-flex mx-2 flex-column" style="text-align: right">Bienvenid@,
           ${user.username} <a id="aCloseSession" href="#">Cerrar sesión</a>
       </li>
       <div class="imageLogin">
@@ -1357,17 +1360,17 @@ class RestaurantView {
     );
   }
 
-  showAdminTools() {
-    let adminTools = document.getElementById("adminNavItem");
+  // showAdminTools() {
+  //   let adminTools = document.getElementById("adminNavItem");
 
-    adminTools.style.visibility = "visible";
-  }
+  //   adminTools.style.visibility = "visible";
+  // }
 
-  showFavTools() {
-    let adminTools = document.getElementById("favNavItem");
+  // showFavTools() {
+  //   let adminTools = document.getElementById("favNavItem");
 
-    adminTools.style.visibility = "visible";
-  }
+  //   adminTools.style.visibility = "visible";
+  // }
 
   showInvalidUserMessage() {
     this.main.insertAdjacentHTML(
@@ -1380,6 +1383,16 @@ class RestaurantView {
     document.forms.fLogin.username.focus();
   }
 
+  showAdminNav() {
+    const adminOption = document.createElement("li");
+    adminOption.classList.add("nav-tiem");
+    adminOption.insertAdjacentHTML(
+      "afterbegin",
+      '<a href="#" class="nav-link" id="nav-admin">Admin</a>'
+    );
+    this.ul.append(adminOption);
+  }
+
   showFavNav() {
     const fav = document.createElement("li");
     fav.classList.add("nav-tiem");
@@ -1388,6 +1401,11 @@ class RestaurantView {
       '<a href="#"  class="nav-link" id="nav-fav">Favoritos</a>'
     );
     this.ul.append(fav);
+  }
+
+  removeAdminNav() {
+    const adminNav = document.getElementById("nav-admin");
+    if (adminNav) adminNav.parentElement.remove();
   }
 
   showRemoveFavNav() {
@@ -1945,6 +1963,20 @@ class RestaurantView {
         event.preventDefault();
       });
   }
+
+  bindAdmin(handler) {
+    document.getElementById("nav-admin").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "nav",
+        { action: "showAdmin" },
+        "#",
+        event
+      );
+    });
+  }
+
   bindFavNav(handler) {
     document.getElementById("nav-fav").addEventListener("click", (event) => {
       this[EXCECUTE_HANDLER](
@@ -2018,27 +2050,6 @@ class RestaurantView {
 
   mouseenterCategories() {
     this.dropCat.addEventListener("mouseenter", (event) => {
-      // handler();
-    });
-  }
-
-  // MANEJA EL EVENTO MOUSEENTER EN LOS MENUS
-  mouseenterMenus() {
-    this.dropMen.addEventListener("mouseenter", (event) => {
-      // handler();
-    });
-  }
-
-  // MANEJA EL EVENTO MOUSEENTER EN LOS ALERGENOS
-  mouseenterAllergens() {
-    this.dropAller.addEventListener("mouseenter", (event) => {
-      // handler();
-    });
-  }
-
-  // MANEJA EL EVENTO MOUSEENTER EN LOS RESTAURANTES
-  mouseenterRestaurant() {
-    this.dropRest.addEventListener("mouseenter", (event) => {
       // handler();
     });
   }

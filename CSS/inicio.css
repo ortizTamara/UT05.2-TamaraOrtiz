@@ -439,7 +439,7 @@ figure img {
 
 /* Login */
 .user_card {
-  transform: translate(200%, 40%);
+  transform: translate(160%, 40%);
   display: flex;
   place-items: center;
   justify-content: center;

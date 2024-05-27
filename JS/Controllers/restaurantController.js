@@ -6,6 +6,7 @@ const VIEW = Symbol("RestaurantView");
 const AUTH = Symbol("AUTH");
 const USER = Symbol("USER");
 const FAV = Symbol("FAV");
+
 const LOAD_MANAGER_OBJECTS = Symbol("Load Manager Objects");
 
 class RestaurantController {
@@ -30,9 +31,12 @@ class RestaurantController {
 
   // MÉTODO PARA CARGAR LOS OBJETOS INICIALES
   onLoad = () => {
+    // const url = "../../data/restaurantData.json";
+
     if (getCookie("acceptedCookieMessage") !== "true") {
       this[VIEW].showCookiesMessage();
     }
+
     const userCookie = getCookie("activeUser");
     console.log(userCookie);
     if (userCookie) {
@@ -45,34 +49,29 @@ class RestaurantController {
       this.onCloseSession();
     }
 
-    // const fav = this[VIEW].getFavs();
-    // if (fav) {
-    //   this[FAV] = JSON.parse(fav);
-    // }
+    const fav = this[VIEW].getFavs();
+    if (fav) {
+      this[FAV] = JSON.parse(fav);
+    }
 
     this[LOAD_MANAGER_OBJECTS]();
 
-    // TODO: borrar los mouseenter (ya no sirven para nada, creo)
     // CATEGORÍAS
-    this[VIEW].mouseenterCategories();
     // this[VIEW].bindCategoryDrop(this.handleShowCategory);
     this[VIEW].bindNavCategoryClick(this.handleCategories);
 
     // MENU
-    this[VIEW].mouseenterMenus();
     this[VIEW].bindNavMenuClick(this.handleMenu);
 
     // ALERGENOS
-    this[VIEW].mouseenterAllergens();
     this[VIEW].bindNavAllergenClick(this.handleAllergen);
 
     //RESTAURANTES
-    this[VIEW].mouseenterRestaurant();
     // this[VIEW].bindDropRestaurantClicks(this.handleShowCategory);
     this[VIEW].bindNavRestaurantClick(this.handleRestaurant);
 
     // ADMIN
-    this[VIEW].bindNavAdminClick(this.handleAdmin);
+    // this[VIEW].bindNavAdminClick(this.handleAdmin);
   };
 
   // MÉTODO PARA INICIALIZAR LA VISTA
@@ -232,10 +231,13 @@ class RestaurantController {
   };
 
   onOpenSession() {
+    this[LOAD_MANAGER_OBJECTS]();
     this.onInit();
     this[VIEW].initHistory();
     this[VIEW].showAuthUserProfile(this[USER]);
     this[VIEW].bindCloseSession(this.handleCloseSession);
+    this[VIEW].showAdminNav();
+    this[VIEW].bindAdmin(this.handleAdmin);
     this[VIEW].showFavNav();
     this[VIEW].bindFavNav(this.handleFavNav);
   }
@@ -245,6 +247,7 @@ class RestaurantController {
     this[VIEW].deleteUserCookie();
     this[VIEW].showIdentificationLink();
     this[VIEW].bindIdentificationLink(this.handleLoginForm);
+    this[VIEW].removeAdminNav();
     this[VIEW].showRemoveFavNav();
   }
 
@@ -262,10 +265,10 @@ class RestaurantController {
       this[USER] = this[AUTH].getUser(username);
       this.onOpenSession();
 
-      if (username == "admin") {
-        this[VIEW].showAdminTools();
-        // this[VIEW].showFavTools();
-      }
+      // if (username == "admin") {
+      // this[VIEW].showAdminTools();
+      // this[VIEW].showFavTools();
+      // }
 
       if (remember) {
         this[VIEW].setUserCookie(this[USER]);

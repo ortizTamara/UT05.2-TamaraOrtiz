@@ -4,17 +4,17 @@ import {
 } from "./exceptions.js";
 
 class User {
-  #userName;
+  #username;
   #preferences;
 
   constructor(userName) {
     if (!new.target) throw new InvalidAccessConstructorException();
     if (!userName) throw new EmptyValueException("username");
-    this.#userName = userName;
+    this.#username = userName;
     Object.defineProperty(this, "username", {
       enumerable: true,
       get() {
-        return this.#userName;
+        return this.#username;
       },
     });
     Object.defineProperty(this, "preferences", {
