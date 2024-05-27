@@ -18,25 +18,25 @@
     {
       "name": "Batata Fries",
       "description": "Crujientes y doradas, servidas con nuestra salsa especial.",
-      "ingredientes": ["Batata", "Salsa especial"],
+      "ingredients": ["Batata", "Salsa especial"],
       "image": "entrante01.webp"
     },
     {
       "name": "The Mad Tequeños",
       "description": "Deliciosos palitos rellenos de queso y acompañados de una salsa casera.",
-      "ingredientes": ["Queso", "Harina", "Salsa casera"],
+      "ingredients": ["Queso", "Harina", "Salsa casera"],
       "image": "entrante02.webp"
     },
     {
       "name": "Crunchy Chick'n Nuggets",
       "description": "Heura rebozada con panko, con un toque crujiente, servidas con nuestra salsa especial.",
-      "ingredientes": ["Heura", "Panko", "Salsa Especial"],
+      "ingredients": ["Heura", "Panko", "Salsa Especial"],
       "image": "entrante03.webp"
     },
     {
       "name": "Calamares Rebozados",
       "description": "Nuestros increíbles calamares rebozados en tempura y acompañados de vegan mayo y limón.",
-      "ingredientes": ["Calamares", "Tempura", "Vegan Mayo", "limón"],
+      "ingredients": ["Calamares", "Tempura", "Vegan Mayo", "limón"],
       "image": "entrante04.webp"
     },
     {
