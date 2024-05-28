@@ -32,23 +32,26 @@ class RestaurantController {
   // MÉTODO PARA CARGAR LOS OBJETOS INICIALES
   onLoad = () => {
     const url = "../../data/restaurantData.json";
+    console.log(url);
     fetch(url, {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate", // No almacenar en caché
         Expires: "0", // Expirar inmediatamente
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
+     .then((response) => response.json())
+      .then((data) => { 
         const categories = data.categories;
         const dishes = data.dishes;
         const allergens = data.allergens;
         const menus = data.menus;
         const rests = data.restaurants;
 
+        console.log(data);
         for (const cat of categories) {
           let cate = this[MODEL].createCategory(cat.name, cat.description);
           this[MODEL].addCategory(cate);
+          // console.log(cat.name);
         }
 
         for (const dish of dishes) {
@@ -58,12 +61,13 @@ class RestaurantController {
             dish.ingredients,
             dish.image
           );
-
+          // console.log(d.toString());
           this[MODEL].addDish(d);
         }
 
         for (const al of allergens) {
           let aller = this[MODEL].createAllergen(al.name, al.description);
+          // console.log(aller.toString());
           this[MODEL].addAllergen(aller);
         }
 
@@ -73,301 +77,298 @@ class RestaurantController {
           this[MODEL].addMenu(menu);
         }
 
-        // const category1 = this[MODEL].addCategory("Entrantes");
-        // const dish1 = this[MODEL].addDish("Batata Fries").dish;
-
         // ASIGNACIÓN PLATOS A CATEGORÍAS
         this[MODEL].assignCategoryToDish(
-          this[MODEL].getCategoryByName("Entrantes"),
-          this[MODEL].getDishByName("Batata Fries").dish
+          this[MODEL].createCategory("Entrantes"),
+          this[MODEL].createDish("Batata Fries")
         );
 
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Entrantes"),
-          this[MODEL].createDish("The Mad Tequeños").dish
+          this[MODEL].createDish("The Mad Tequeños")
         );
 
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Entrantes"),
-          this[MODEL].createDish("Crunchy Chick'n Nuggets").dish
+          this[MODEL].createDish("Crunchy Chick'n Nuggets")
         );
 
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Entrantes"),
-          this[MODEL].createDish("Calamares Rebozados").dish
+          this[MODEL].createDish("Calamares Rebozados")
         );
 
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Berlin Vegan Wurst").dish
+          this[MODEL].createDish("Berlin Vegan Wurst")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Original Mad Burger").dish
+          this[MODEL].createDish("Original Mad Burger")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("The Mad Signature").dish
+          this[MODEL].createDish("The Mad Signature")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Dirty Philly").dish
+          this[MODEL].createDish("Dirty Philly")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Double Cheese Bacon").dish
+          this[MODEL].createDish("Double Cheese Bacon")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Rock'n Chick'n").dish
+          this[MODEL].createDish("Rock'n Chick'n")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("The Mad Club Sandwich").dish
+          this[MODEL].createDish("The Mad Club Sandwich")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Los originales del Mad").dish
+          this[MODEL].createDish("Los originales del Mad")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Platos Principales"),
-          this[MODEL].createDish("Los chingones de TV").dish
+          this[MODEL].createDish("Los chingones de TV")
         );
 
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Postres"),
-          this[MODEL].createDish("Cookies & Cream").dish
+          this[MODEL].createDish("Cookies & Cream")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Postres"),
-          this[MODEL].createDish("Tiramisú").dish
+          this[MODEL].createDish("Tiramisú")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Postres"),
-          this[MODEL].createDish("merican Brownie").dish
+          this[MODEL].createDish("merican Brownie")
         );
         this[MODEL].assignCategoryToDish(
           this[MODEL].createCategory("Postres"),
-          this[MODEL].createDish("Tarta de Zanahoria").dish
+          this[MODEL].createDish("Tarta de Zanahoria")
         );
 
         // GLUTEN
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("The Mad Tequeños").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Crunchy Chick'n Nuggets").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Calamares Rebozados").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Berlin Vegan Wurst").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Original Mad Burger").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("The Mad Signature").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Dirty Philly").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Double Cheese Bacon").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Rock'n Chick'n").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("The Mad Club Sandwich").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Los originales del Mad").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Los chingones de TV").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Cookies & cream").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("Tiramisú").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("American Brownie").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Gluten"),
-          this[MODEL].createDish("tarta de zanahoria").dish
-        );
-        // LACTOSA
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("The Mad Tequeños").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Original Mad Burger").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Dirty Philly").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Double Cheese Bacon").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Rock'n Chick'n").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("The Mad Club Sandwich").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Los originales del Mad").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Los chingones de TV").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Lactosa"),
-          this[MODEL].createDish("Tiramisú").dish
-        );
-        // FRUTOS SECOS
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Frutos Secos"),
-          this[MODEL].createDish("American Brownie").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Frutos Secos"),
-          this[MODEL].createDish("tarta de zanahoria").dish
-        );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("The Mad Tequeños")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Crunchy Chick'n Nuggets")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Calamares Rebozados")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Berlin Vegan Wurst")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Original Mad Burger")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("The Mad Signature")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Dirty Philly")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Double Cheese Bacon")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Rock'n Chick'n")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("The Mad Club Sandwich")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Los originales del Mad")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Los chingones de TV")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Cookies & cream")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("Tiramisú")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("American Brownie")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Gluten"),
+        //   this[MODEL].createDish("tarta de zanahoria")
+        // );
+        // // LACTOSA
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("The Mad Tequeños")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Original Mad Burger")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Dirty Philly")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Double Cheese Bacon")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Rock'n Chick'n")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("The Mad Club Sandwich")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Los originales del Mad")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Los chingones de TV")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Lactosa"),
+        //   this[MODEL].createDish("Tiramisú")
+        // );
+        // // FRUTOS SECOS
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Frutos Secos"),
+        //   this[MODEL].createDish("American Brownie")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Frutos Secos"),
+        //   this[MODEL].createDish("tarta de zanahoria")
+        // );
 
-        // SOJA
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Crunchy Chick'n Nuggets").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Calamares Rebozados").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Berlin Vegan Wurst").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Original Mad Burger").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Double Cheese Bacon").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Rock'n Chick'n").dish
-        );
-        this[MODEL].assignAllergenToDish(
-          this[MODEL].createAllergen("Soja"),
-          this[MODEL].createDish("Los chingones de TV").dish
-        );
+        // // SOJA
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Crunchy Chick'n Nuggets")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Calamares Rebozados")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Berlin Vegan Wurst")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Original Mad Burger")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Double Cheese Bacon")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Rock'n Chick'n")
+        // );
+        // this[MODEL].assignAllergenToDish(
+        //   this[MODEL].createAllergen("Soja"),
+        //   this[MODEL].createDish("Los chingones de TV")
+        // );
 
-        // ASIGNACIÓN PLATO A MENÚ
-        // DÍA
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Día").menu,
-          this[MODEL].createDish("Batata Fries").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Día").menu,
-          this[MODEL].createDish("Original Mad Burger").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Día").menu,
-          this[MODEL].createDish("Cookies & cream").dish
-        );
+        // // ASIGNACIÓN PLATO A MENÚ
+        // // DÍA
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Día").menu,
+        //   this[MODEL].createDish("Batata Fries")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Día").menu,
+        //   this[MODEL].createDish("Original Mad Burger")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Día").menu,
+        //   this[MODEL].createDish("Cookies & cream")
+        // );
 
-        // PAREJAS
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Parejas").menu,
-          this[MODEL].createDish("Batata Fries").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Parejas").menu,
-          this[MODEL].createDish("Double Cheese Bacon").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Parejas").menu,
-          this[MODEL].createDish("Rock'n Chick'n").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Parejas").menu,
-          this[MODEL].createDish("Tiramisú").dish
-        );
+        // // PAREJAS
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Parejas").menu,
+        //   this[MODEL].createDish("Batata Fries")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Parejas").menu,
+        //   this[MODEL].createDish("Double Cheese Bacon")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Parejas").menu,
+        //   this[MODEL].createDish("Rock'n Chick'n")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Parejas").menu,
+        //   this[MODEL].createDish("Tiramisú")
+        // );
 
-        // INFANTIL
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Infantil").menu,
-          this[MODEL].createDish("Crunchy Chick'n Nuggets").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Infantil").menu,
-          this[MODEL].createDish("The Mad Club Sandwich").dish
-        );
-        this[MODEL].assignDishToMenu(
-          this[MODEL].createMenu("Infantil").menu,
-          this[MODEL].createDish("American Brownie").dish
-        );
+        // // INFANTIL
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Infantil").menu,
+        //   this[MODEL].createDish("Crunchy Chick'n Nuggets")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Infantil").menu,
+        //   this[MODEL].createDish("The Mad Club Sandwich")
+        // );
+        // this[MODEL].assignDishToMenu(
+        //   this[MODEL].createMenu("Infantil").menu,
+        //   this[MODEL].createDish("American Brownie")
+        // );
 
-        let ciudadReal = new Coordinate(
-          rests[0].location.latitude,
-          rests[0].location.longitude
-        );
-        let madrid = new Coordinate(
-          rests[1].location.latitude,
-          rests[1].location.longitude
-        );
-        let valencia = new Coordinate(
-          rests[2].location.latitude,
-          rests[2].location.longitude
-        );
+        // let ciudadReal = new Coordinate(
+        //   rests[0].location.latitude,
+        //   rests[0].location.longitude
+        // );
+        // let madrid = new Coordinate(
+        //   rests[1].location.latitude,
+        //   rests[1].location.longitude
+        // );
+        // let valencia = new Coordinate(
+        //   rests[2].location.latitude,
+        //   rests[2].location.longitude
+        // );
 
-        for (const res of rests) {
-          let r = this[MODEL].createRestaurant(res.name, ciudadReal);
-          r.description = res.description;
-          this[MODEL].addRestaurant(r);
-        }
-        for (const res of rests) {
-          let r = this[MODEL].createRestaurant(res.name, madrid);
-          r.description = res.description;
-          this[MODEL].addRestaurant(r);
-        }
-        for (const res of rests) {
-          let r = this[MODEL].createRestaurant(res.name, valencia);
-          r.description = res.description;
-          this[MODEL].addRestaurant(r);
-        }
+        // for (const res of rests) {
+        //   let r = this[MODEL].createRestaurant(res.name, ciudadReal);
+        //   r.description = res.description;
+        //   this[MODEL].addRestaurant(r);
+        // }
+        // for (const res of rests) {
+        //   let r = this[MODEL].createRestaurant(res.name, madrid);
+        //   r.description = res.description;
+        //   this[MODEL].addRestaurant(r);
+        // }
+        // for (const res of rests) {
+        //   let r = this[MODEL].createRestaurant(res.name, valencia);
+        //   r.description = res.description;
+        //   this[MODEL].addRestaurant(r);
+        // }
       })
       .then(() => {
         if (getCookie("acceptedCookieMessage") !== "true") {
@@ -494,7 +495,7 @@ class RestaurantController {
   handleShowMenu = (title) => {
     this.handleMenu;
     const menu = this[MODEL].getMenuByName(title);
-    this[VIEW].showMenuDishes(menu.dishes, title);
+    this[VIEW].showMenuDishes(menues, title);
 
     if (this[USER] != null) {
       this[VIEW].showFavButton();
@@ -569,7 +570,6 @@ class RestaurantController {
   };
 
   onOpenSession() {
-    // this[LOAD_MANAGER_OBJECTS]();
     this.onInit();
     this[VIEW].initHistory();
     this[VIEW].showAuthUserProfile(this[USER]);
@@ -682,9 +682,9 @@ class RestaurantController {
 
     try {
       let dish = this[MODEL].getDishByName(dishName);
-      this[MODEL].removeDish(dish.dish);
-      this[MODEL].removeDishCategory(dish.dish);
-      this[MODEL].removeDishMenu(dish.dish);
+      this[MODEL].removeDish(dish);
+      this[MODEL].removeDishCategory(dish);
+      this[MODEL].removeDishMenu(dish);
 
       complete = true;
 
@@ -706,10 +706,10 @@ class RestaurantController {
       let dish = this[MODEL].getDishByName(dishName);
 
       if (option == "asignar") {
-        this[MODEL].assignDishToMenu(menu.menu, dish.dish);
+        this[MODEL].assignDishToMenu(menu.menu, dish);
       }
       if (option == "designar") {
-        this[MODEL].deassignDishToMenu(menu.menu, dish.dish);
+        this[MODEL].deassignDishToMenu(menu.menu, dish);
       }
 
       complete = true;
@@ -830,7 +830,7 @@ class RestaurantController {
       let dish = this[MODEL].getDishByName(dishName);
       let category = this[MODEL].getCategoryByName(catName);
 
-      this[MODEL].assignCategoryToDish(category.category, dish.dish);
+      this[MODEL].assignCategoryToDish(category.category, dish);
 
       complete = true;
       this.handleAdmin;
@@ -850,7 +850,7 @@ class RestaurantController {
       let dish = this[MODEL].getDishByName(dishName);
       let category = this[MODEL].getCategoryByName(catName);
 
-      this[MODEL].deassignCategoryToDish(category.category, dish.dish);
+      this[MODEL].deassignCategoryToDish(category.category, dish);
 
       complete = true;
       this.handleAdmin;
