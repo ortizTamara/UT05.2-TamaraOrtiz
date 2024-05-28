@@ -2047,12 +2047,6 @@ class RestaurantView {
   deleteUserCookie() {
     setCookie("activeUser", "", 0);
   }
-
-  mouseenterCategories() {
-    this.dropCat.addEventListener("mouseenter", (event) => {
-      // handler();
-    });
-  }
 }
 
 export default RestaurantView;

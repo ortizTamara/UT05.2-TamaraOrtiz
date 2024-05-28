@@ -284,6 +284,7 @@ const RestaurantsManager = (function () {
         if (!dish || !(dish instanceof Dish)) {
           throw new DishIsNull(dish);
         }
+
         const position = this.#getDishPosition(dish);
         if (position === -1) {
           this.#dishes.push({
@@ -356,7 +357,7 @@ const RestaurantsManager = (function () {
           });
           this.#restaurants.sort(this.#sortRestaurantFunc);
         } else {
-          console.log("Plato ya existe:", restaurant);
+          console.log("Restaurante ya existe:", restaurant);
           throw new RestaurantExistsException(restaurant);
         }
       }
