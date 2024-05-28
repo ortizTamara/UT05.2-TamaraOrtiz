@@ -939,6 +939,15 @@ class RestaurantView {
     this.main.querySelector("#accordion").insertAdjacentHTML("beforeend", html);
   }
 
+  backupButton() {
+    this.main.insertAdjacentHTML(
+      "afterbegin",
+      `
+      <div class="w-100">
+    <button id="btnBackup" type="button" class="btn btn-primary w-25">Generar Backup</button></div>`
+    );
+  }
+
   showDishSelection(dishes) {
     let html = `
     <div aria-labelledby="headingSix" data-parent="#updateCatDish" class="catDishSelection">
@@ -1289,6 +1298,31 @@ class RestaurantView {
       }
     };
     messageContainer.addEventListener("hidden.bs.modal", listener, {
+      once: true,
+    });
+  }
+
+  showBackupModal(complete, error) {
+    const messageContainer = document.getElementById("messageModal");
+    const messageModal = new bootstrap.Modal(messageContainer);
+    const title = document.getElementById("modal-title");
+    title.innerHTML = "Generar Backup";
+    const body = messageContainer.querySelector(".modal-body");
+    body.replaceChildren();
+
+    if (complete) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="p-3">El Backup se ha generado correctamente</div>`
+      );
+    } else {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="error text-danger p-3"><i class="bi bi-exclamationtriangle"></i>No se ha podido generar el Backup<br>${error}</div>`
+      );
+    }
+    messageModal.show();
+    messageContainer.addEventListener("hidden.bs.modal", {
       once: true,
     });
   }
@@ -1893,6 +1927,19 @@ class RestaurantView {
         handler(opt);
       });
     }
+  }
+
+  bindBackup(handler) {
+    document.getElementById("btnBackup").addEventListener("click", (event) => {
+      this[EXCECUTE_HANDLER](
+        handler,
+        [],
+        "nav",
+        { action: "showButtonBackup" },
+        "#",
+        event
+      );
+    });
   }
 
   bindDishSelection(handler) {

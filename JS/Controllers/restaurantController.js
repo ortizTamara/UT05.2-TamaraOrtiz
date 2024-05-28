@@ -422,7 +422,6 @@ class RestaurantController {
     const userCookie = getCookie("activeUser");
     console.log(userCookie);
     if (userCookie) {
-      alert("Hola admin");
       const user = this[AUTH].getUser(userCookie);
       if (user) {
         this[USER] = user;
@@ -1012,6 +1011,111 @@ class RestaurantController {
 
     this[VIEW].showUpdateCatDish();
     this[VIEW].bindUpdateCatDish(this.handleUpdateCatDish);
+
+    this[VIEW].backupButton();
+    this[VIEW].bindBackup(this.handleBackup);
+  };
+
+  handleBackup = () => {
+    const backup = this.getBackupInfo();
+    console.log(backup);
+    let formData = new FormData();
+    formData.append("backup", JSON.stringify(backup));
+    const url = "../../php/generateBackup.php";
+    let done = false;
+
+    fetch(url, {
+      method: "post",
+      body: formData,
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        done = true;
+        this[VIEW].showBackupModal(done, error);
+        console.dir(data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  getBackupInfo = () => {
+    const objects = {
+      dishes: [],
+      categories: [],
+      menus: [],
+      allergens: [],
+      restaurants: [],
+    };
+
+    const dishes = this[MODEL].getDishes();
+    for (const dishObj of dishes) {
+      const cat = dishObj.categories;
+      const dishAlls = dishObj.allergens;
+      const allNames = [];
+      for (const dishAll of dishAlls) {
+        allNames.push(dishAll.name);
+      }
+
+      objects.dishes.push({
+        name: dishObj.dish.name,
+        description: dishObj.dish.description,
+        ingredients: dishObj.dish.ingredients,
+        image: dishObj.dish.image,
+        category: cat,
+        allergens: allNames,
+      });
+    }
+
+
+    const cats = this[MODEL].getCategories();
+    for (const category of cats) {
+      objects.categories.push({
+        name: category.name,
+        description: category.description,
+        url: category.url,
+      });
+    }
+
+    const menus = this[MODEL].getMenus();
+    for (const menuObj of menus) {
+      const menuDishes = menuObj.dishes;
+      const dishNames = [];
+      for (const dishObj of menuDishes) {
+        dishNames.push(dishObj.dish.name);
+      }
+
+      objects.menus.push({
+        name: menuObj.menu.name,
+        description: menuObj.menu.description,
+        dishes: dishNames,
+      });
+    }
+
+    const alls = this[MODEL].getAllergen();
+    for (const allergen of alls) {
+      objects.allergens.push({
+        name: allergen.name,
+        description: allergen.description,
+      });
+    }
+
+    const restaurants = this[MODEL].getRestaurants();
+    for (const rest of restaurants) {
+      const loc = [];
+      loc.push(rest.location.latitude);
+      loc.push(rest.location.longitude);
+
+      objects.restaurants.push({
+        name: rest.name,
+        description: rest.description,
+        location: loc,
+      });
+    }
+
+    return objects;
   };
 
   onOpenSession() {
@@ -1127,9 +1231,9 @@ class RestaurantController {
 
     try {
       let dish = this[MODEL].getDishByName(dishName);
-      this[MODEL].removeDish(dish);
-      this[MODEL].removeDishCategory(dish);
-      this[MODEL].removeDishMenu(dish);
+      this[MODEL].removeDish(dish.dish);
+      this[MODEL].removeDishCategory(dish.dish);
+      this[MODEL].removeDishMenu(dish.dish);
 
       complete = true;
 
