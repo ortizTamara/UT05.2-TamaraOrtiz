@@ -1,6 +1,5 @@
 import Coordinate from "../Models/objectRestaurant.js";
 import { getCookie } from "../Utils/cookie.js";
-
 const MODEL = Symbol("RestaurantModel");
 const VIEW = Symbol("RestaurantView");
 const AUTH = Symbol("AUTH");
@@ -1016,32 +1015,35 @@ class RestaurantController {
     this[VIEW].bindBackup(this.handleBackup);
   };
 
-  handleBackup = () => {
-    const backup = this.getBackupInfo();
-    console.log(backup);
+  handleBackup = async () => {
+    const backup = await this.getBackupInfo;
+    // console.log(backup);
     let formData = new FormData();
     formData.append("backup", JSON.stringify(backup));
-    const url = "../../php/generateBackup.php";
     let done = false;
+    // Para abrirlo con el liveServer(no funciona el mensaje Modal) o el localhost, según donde lo abras.
+    const isLiveServer = window.location.hostname === "127.0.0.1";
+    const url = isLiveServer
+      ? "../../backup/generateBackup"
+      : "http://localhost/tamaraOrtizGomez/php/generateBackup.php";
 
     fetch(url, {
-      method: "post",
+      method: "POST",
       body: formData,
     })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
+      .then((response) => response.json())
+      .then((data) => {
         done = true;
-        this[VIEW].showBackupModal(done, error);
-        console.dir(data);
+        this[VIEW].showBackupModal(done, data.message); // Usa data.message en lugar de error para mostrar el mensaje del servidor
+        // console.dir(data);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this[VIEW].showBackupModal(done, error.message); // Muestra el mensaje de error en caso de fallo
       });
   };
 
-  getBackupInfo = () => {
+  async getBackupInfo() {
     const objects = {
       dishes: [],
       categories: [],
@@ -1050,6 +1052,7 @@ class RestaurantController {
       restaurants: [],
     };
 
+    // Obtener platos y sus detalles
     const dishes = this[MODEL].getDishes();
     for (const dishObj of dishes) {
       const cat = dishObj.categories;
@@ -1060,16 +1063,16 @@ class RestaurantController {
       }
 
       objects.dishes.push({
-        name: dishObj.dish.name,
-        description: dishObj.dish.description,
-        ingredients: dishObj.dish.ingredients,
-        image: dishObj.dish.image,
+        name: dishObj.name,
+        description: dishObj.description,
+        ingredients: dishObj.ingredients,
+        image: dishObj.image,
         category: cat,
         allergens: allNames,
       });
     }
 
-
+    // Obtener categorías y sus detalles
     const cats = this[MODEL].getCategories();
     for (const category of cats) {
       objects.categories.push({
@@ -1079,21 +1082,23 @@ class RestaurantController {
       });
     }
 
+    // Obtener menús y sus detalles
     const menus = this[MODEL].getMenus();
     for (const menuObj of menus) {
       const menuDishes = menuObj.dishes;
       const dishNames = [];
       for (const dishObj of menuDishes) {
-        dishNames.push(dishObj.dish.name);
+        dishNames.push(dishObj.name);
       }
 
       objects.menus.push({
-        name: menuObj.menu.name,
-        description: menuObj.menu.description,
+        name: menuObj.name,
+        description: menuObj.description,
         dishes: dishNames,
       });
     }
 
+    // Obtener alérgenos y sus detalles
     const alls = this[MODEL].getAllergen();
     for (const allergen of alls) {
       objects.allergens.push({
@@ -1102,21 +1107,24 @@ class RestaurantController {
       });
     }
 
-    const restaurants = this[MODEL].getRestaurants();
-    for (const rest of restaurants) {
-      const loc = [];
-      loc.push(rest.location.latitude);
-      loc.push(rest.location.longitude);
+    // Obtener restaurantes y sus detalles
+    // const restaurants = this[MODEL].getRestaurants();
+    // for (const rest of restaurants) {
+    //   console.log(rest.name);
+    //   const loc = {
+    //     latitude: rest.location.latitude,
+    //     longitude: rest.location.longitude,
+    //   };
 
-      objects.restaurants.push({
-        name: rest.name,
-        description: rest.description,
-        location: loc,
-      });
-    }
+    //   objects.restaurants.push({
+    //     name: rest.name,
+    //     description: rest.description,
+    //     location: loc,
+    //   });
+    // }
 
     return objects;
-  };
+  }
 
   onOpenSession() {
     this.onInit();
@@ -1255,10 +1263,10 @@ class RestaurantController {
       let dish = this[MODEL].getDishByName(dishName);
 
       if (option == "asignar") {
-        this[MODEL].assignDishToMenu(menu.menu, dish);
+        this[MODEL].assignDishToMenu(menu.menu, dish.dish);
       }
       if (option == "designar") {
-        this[MODEL].deassignDishToMenu(menu.menu, dish);
+        this[MODEL].deassignDishToMenu(menu.menu, dish.dish);
       }
 
       complete = true;
@@ -1379,7 +1387,7 @@ class RestaurantController {
       let dish = this[MODEL].getDishByName(dishName);
       let category = this[MODEL].getCategoryByName(catName);
 
-      this[MODEL].assignCategoryToDish(category.category, dish);
+      this[MODEL].assignCategoryToDish(category.category, dish.dish);
 
       complete = true;
       this.handleAdmin;
@@ -1399,7 +1407,7 @@ class RestaurantController {
       let dish = this[MODEL].getDishByName(dishName);
       let category = this[MODEL].getCategoryByName(catName);
 
-      this[MODEL].deassignCategoryToDish(category.category, dish);
+      this[MODEL].deassignCategoryToDish(category.category, dish.dish);
 
       complete = true;
       this.handleAdmin;

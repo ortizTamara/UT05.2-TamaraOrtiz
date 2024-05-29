@@ -944,6 +944,62 @@ const RestaurantsManager = (function () {
     getMenuByName(menu) {
       return this.#menus[this.#getMenuPositionByName(menu)];
     }
+
+    getBackup() {
+      const data = {
+        categories: [],
+        dishes: [],
+        allergens: [],
+        menus: [],
+        restaurants: [],
+      };
+
+      // Recorriendo las categorías
+      for (const category of this.#categories) {
+        const categoryInstance = new Category(
+          category.category.name,
+          category.category.description
+        );
+        data.categories.push(categoryInstance);
+      }
+
+      // Recorriendo los platos
+      for (const dish of this.#dishes) {
+        const dishInstance = new Dish(
+          dish.dish.name,
+          dish.dish.description,
+          dish.dish.ingredients,
+          dish.dish.image
+        );
+        data.dishes.push(dishInstance);
+      }
+
+      // Recorriendo los alérgenos
+      for (const allergen of this.#allergens) {
+        const allergenInstance = new Allergen(
+          allergen.name,
+          allergen.description
+        );
+        data.allergens.push(allergenInstance);
+      }
+
+      // Recorriendo los menús
+      for (const menu of this.#menus) {
+        const menuInstance = new Menu(menu.menu.name, menu.menu.description);
+        data.menus.push(menuInstance);
+      }
+
+      // Recorriendo los restaurantes
+      for (const restaurant of this.#restaurants) {
+        const restaurantInstance = new Restaurant(
+          restaurant.restaurant.name,
+          restaurant.restaurant.location
+        );
+        data.restaurants.push(restaurantInstance);
+      }
+
+      return data;
+    }
   }
   function init() {
     const manager = new RestaurantsManager();

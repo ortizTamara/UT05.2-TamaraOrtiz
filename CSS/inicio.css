@@ -514,3 +514,13 @@ figure img {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+#btnBackup {
+  position: fixed;
+  bottom: 5em;
+  right: 1em;
+  z-index: 999;
+  width: 10em !important;
+  height: 3em;
+  border-radius: 0.5em;
+}
