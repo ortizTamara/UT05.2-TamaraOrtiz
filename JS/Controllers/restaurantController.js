@@ -35,16 +35,14 @@ class RestaurantController {
   }
 
   async onLoad() {
-    const url = "../../data/restaurantData.json";
+    const isLiveServer = window.location.hostname === "127.0.0.1";
+    const url = isLiveServer
+      ? "../../data/restaurantData.json"
+      : "http://localhost/tamaraOrtizGomez/data/restaurantData.json";
     console.log(url);
 
     try {
-      const response = await fetch(url, {
-        headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate", // No almacenar en caché
-          Expires: "0", // Expirar inmediatamente
-        },
-      });
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -1016,12 +1014,13 @@ class RestaurantController {
   };
 
   handleBackup = async () => {
-    const backup = await this.getBackupInfo;
+    // Espera a que getBackupInfo se complete
+    const backup = await this.getBackupInfo();
     // console.log(backup);
     let formData = new FormData();
     formData.append("backup", JSON.stringify(backup));
     let done = false;
-    // Para abrirlo con el liveServer(no funciona el mensaje Modal) o el localhost, según donde lo abras.
+
     const isLiveServer = window.location.hostname === "127.0.0.1";
     const url = isLiveServer
       ? "../../backup/generateBackup"
@@ -1031,15 +1030,13 @@ class RestaurantController {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.json())
       .then((data) => {
         done = true;
-        this[VIEW].showBackupModal(done, data.message); // Usa data.message en lugar de error para mostrar el mensaje del servidor
-        // console.dir(data);
+        this[VIEW].showBackupModal(done, data.message);
       })
       .catch((error) => {
         console.log(error);
-        this[VIEW].showBackupModal(done, error.message); // Muestra el mensaje de error en caso de fallo
+        this[VIEW].showBackupModal(done, error.message);
       });
   };
 
@@ -1108,20 +1105,20 @@ class RestaurantController {
     }
 
     // Obtener restaurantes y sus detalles
-    // const restaurants = this[MODEL].getRestaurants();
-    // for (const rest of restaurants) {
-    //   console.log(rest.name);
-    //   const loc = {
-    //     latitude: rest.location.latitude,
-    //     longitude: rest.location.longitude,
-    //   };
+    const restaurants = this[MODEL].getRestaurants();
+    for (const rest of restaurants) {
+      console.log(rest.name);
+      const loc = {
+        latitude: rest.location.latitude,
+        longitude: rest.location.longitude,
+      };
 
-    //   objects.restaurants.push({
-    //     name: rest.name,
-    //     description: rest.description,
-    //     location: loc,
-    //   });
-    // }
+      objects.restaurants.push({
+        name: rest.name,
+        description: rest.description,
+        location: loc,
+      });
+    }
 
     return objects;
   }

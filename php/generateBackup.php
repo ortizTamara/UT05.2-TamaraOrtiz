@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['backup'])) {
         $backup = $_POST['backup'];
 
-        $carpetaBackup = "./data/backup/";
+        $carpetaBackup = "./backup/";
 
         if (!file_exists($carpetaBackup)) {
             mkdir($carpetaBackup, 0777, true);
