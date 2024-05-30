@@ -200,13 +200,13 @@ class Restaurant {
   #name; //Nombre del restaurante
   #description; //Descripción del restaurante
   #location; //Ubicación del restaurante en forma de coordenadas
-  constructor(name, location) {
+  constructor(name, description, location) {
     //Validación de parámetro obligatorio
     if (!name) throw new NameException("name");
 
     this.#name = name;
-    this.#description = "";
-    this.#location = location;
+    this.#description = description;
+    this.#location = new Coordinate(location.latitude, location.longitude);
 
     Object.defineProperty(this, "name", {
       enumerable: true,
